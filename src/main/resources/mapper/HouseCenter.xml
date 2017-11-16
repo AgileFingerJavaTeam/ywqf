@@ -1,0 +1,162 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ywqf.dao.HouseCenterDao">
+    <!--目的:为dao接口方法提供sql语句配置
+    即针对dao接口中的方法编写我们的sql语句-->
+	<!--查询物业公司-->
+
+
+	<!--查询求租求购信息列表-->
+    <select id="findHouseAsk"  resultType="HouseAsk">
+		SELECT need.id,need.house_need_rent_num,need.release_time,need.type,
+		house_type.house_type_name,direction.house_direction_type_name,
+		need.floor,area.min_area,area.max_area,fitment.house_fitment_type_name,
+		price.`min_price`,price.max_price,need.remark,need.customer_name,need.phone
+		FROM house_need need
+		LEFT JOIN house_type
+		ON need.house_type_id=house_type.house_type_id
+		LEFT JOIN house_direction_type direction
+		ON need.house_direction_type_id=direction.house_direction_type_id
+		LEFT JOIN house_area_type area
+		ON need.house_area_type_id=area.id
+		LEFT JOIN house_fitment_type fitment
+		ON need.house_fitment_type_id=fitment.house_fitment_type_id
+		LEFT JOIN house_price_range price
+		ON need.rent_house_price_range_id=price.house_price_range_id
+		<where>
+			1=1
+			<!--<if test="corp_id!=0">
+				AND  need.corp_id=#{corp_id}
+			</if>-->
+			<if test="community_id!=0">
+				AND  need.community_id=#{community_id}
+			</if>
+			<if test="type!=3">
+				AND  need.type=#{type}
+			</if>
+		</where>
+    </select>
+
+	<select id="findAskById" resultType="HouseAsk">
+		SELECT * FROM  house_need
+		WHERE 1=1
+		AND id=#{id}
+	</select>
+	<!--查询需求-->
+	<select id="findAskType" resultType="HouseAsk">
+		SELECT house_need.type,house_need.id
+		FROM house_need
+		WHERE 1=1
+	</select>
+	<!--查询户型-->
+	<select id="findHouseType" resultType="HouseAsk">
+		SELECT house_type_id,house_type_name
+		FROM house_type
+		WHERE 1=1
+	</select>
+	<!--查询朝向-->
+	<select id="findDirection" resultType="HouseAsk">
+		SELECT house_direction_type_name,house_direction_type_id
+		FROM house_direction_type
+		WHERE 1=1
+	</select>
+	<!--查询面积-->
+	<select id="findArea" resultType="HouseAsk">
+		SELECT house_area_type_name,id
+		FROM house_area_type
+		WHERE 1=1
+	</select>
+	<!--查询装修情况-->
+	<select id="findFitment" resultType="HouseAsk">
+		SELECT house_fitment_type_name,house_fitment_type_id
+		FROM house_fitment_type
+		WHERE 1=1
+	</select>
+	<!--查询租价-->
+	<select id="findRentPrice" resultType="HouseAsk">
+		SELECT house_price_range_name,house_price_range_id
+		FROM house_price_range
+		WHERE 1=1
+	</select>
+	<!--查询售价-->
+	<select id="findBuyPrice" resultType="HouseAsk">
+		SELECT house_price_range_name,house_price_range_id
+		FROM house_price_range
+		WHERE 1=1
+	</select>
+	<!--添加数据-->
+	<insert id="addData">
+		INSERT INTO house_need (community_id,release_time,house_need_rent_num,type,house_type_id,house_direction_type_id,house_area_type_id,house_fitment_type_id,rent_house_price_range_id,remark,customer_name,phone)
+		VALUES(#{community_id},NOW(),#{house_need_rent_num},#{type},#{house_type_id},#{house_direction_type_id},#{house_area_type_id},#{house_fitment_type_id},#{rent_house_price_range_id},#{remark},#{customer_name},#{phone})
+	</insert>
+
+	<delete id="deleteData">
+		DELETE FROM house_need WHERE id=#{id}
+	</delete>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<!--根据小区查询楼层-->
+	<select id="findBuildingById" resultType="RentAndSale">
+		SELECT building FROM house
+		LEFT JOIN community
+		ON house.community_id=community.id
+		<where>
+			1=1
+			<if test="building_id!=0">
+				AND  house.community_id=#{building_id}
+			</if>
+		</where>
+	</select>
+
+	<!--查询租售列表-->
+	<select id="findRentSale"  resultType="RentAndSale">
+		SELECT rent.id rent.estate_sell_rent_num,rent.release_time,rent.type,house.house_num,
+		house_type.house_type_name,house_direction_type.house_direction_type_name,
+		house.area,house_fitment_type.house_fitment_type_name,rent.rent_price,rent.sale_price,
+		house_pic.url,house.owner_name,house.owner_tel
+		FROM house_sell_rent rent
+		LEFT JOIN house
+		ON rent.house_id=house.id
+		LEFT JOIN house_type
+		ON rent.house_id=house_type.id
+		LEFT JOIN house_direction_type
+		ON rent.house_id=house_direction_type.id
+		LEFT JOIN house_fitment_type
+		ON rent.house_id=house_fitment_type.id
+		LEFT JOIN house_pic
+		ON rent.id= house_pic.house_sell_rent_id
+		<where>
+			1=1
+		</where>
+	</select>
+
+
+
+
+
+
+</mapper>

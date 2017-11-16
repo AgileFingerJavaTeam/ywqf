@@ -1,0 +1,67 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ywqf.dao.ParkingPayDao">
+    <!--查询当日停车费-->
+    <select id="findParkingPayInfo" resultType="ParkingPay">
+        SELECT pp.*,user.name AS charge_worker_name,ps.*,house.house_num
+        FROM parking_pay pp
+        LEFT JOIN `user`
+        ON pp.charge_worker_id = user.user_id
+        LEFT JOIN parking_space ps
+        ON pp.parking_space_id = ps.parking_space_id
+        LEFT JOIN house
+        ON ps.house_id = house.house_id
+        LEFT JOIN community
+        ON ps.community_id = community.community_id
+        LEFT JOIN corps
+        ON community.corp_id = corps.corp_id
+        <where>
+            pp.status = 1
+            <if test="corpId !=0 and  search != ''">
+                AND corps.corp_id = #{corpId}
+            </if>
+            <if test="search !=null and  search != ''">
+                AND CONCAT_WS(',',parking_pay_num,house.house_num,parking_num,car_owner,parking_unit_price,service_start_date,service_end_date,pp.pay_month,payment_amount,charge_worker_id,pay_date,pp.operator,pp.operate_time) LIKE '%${search}%'
+            </if>
+            <if test="date !=null and date != ''">
+                AND CONCAT_WS(',',pay_date) LIKE '%${date}%'
+            </if>
+            <if test="communityId !=0 and communityId != ''">
+                AND community.community_id = #{communityId}
+            </if>
+        </where>
+        limit #{offset},#{rows}
+    </select>
+    <!--查询当日停车费缴费总额-->
+    <select id="findParkingPayTotal" resultType="String">
+        SELECT SUM(payment_amount)
+        FROM parking_pay pp
+        LEFT JOIN `user`
+        ON pp.charge_worker_id = user.user_id
+        LEFT JOIN parking_space ps
+        ON pp.parking_space_id = ps.parking_space_id
+        LEFT JOIN house
+        ON ps.house_id = house.house_id
+        LEFT JOIN community
+        ON ps.community_id = community.community_id
+        LEFT JOIN corps
+        ON community.corp_id = corps.corp_id
+        <where>
+            pp.status = 1
+            <if test="corpId !=0 and  search != ''">
+                AND corps.corp_id = #{corpId}
+            </if>
+            <if test="search !=null and  search != ''">
+                AND CONCAT_WS(',',parking_pay_num,house.house_num,parking_num,car_owner,parking_unit_price,service_start_date,service_end_date,pp.pay_month,payment_amount,charge_worker_id,pay_date,pp.operator,pp.operate_time) LIKE '%${search}%'
+            </if>
+            <if test="date !=null and date != ''">
+                AND CONCAT_WS(',',pay_date) LIKE '%${date}%'
+            </if>
+            <if test="communityId !=0 and communityId != ''">
+                AND community.community_id = #{communityId}
+            </if>
+        </where>
+        limit #{offset},#{rows}
+    </select>
+</mapper>

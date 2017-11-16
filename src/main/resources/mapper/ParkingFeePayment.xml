@@ -1,0 +1,128 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ywqf.dao.ParkingFeePaymentDao">
+    <!--目的:为dao接口方法提供sql语句配置
+    即针对dao接口中的方法编写我们的sql语句-->
+     <select id="findParkingList" resultType="ParkingFeePayment">
+         SELECT *
+         FROM parking_pay  a
+         LEFT JOIN parking_space b
+         ON a.parking_space_id = b.parking_space_id
+         LEFT JOIN USER c
+         ON a.charge_worker_id = c.user_id
+         LEFT JOIN house d
+         ON b.house_id = d.house_id
+		  <where>
+            <if test="at_search!=null and at_search!=''">
+                AND CONCAT_WS(',',estate_pay_num,house_num,owner_name,area,estate_unit_price,pay_month_type_id,payment_amount,a.operator,a.operate_time,account) LIKE '%${at_search}%'
+            </if>
+        </where>
+        limit #{offset},#{rows}
+   </select>
+   
+   <select id="findParkingListCount" resultType="int">
+       SELECT COUNT(*)
+       FROM parking_pay  a
+       LEFT JOIN parking_space b
+       ON a.parking_space_id = b.parking_space_id
+       LEFT JOIN USER c
+       ON a.charge_worker_id = c.user_id
+       LEFT JOIN house d
+       ON b.house_id = d.house_id
+		  <where>
+            <if test="at_search!=null and at_search!=''">
+                AND CONCAT_WS(',',estate_pay_num,house_num,owner_name,area,estate_unit_price,pay_month_type_id,payment_amount,a.operator,a.operate_time,account) LIKE '%${at_search}%'
+            </if>
+        </where>
+   </select>
+   
+   <select id="findOver" resultType="ParkingFeePayment">
+     	SELECT * 
+		FROM parking_pay
+		WHERE parking_pay_id = #{id}
+    </select>
+    
+     <update id="updateOver">
+        UPDATE parking_pay
+        SET status = '0'
+        WHERE parking_pay_id = #{id}
+    </update>
+
+    <!-- 查询小区 -->
+    <select id="findVillage" resultType="ParkingFeePayment">
+        SELECT community_name,community_id
+        FROM community
+        WHERE corp_id = #{corp_id}
+    </select>
+
+    <!-- 遍历月数 -->
+    <select id="findMoneyMonth" resultType="payMonthType">
+        SELECT (count)
+        FROM pay_month_type
+        WHERE status = 1
+    </select>
+
+    <!-- 查询员工名 -->
+    <select id="findAccount" resultType="ParkingFeePayment">
+        SELECT name,user_id
+        FROM user
+    </select>
+
+    <!-- 查询门牌号是否为空 -->
+    <select id="findHouseNumIsNull" resultType="int">
+        SELECT COUNT(house_num)
+        FROM house
+        WHERE community_id = #{community_id}
+        AND house_num = #{house_num}
+    </select>
+    <!-- 查询车位单价 车主名 车牌号 -->
+    <select id="findCarNumberOrMoneyOrName" resultType="ParkingFeePayment">
+        SELECT b.car_owner_name,b.license_plate_number,b.previous_parking_unit_price,b.parking_num,c.owner_name,b.parking_space_id
+        FROM parking_pay  a
+		LEFT JOIN parking_space b
+		ON a.parking_space_id = b.parking_space_id
+		LEFT JOIN house c
+        ON b.house_id = c.house_id
+        WHERE c.house_num = #{house_num}
+        AND c.community_id = #{community_id}
+    </select>
+    <!-- 查询上次缴费截止日期最大值 -->
+    <select id="findStartTime" resultType="ParkingFeePayment">
+        SELECT MAX(service_end_date) AS maxInsert
+        FROM parking_pay a
+        LEFT JOIN parking_space b
+        ON a.parking_space_id = b.parking_space_id
+        LEFT JOIN house c
+        ON b.community_id = c.community_id
+        WHERE c.house_num = #{house_num}
+        AND b.community_id = #{community_id}
+    </select>
+
+    <!-- 添加数据 -->
+    <insert id="insertParking">
+        INSERT
+        INTO parking_pay
+        (parking_pay_num,corp_id,community_id,house_id,parking_space_id,parking_num,license_plate_number,parking_unit_price,pay_month_type_id,car_owner,owner_name,service_start_date,service_end_date,charge_worker_id,pay_date,payment_amount,operator,operate_time)
+        VALUES
+        (#{parking_pay_num},#{corp_id},#{community_id},#{house_id},#{parking_space_id},#{parking_num},#{license_plate_number},#{parking_unit_price},#{pay_month_type_id},#{car_owner_name},#{owner_name},#{service_start_date},#{service_end_date},#{charge_worker_id},#{pay_date},#{payment_amount},#{operator},now());
+    </insert>
+
+    <!-- 添加数据 汇总表 -->
+    <insert id="insertParkingStatist1">
+        INSERT
+        INTO parking_pay_statistics
+        (parking_pay_num,corp_id,community_id,house_id,parking_id,parking_num,owner_name,owner_tel,payment_amount,year,month,car_owner)
+        VALUES
+        (#{parking_pay_num},#{corp_id},#{community_id},#{house_id},#{parking_space_id},#{parking_num},#{owner_name},#{car_owner_tel},#{payment_amount},#{years},#{months},#{car_owner_name});
+    </insert>
+    <!-- 添加数据 汇总表 -->
+    <insert id="insertParkingStatist2">
+        INSERT
+        INTO parking_pay_statistics
+        (parking_pay_num,corp_id,community_id,house_id,parking_id,parking_num,owner_name,owner_tel,payment_amount,year,month,car_owner)
+        VALUES
+        (#{parking_pay_num},#{corp_id},#{community_id},#{house_id},#{parking_space_id},#{parking_num},#{owner_name},#{car_owner_tel},#{payment_amount},#{years},#{months},#{car_owner_name});
+    </insert>
+</mapper>

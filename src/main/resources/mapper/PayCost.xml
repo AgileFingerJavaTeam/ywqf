@@ -1,0 +1,38 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ywqf.dao.PayCostDao">
+    <!--目的:为dao接口方法提供sql语句配置
+    即针对dao接口中的方法编写我们的sql语句-->
+
+    <!--查询所属物业公司 -->
+    <select id="findPropertyCompany"  resultType="PropertyCompany">
+        SELECT corp_name,corp_id,type FROM corps
+        WHERE corp_id=#{corp_id}
+    </select>
+
+    <!--查询所属小区 -->
+    <select id="findListCommunity"  resultType="Community">
+        SELECT DISTINCT community_name,community_id FROM community
+        WHERE corp_id = #{corp_id}
+    </select>
+    
+    <!--查询业主信息 -->
+    <select id="findOwnerInfor"  resultType="OwnerInfor">
+        SELECT * FROM house
+        WHERE community_id=#{community_id} AND house_num=#{house_num}
+    </select>
+    
+    <!--查询业主缴费信息 -->
+    <select id="findListPaymentInfor"  resultType="PaymentInfor">
+        SELECT * FROM house
+        LEFT JOIN estate_pay_statistics eps
+        ON house.house_id = eps.house_id AND house.community_id = #{community_id}
+        WHERE house.house_num = #{house_num} AND eps.`year` = #{year}
+    </select>
+
+    <select id="findHouseNum" resultType="String">
+        SELECT * FROM house WHERE house_num=#{house_num} AND community_id=#{community_id}
+    </select>
+</mapper>

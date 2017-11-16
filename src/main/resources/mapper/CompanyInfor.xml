@@ -1,0 +1,20 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ywqf.dao.CompanyInforDao">
+    <!--目的:为dao接口方法提供sql语句配置
+    即针对dao接口中的方法编写我们的sql语句-->
+
+	<!--查询公司信息  -->
+    <select id="findCompanyInfor"  resultType="CompanyInfor">
+        SELECT * FROM corps WHERE corp_id = #{corp_id}
+    </select>
+	
+	<!--编辑公司信息  -->
+	<update id="editCompanyInfor">
+		UPDATE corps SET aptitude=#{aptitude},reg_address=#{reg_address},
+		description=#{description},service_tel=#{service_tel}
+		WHERE corp_id = #{corp_id}
+	</update>
+</mapper>

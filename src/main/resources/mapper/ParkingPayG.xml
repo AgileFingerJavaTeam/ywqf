@@ -1,0 +1,42 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ywqf.dao.ParkingPayDao">
+    <!--目的:为dao接口方法提供sql语句配置
+    即针对dao接口中的方法编写我们的sql语句-->
+
+    <!--查询所属物业公司 -->
+    <select id="findPropertyCompany"  resultType="PropertyCompany">
+        SELECT corp_name,corp_id,type FROM corps
+        WHERE corp_id=#{corp_id}
+    </select>
+
+    <!--查询所属小区 -->
+    <select id="findListCommunity"  resultType="Community">
+        SELECT DISTINCT community_name,community_id FROM community
+        WHERE corp_id = #{corp_id}
+    </select>
+
+    <!--查询车主信息-->
+    <select id="findParkingPay" resultType="ParkingPay">
+        SELECT ps.parking_num, ps.license_plate_number, house.house_num, house.owner_name, ps.gender,ps.car_owner_tel,ps.car_owner_standby_tel
+        FROM parking_space ps
+        LEFT JOIN house
+        ON house.house_id = ps.house_id AND house.community_id = ps.community_id
+        WHERE ps.parking_num = #{parking_num} AND ps.community_id = #{community_id}
+    </select>
+
+    <!--查询车主车位缴费信息-->
+    <select id="findParkingStatus" resultType="ParkingStatus">
+        SELECT * FROM parking_space ps
+        LEFT JOIN parking_pay_statistics pps
+        ON ps.parking_space_id = pps.parking_space_id
+        WHERE ps.parking_num = #{parking_num} AND ps.community_id = #{community_id} AND pps.year = #{year}
+    </select>
+
+    <!--查询车位编号是否存在-->
+    <select id="findParkingNum" resultType="String">
+        SELECT * FROM parking_space WHERE parking_num = #{parking_num}
+    </select>
+</mapper>

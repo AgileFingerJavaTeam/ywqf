@@ -1,0 +1,18 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ywqf.dao.NewsHallDao">
+    <!--查询公告信息-->
+    <select id="findNewsInfo" resultType="NewsHall">
+        SELECT *
+        FROM announcement a
+        LEFT JOIN `user` u
+        ON a.release_user_id = u.user_id
+        <where>
+            a.status = 1
+            <if test="searchNewsInfo != null || searchNewsInfo != ''">
+                AND CONCAT_WS(',',a.release_time,u.name,a.title) LIKE '%${searchNewsInfo}%'
+            </if>
+        </where>
+    </select>
+</mapper>

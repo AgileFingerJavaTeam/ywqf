@@ -1,0 +1,73 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ywqf.dao.PayYearNumDao">
+	<!--目的:为dao接口方法提供sql语句配置 即针对dao接口中的方法编写我们的sql语句 -->
+	<!-- 根据登录人id查询物业公司 -->
+	<select id="findCorpName" resultType="Corp">
+		SELECT DISTINCT corps.corp_id,corp_name FROM corps 
+		LEFT JOIN `user` ON `user`.corp_id=corps.corp_id
+		WHERE 1=1 
+		<if test="type==0">
+               AND user.user_id = #{id}
+        </if>
+	</select>
+	<!-- 根据登录人id查询小区 -->
+	<select id="findCommunityName" parameterType="com.ywqf.dto.in.CommunityDto" resultType="Community">
+		SELECT DISTINCT community.community_id,community.community_name
+		FROM community
+		LEFT JOIN community_dept_role_user ON community.community_id=community_dept_role_user.community_id
+		WHERE 1=1
+	    <if test="type==0">
+			AND community_dept_role_user.user_id=1
+        </if>
+        <if test="corpid!=null and corpid!=''">
+		    AND corp_id=#{corpid}
+		</if>
+	</select>
+	<!--查询缴费总计 -->
+	<select parameterType="com.ywqf.dto.in.PayYearNumDto" id="listCommunity" resultType="PayYearNum">
+	select h.community_id,c.community_name,count(*) as payNum,
+	(select count(*) from house where community_id=h.community_id)*12 as count,
+	((select count(*) from house where community_id=h.community_id)*12-count(*)) as noPayNum, 
+	(count(*)/((select count(*) from house where community_id=h.community_id)*12))*100 as rate  
+	from estate_pay_statistics eps
+	left join estate_pay ep on ep.estate_pay_id=eps.estate_pay_id
+	left join house h on h.house_id =ep.house_id
+	left join community c on c.community_id=h.community_id
+	where 1=1   
+		<if test="community!=null and community!=''">
+               AND h.community_id = #{community}
+        </if>
+        <if test="corps!=null and corps!=''">
+               AND c.corp_id = #{corps}
+        </if>
+        <if test="year!=null and year!=''">
+               AND year = #{year}
+        </if>
+         <if test="year==null or year==''">
+               AND eps.year = year(curdate()) 
+        </if>
+        <if test="timeStart!=null and timeStart!='' and timeEnd!=null and timeEnd!=''">
+               AND month BETWEEN #{timeStart} AND #{timeEnd}
+        </if>
+       <if test="type==0">
+               AND eps.community_id in (
+               	SELECT DISTINCT community.community_id
+				FROM community
+				LEFT JOIN community_dept_role_user ON community.community_id=community_dept_role_user.community_id
+				WHERE 1=1
+			    <if test="type==0">
+					AND community_dept_role_user.user_id=1
+		       </if>
+		       <if test="corpid!=null and corpid!=''">
+			    	AND corp_id=#{corpid}
+				</if>
+               )
+        </if>
+        GROUP BY c.community_id 
+	</select>
+
+
+</mapper>

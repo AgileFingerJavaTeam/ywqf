@@ -1,0 +1,72 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ywqf.dao.HeatingPayDao">
+    <!--查询当日停车费-->
+    <select id="findHeatingPayInfo" resultType="HeatingPay">
+        SELECT hp.*,house.house_num,house.owner_name,u.name
+        FROM heating_pay hp
+        LEFT JOIN `user` u
+        ON hp.charge_worker_id = u.user_id
+        LEFT JOIN house
+        ON hp.house_id = house.house_id
+        LEFT JOIN community
+        ON community.community_id = house.community_id
+        LEFT JOIN corps
+        ON community.corp_id = corps.corp_id
+        <where>
+            hp.status = 1
+            <if test="corpId !=0 and  search != ''">
+                AND corps.corp_id = #{corpId}
+            </if>
+            <if test="search !=null and  search != ''">
+                AND CONCAT_WS(',',heating_pay_num,house.owner_name,house.house_num,heating_unit_price,year,heating_discount,heating_area,payment_amount,payment_date,hp.operator,hp.operate_time) LIKE '%${search}%'
+            </if>
+            <if test="date !=null and date != ''">
+                AND CONCAT_WS(',',hp.payment_date) LIKE '%${date}%'
+            </if>
+            <if test="communityId !=0 and communityId != ''">
+                AND community.community_id = #{communityId}
+            </if>
+        </where>
+        limit #{offset},#{rows}
+    </select>
+    <!--查询当日取暖缴费总额-->
+    <select id="findHeatingPayTotal" resultType="String">
+          SELECT SUM(payment_amount)
+        FROM heating_pay hp
+        LEFT JOIN `user` u
+        ON hp.charge_worker_id = u.user_id
+        LEFT JOIN house
+        ON hp.house_id = house.house_id
+        LEFT JOIN community
+        ON community.community_id = house.community_id
+        LEFT JOIN corps
+        ON community.corp_id = corps.corp_id
+        <where>
+            hp.status = 1
+            <if test="corpId !=0 and  search != ''">
+                AND corps.corp_id = #{corpId}
+            </if>
+            <if test="search !=null and  search != ''">
+                AND CONCAT_WS(',',heating_pay_num,house.owner_name,house.house_num,heating_unit_price,year,heating_discount,heating_area,payment_amount,payment_date,hp.operator,hp.operate_time) LIKE '%${search}%'
+            </if>
+            <if test="date !=null and date != ''">
+                AND CONCAT_WS(',',hp.payment_date) LIKE '%${date}%'
+            </if>
+            <if test="communityId !=0 and communityId != ''">
+                AND community.community_id = #{communityId}
+            </if>
+        </where>
+        limit #{offset},#{rows}
+    </select>
+    <!--查询当日取暖缴费条数-->
+    <select id="findHeatingPayCount" resultType="int">
+        SELECT COUNT(*)
+        FROM heating_pay
+        <where>
+            payment_date between date(now()) and DATE_ADD(date(now()),INTERVAL 1 DAY) AND status = 1
+        </where>
+        limit #{offset},#{rows}
+    </select>
+</mapper>

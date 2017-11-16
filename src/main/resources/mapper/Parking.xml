@@ -1,0 +1,133 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ywqf.dao.ParkingDao">
+	<!--目的:为dao接口方法提供sql语句配置 即针对dao接口中的方法编写我们的sql语句 -->
+
+	<!--查询车位缴费/欠费情况 -->
+	<select id="getParkingList" resultType="Parking">
+		SELECT
+		ps.parking_num,
+		pp.license_plate_number,
+		ps.house_num,
+		ps.gender,
+		ps.car_owner_tel,
+		ps.car_owner_standby_tel,
+		pps.payment_amount,
+		pps.payment_status,
+		pps.car_owner
+		FROM
+		parking_space ps
+		LEFT JOIN
+		parking_pay_statistics pps ON pps.parking_id = ps.id
+		LEFT JOIN
+		parking_pay pp ON pp.parking_pay_num = pps.parking_pay_num
+		<where>
+			1=1
+		</where>
+		<if test="checked!=2">
+			and pps.payment_status=#{checked}
+		</if>
+		<!-- limit #{offset},#{rows} -->
+	</select>
+
+	<select id="findParkingCount" resultType="int">
+		SELECT count(*) FROM parking_pay_statistics
+		LEFT JOIN parking_pay ON
+		parking_pay_statistics.parking_pay_num =
+		parking_pay.parking_pay_num
+		LEFT JOIN parking_space ON parking_space.id
+		=
+		parking_pay_statistics.parking_id
+		<where>
+			1=1
+		</where>
+		<if test="likePark!=null and likePark!=''">and (parking_pay_statistics.parking_num like #{likePark}
+			or
+			parking_pay.license_plate_number like #{likePark} or
+			parking_space.house_num like #{likePark} or
+			parking_space.car_owner_name like #{likePark} or parking_space.gender
+			like #{likePark} or parking_space.car_owner_tel like #{likePark} or
+			parking_space.car_owner_standby_tel like #{likePark} or
+			parking_pay_statistics.payment_amount like #{likePark} or
+			parking_pay_statistics.payment_status like #{likePark})
+		</if>
+		<if test="checked!=2">
+			and parking_pay_statistics.payment_status=#{checked}
+		</if>
+	</select>
+
+
+	<!-- 初始化页面 -->
+	<select id="getFirParkingList" resultType="Parking">
+		SELECT
+		*
+		FROM
+		(
+		SELECT
+		ps.parking_num,
+		ps.license_plate_number,
+		h.house_num,
+		ps.car_owner_name,
+		ps.gender,
+		ps.car_owner_tel,
+		ps.car_owner_standby_tel,
+		ps.previous_parking_unit_price,
+		IF (
+		ISNULL(pps.id),
+		0,
+		1
+		) payment_status
+		FROM
+		parking_space ps
+LEFT JOIN house h ON h.house_id=ps.house_id
+LEFT JOIN parking_pay pp ON pp.parking_space_id = ps.parking_space_id
+		LEFT JOIN parking_pay_statistics pps ON pps.parking_pay_id = pp.parking_pay_id
+		and pps.`year`=#{year} AND pps.`month`=#{month}
+		) a
+		<where>
+			1=1
+		</where>
+		<if test="checked!=2">
+			and payment_status=#{checked}
+		</if>
+	</select>
+
+	<select id="findFirParkingCount" resultType="int">
+		SELECT
+		count(*)
+		FROM
+		(
+		SELECT
+		ps.parking_num,
+		ps.license_plate_number,
+		h.house_num,
+		ps.car_owner_name,
+		ps.gender,
+		ps.car_owner_tel,
+		ps.car_owner_standby_tel,
+		ps.previous_parking_unit_price,
+		IF (
+		ISNULL(pps.id),
+		0,
+		1
+		) payment_status
+		FROM
+		parking_space ps
+LEFT JOIN house h ON h.house_id=ps.house_id
+LEFT JOIN parking_pay pp ON pp.parking_space_id = ps.parking_space_id
+		LEFT JOIN parking_pay_statistics pps ON pps.parking_pay_id = pp.parking_pay_id
+		AND pps.`year`=#{year} AND pps.`month`=#{month}
+		) a
+		<where>
+			1=1
+		</where>
+		<if test="checked!=2">
+			and payment_status=#{checked}
+		</if>
+	</select>
+
+
+
+</mapper>

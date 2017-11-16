@@ -1,0 +1,143 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ywqf.dao.HeatingDao">
+
+	<!--缴费欠费查询 -->
+	<select id="getHeatingList" resultType="Heating">
+		SELECT
+		*
+		FROM
+		(
+		SELECT
+		house.house_num,
+		house.owner_name,
+		house.owner_tel,
+		house.owner_standby_tel,
+		house.area * community.heating_unit_price heatingPrice,
+		house.area heatingArea,
+		IF(ISNULL(heating_pay.heating_pay_id),0,1) isStatus,
+		IF (
+		ISNULL(heating_pay.heating_pay_id),
+		CASE
+		WHEN (
+		NOW() BETWEEN heating_discount_type.discount_start_date
+		AND heating_discount_type.discount_end_date
+		) THEN
+		(
+		house.area * community.heating_unit_price * heating_discount_type.rate
+		)
+		ELSE
+		(
+		house.area * community.heating_unit_price
+		)
+		END ,
+		heating_pay.payment_amount
+		) payment_amount
+		FROM
+		house
+		LEFT JOIN community ON community.community_id = house.community_id
+		LEFT JOIN heating_pay ON heating_pay.house_id = house.house_id AND heating_pay.year=#{timeYear}
+		LEFT
+		JOIN heating_discount_type ON heating_discount_type.community_id =
+		community.community_id
+		) a
+		<where>
+			1=1
+		</where>
+		<if test="checked!=2">
+			and isStatus=#{checked}
+		</if>
+	</select>
+
+	<!--数量统计 -->
+	<select id="findHeatingCount" resultType="int">
+		SELECT
+		count(*)
+		FROM
+		(
+		SELECT
+		house.house_num,
+		house.owner_name,
+		house.owner_tel,
+		house.owner_standby_tel,
+		house.area * community.heating_unit_price heatingPrice,
+		house.area heatingArea,
+		IF(ISNULL(heating_pay.heating_pay_id),0,1) isStatus,
+		IF (
+		ISNULL(heating_pay.heating_pay_id),
+		CASE
+		WHEN (
+		NOW() BETWEEN heating_discount_type.discount_start_date
+		AND heating_discount_type.discount_end_date
+		) THEN
+		(
+		house.area * community.heating_unit_price * heating_discount_type.rate
+		)
+		ELSE
+		(
+		house.area * community.heating_unit_price
+		)
+		END ,
+		heating_pay.payment_amount
+		) payment_amount
+		FROM
+		house
+		LEFT JOIN community ON community.community_id = house.community_id
+		LEFT JOIN heating_pay ON heating_pay.house_id = house.house_id AND heating_pay.year=#{timeYear}
+		LEFT
+		JOIN heating_discount_type ON heating_discount_type.community_id =
+		community.community_id
+		) a
+		<where>
+			1=1
+		</where>
+		<if test="checked!=2">
+			and isStatus=#{checked}
+		</if>
+	</select>
+
+	<!--物业公司 -->
+	<select id="getHeatingCorps" resultType="Heating">
+		SELECT
+		corp_name,type,id as corpsID
+		FROM
+		corps
+		<if test="corpsType == 0">
+			WHERE id = #{userID}
+		</if>
+		<if test="corpsType == 1">
+			WHERE type = 0
+		</if>
+	</select>
+
+	<!--小区 -->
+	<select id="getHeatingCommunity" resultType="Heating">
+		SELECT
+		c.community_name,c.id as communityId
+		FROM
+		community c
+		LEFT JOIN
+		dept_community dc ON dc.community_id = c.corp_id
+		LEFT JOIN
+		role_dept_community rdc ON rdc.dept_community_id = dc.id
+		LEFT JOIN
+		role_dept_community_user rdcu ON rdcu.role_dept_community_id = rdc.id
+		<where>
+			1=1
+		</where>
+		and rdcu.user_id=#{userID}
+	</select>
+
+	<!-- 总部小区 -->
+	<select id="getAllCommunity" resultType="Heating">
+		SELECT DISTINCT
+		community_name,community.id
+		FROM community
+		LEFT JOIN corps
+		ON
+		community.corp_id=corps.id
+		WHERE corps.id=#{corpsID}
+	</select>
+</mapper>

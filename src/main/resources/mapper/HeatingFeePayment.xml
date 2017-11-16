@@ -1,0 +1,47 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ywqf.dao.HeatingFeePaymentDao">
+
+    <select id="findHeatingList" resultType="HeatingFeePayment">
+        SELECT *
+		FROM heating_pay  a
+		LEFT JOIN USER b
+		ON a.charge_worker_id = b.id
+    </select>
+
+    <select id="findOver" resultType="HeatingFeePayment">
+        SELECT *
+        FROM heating_pay
+        WHERE id = #{id}
+    </select>
+
+    <update id="updateOver">
+        UPDATE heating_pay
+        SET status = '0',
+        operator = #{Rname}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 查询门牌号是否为空 -->
+    <select id="findHouseNumIsNull" resultType="int">
+        SELECT COUNT(house_num)
+        FROM house
+        WHERE community_id = #{community_id}
+        AND house_num = #{house_num}
+    </select>
+
+    <select id="findAreaOrNameOrMoney" resultType="HeatingFeePayment">
+        SELECT c.owner_name,c.area,a.heating_unit_price,b.discount_start_date,b.discount_end_date,b.rate
+		FROM heating_pay  a
+		LEFT JOIN heating_discount_type b
+		ON a.corp_id = b.corp_id
+		LEFT JOIN house c
+		ON a.house_num = c.house_num
+        WHERE a.house_num = #{house_num}
+        AND a.community_id = #{community_id}
+    </select>
+
+
+</mapper>

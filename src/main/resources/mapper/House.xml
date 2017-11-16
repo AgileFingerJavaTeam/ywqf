@@ -1,0 +1,120 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ywqf.dao.HouseDao">
+    <!--目的:为dao接口方法提供sql语句配置
+    即针对dao接口中的方法编写我们的sql语句-->
+	<!--查询物业公司-->
+	<select id="findCompanyById"  resultType="CompanyAndCommunity">
+		SELECT corps.corp_name,corps.corp_id,corps.type FROM corps
+		LEFT JOIN  user
+		ON  corps.corp_id=user.corp_id
+		WHERE 1=1 and user_id=#{id}
+	</select>
+
+	<!--查询总部名下物业-->
+	<select id="findCompanyByType"  resultType="CompanyAndCommunity">
+		SELECT corp_id,corp_name
+		FROM corps
+		WHERE type=0
+	</select>
+	<!--物业人员查询小区-->
+	<select id="findCommunityById" resultType="CompanyAndCommunity">
+		SELECT community.community_id,community.community_name
+		FROM community
+		LEFT JOIN community_dept_role_user
+		ON community.community_id=community_dept_role_user.community_id
+		WHERE 1=1
+		AND community_dept_role_user.user_id=#{id}
+	</select>
+	<!--物业公司查询小区-->
+	<select id="findCommunityByCorp"  resultType="CompanyAndCommunity">
+		SELECT community_name,community.id
+		FROM community
+		LEFT JOIN corps
+		ON community.corp_id=corps.corp_id
+		WHERE corps.corp_id=#{id}
+	</select>
+
+	<!--查询房屋配置信息  -->
+    <select id="findHouseInfo"  resultType="HouseInfo">
+		SELECT * FROM house
+		LEFT JOIN house_type
+		ON house.house_type_id=house_type.id
+		LEFT JOIN community
+		ON house.community_id=community.id
+		LEFT JOIN corps
+		ON  community.corp_id=corps.id
+		<where>
+			1=1
+			<if test="corp_id!=0">
+			AND  corps.id=#{corp_id}
+		</if>
+			<if test="community_id!=0">
+				AND  community_id=#{community_id}
+			</if>
+		</where>
+		limit #{offset},#{rows}
+    </select>
+	<!--数量-->
+	<select id="findHouseCount"  resultType="int">
+        SELECT count(*)  FROM house
+		LEFT JOIN house_type
+		ON house.house_type_id=house_type.id
+		LEFT JOIN community
+		ON house.community_id=community.id
+		LEFT JOIN corps
+		ON  community.corp_id=corps.id
+		<where>
+			1=1
+			<if test="corp_id!=0">
+				AND  corps.id=#{corp_id}
+			</if>
+			<if test="community_id!=0">
+				AND  community_id=#{community_id}
+			</if>
+		</where>
+    </select>
+    <!--小区-->
+     <select id="findCommunityName" resultType="HouseInfo">
+    	SELECT community_name ,id
+    	FROM community
+		WHERE 1=1 AND corp_id=#{corp_id}
+    </select>
+    <!--户型-->
+    <select id="findRoomType" resultType="HouseInfo">
+    	SELECT house_type_name,id FROM house_type
+		WHERE 1=1
+    </select>
+	<!--保存信息-->
+	<insert id="saveHouseInfo">
+		INSERT INTO house (community_id,building,unit,floor,room_num,house_type_id,area,now_estate_unit_price,now_estate_fee,owner_name,owner_tel,owner_standby_tel,family_size,house_num)
+		VALUES(#{community_id},#{building},#{unit},#{floor},#{room_num},#{house_type_id},#{area},#{now_estate_unit_price},#{now_estate_fee},#{owner_name},#{owner_tel},#{owner_standby_tel},#{family_size},#{house_num})
+	</insert>
+	<!--根据id查询详细信息-->
+	<select id="findHouseInfoByID" resultType="HouseInfo">
+		SELECT * FROM house
+		LEFT JOIN house_type
+		ON house.house_type_id=house_type.id
+		LEFT JOIN  community
+		ON house.community_id=community.id
+		WHERE 1=1
+		AND house.id=#{id}
+	</select>
+	<!--更新信息-->
+	<update id="editHouseInfo">
+		UPDATE house
+		SET community_id=#{community_id},building=#{building},unit=#{unit},floor=#{floor},
+		room_num=#{room_num},house_type_id=#{house_type_id},area=#{area},
+		now_estate_unit_price=#{now_estate_unit_price},now_estate_fee=#{now_estate_fee},
+		owner_name=#{owner_name},owner_tel=#{owner_tel},owner_standby_tel=#{owner_standby_tel},
+		family_size=#{family_size}
+		WHERE 1=1
+		AND house.id=#{id}
+	</update>
+
+	<delete id="deleteHouseInfo" >
+		DELETE FROM house WHERE id =#{id}
+	</delete>
+</mapper>

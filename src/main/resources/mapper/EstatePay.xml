@@ -1,0 +1,179 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    <mapper namespace="com.ywqf.dao.EstatePayDao">
+        <!--查询物业缴费信息-->
+    <select id="findEstatePayInfo" resultType="EstatePay">
+        SELECT ep.*,user.name AS charge_worker_name,h.house_num
+        FROM estate_pay ep
+        LEFT JOIN `user`
+        ON ep.charge_worker_id = user.user_id
+        LEFT JOIN house h
+        ON ep.house_id = h.house_id
+        LEFT JOIN community
+        ON h.community_id = community.community_id
+        LEFT JOIN corps
+        ON community.corp_id = corps.corp_id
+        <where>
+            ep.status = 1
+            <if test="corpId !=0 and  search != ''">
+                AND corps.corp_id = #{corpId}
+            </if>
+            <if test="search !=null and  search != ''">
+                AND CONCAT_WS(',',estate_pay_num,house_num,h.owner_name,h.area,estate_unit_price,service_start_date,service_end_date,ep.pay_month,payment_amount,charge_worker_id,pay_date,ep.operator,ep.operate_time) LIKE '%${search}%'
+            </if>
+            <if test="date !=null and date != ''">
+                AND CONCAT_WS(',',pay_date) LIKE '%${date}%'
+            </if>
+            <if test="communityId !=0 and communityId != ''">
+                AND community.community_id = #{communityId}
+            </if>
+        </where>
+        limit #{offset},#{rows}
+    </select>
+    <!--查询当日物业缴费条数-->
+    <select id="findTodayEstatePayCount" resultType="int">
+        SELECT COUNT(*)
+        FROM estate_pay ep
+        LEFT JOIN `user`
+        ON ep.charge_worker_id = user.user_id
+        LEFT JOIN house h
+        ON ep.house_id = h.house_id
+        LEFT JOIN community
+        ON h.community_id = community.community_id
+        LEFT JOIN corps
+        ON community.corp_id = corps.corp_id
+        <where>
+            ep.status = 1
+            <if test="corpId !=0 and  search != ''">
+                AND corps.corp_id = #{corpId}
+            </if>
+            <if test="search !=null and  search != ''">
+                AND CONCAT_WS(',',estate_pay_num,house_num,h.owner_name,h.area,estate_unit_price,service_start_date,service_end_date,ep.pay_month,payment_amount,charge_worker_id,pay_date,ep.operator,ep.operate_time) LIKE '%${search}%'
+            </if>
+            <if test="date !=null and date != ''">
+                AND CONCAT_WS(',',pay_date) LIKE '%${date}%'
+            </if>
+            <if test="communityId !=0 and communityId != ''">
+                AND community.community_id = #{communityId}
+            </if>
+        </where>
+    </select>
+    <!--查询当日物业费收费总额-->
+    <select id="findEstatePayTotal" resultType="String">
+        SELECT SUM(payment_amount)
+        FROM estate_pay ep
+        LEFT JOIN `user`
+        ON ep.charge_worker_id = user.user_id
+        LEFT JOIN house h
+        ON ep.house_id = h.house_id
+        LEFT JOIN community
+        ON h.community_id = community.community_id
+        LEFT JOIN corps
+        ON community.corp_id = corps.corp_id
+        <where>
+            ep.status = 1
+            <if test="corpId !=0 and  search != ''">
+                AND corps.corp_id = #{corpId}
+            </if>
+            <if test="search !=null and  search != ''">
+                AND CONCAT_WS(',',estate_pay_num,house_num,h.owner_name,h.area,estate_unit_price,service_start_date,service_end_date,ep.pay_month,payment_amount,charge_worker_id,pay_date,ep.operator,ep.operate_time) LIKE '%${search}%'
+            </if>
+            <if test="date !=null and date != ''">
+                AND CONCAT_WS(',',pay_date) LIKE '%${date}%'
+            </if>
+            <if test="communityId !=0 and communityId != ''">
+                AND community.community_id = #{communityId}
+            </if>
+        </where>
+    </select>
+    <!--查询当前登录员工管理的小区-->
+    <select id="findUserManagedCommunityByUseId" resultType="Community">
+        SELECT community.community_id,community.community_name
+        FROM community
+        LEFT JOIN community_dept_role_user
+        ON community.community_id=community_dept_role_user.community_id
+        WHERE 1=1
+        AND community_dept_role_user.user_id=#{userId}
+    </select>
+    <!--查询当前物业公司管理的所有小区-->
+    <select id="findAllCommunityByCorpId" resultType="Community">
+        SELECT community_name,community.community_id
+        FROM community
+        LEFT JOIN corps
+        ON community.corp_id=corps.corp_id
+        WHERE corps.corp_id=#{corpId}
+    </select>
+    <!--查询员工所属物业公司-->
+    <select id="findCorpsByUserId" resultType="Corps">
+        SELECT corps.corp_name,corps.corp_id
+        FROM `user`
+        LEFT JOIN corps
+        ON `user`.corp_id = corps.corp_id
+        WHERE 1=1 and `user`.user_id = #{userId}
+    </select>
+    <!--查询所有物业公司信息-->
+    <select id="findCorpsInfo" resultType="Corps">
+        SELECT corp_name,corp_id
+        FROM corps
+        WHERE type = 0 AND status = 1
+    </select>
+    <!--查询登录员工类型-->
+    <select id="findUserType" resultType="String">
+        SELECT type
+        FROM `user`
+        LEFT JOIN corps
+        ON `user`.corp_id = corps.corp_id
+        WHERE `user`.user_id = #{userId}
+    </select>
+
+
+    <!--石匡代码-->
+    <!-- 查询缴费欠费列表 -->
+    <select id="queryEstatePayList" resultType="EstatePay">
+        SELECT * FROM(
+        SELECT
+        h.house_num,
+        h.owner_name,
+        h.owner_tel,
+        h.owner_standby_tel,
+        h.area,
+        h.previous_estate_fee,
+        IF (ISNULL(eps.id), 0, 1) status
+        FROM
+        house h
+        LEFT JOIN estate_pay_statistics eps ON eps.house_id = h.house_id
+        AND eps.year = #{year}
+        AND eps.month = #{month}) s
+        <where>
+            1=1
+        </where>
+        <if test="check!=2">
+            and status=#{check}
+        </if>
+    </select>
+
+    <!-- 查询缴费欠费列表条数 -->
+    <select id="queryEstatePayCount" resultType="int">
+        SELECT count(*) FROM(
+        SELECT
+        h.house_num,
+        h.owner_name,
+        h.owner_tel,
+        h.owner_standby_tel,
+        h.area,
+        h.previous_estate_fee,
+        IF (ISNULL(eps.id), 0, 1) status
+        FROM
+        house h
+        LEFT JOIN estate_pay_statistics eps ON eps.house_id = h.house_id
+        AND eps.year = #{year}
+        AND eps.month = #{month}) s
+        <where>
+            1=1
+        </where>
+        <if test="check!=2">
+            and status=#{check}
+        </if>
+    </select>
+</mapper>
