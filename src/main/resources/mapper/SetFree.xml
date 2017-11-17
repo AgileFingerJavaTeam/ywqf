@@ -1,0 +1,30 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ywqf.dao.SetFreeDao">
+	<!--目的:为dao接口方法提供sql语句配置 即针对dao接口中的方法编写我们的sql语句 -->
+	<!-- 根据条件查询物业列表 -->
+	<select id="listFreeProperty" parameterType="com.ywqf.dto.in.FreePropertyDto" resultType="FreeProperty">
+	SELECT h.house_id,h.community_id,cs.corp_id,cs.corp_name,c.community_name,building,unit,floor,ht.house_type_name,house_num,area,previous_estate_unit_price,previous_estate_fee 
+		FROM house h
+		LEFT JOIN house_type ht on ht.house_type_id=h.house_type_id 
+		LEFT JOIN community c on c.community_id=h.community_id 
+		LEFT JOIN corps cs ON cs.corp_id=c.corp_id
+		where 1=1 
+		<if test="type==0">
+        and h.community in(SELECT DISTINCT community.community_id,community.community_name
+			FROM community
+			LEFT JOIN community_dept_role_user ON community.community_id=community_dept_role_user.community_id
+			WHERE community_dept_role_user.user_id=#{userid}
+		    AND corp_id=#{corpid})
+        </if>
+        <if test="community!=null and community!=''">
+               AND h.community_id = #{community}
+        </if>
+        <if test="corp!=null and corp!=''">
+               AND cs.corp_id = #{corp}
+        </if>
+	</select>
+
+</mapper>
