@@ -3,11 +3,15 @@ package com.ywqf.controller;
 import com.ywqf.base.BaseController;
 import com.ywqf.base.BaseUIResult;
 import com.ywqf.dto.excution.HouseExcution;
+import com.ywqf.dto.excution.ParkingConfigExcution;
 import com.ywqf.dto.in.HouseDto;
+import com.ywqf.dto.in.ParkingConfigDto;
 import com.ywqf.enums.HouseEnum;
+import com.ywqf.enums.ParkingConfigEnum;
 import com.ywqf.exception.db.InsertInnerErrorException;
 import com.ywqf.exception.db.QueryInnerErrorException;
 import com.ywqf.service.HouseConfigService;
+import com.ywqf.service.ParkingConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/parkingConfig")
 public class ParkingConfigController extends BaseController {
     @Autowired
-    private HouseConfigService houseConfigService;
+    private ParkingConfigService parkingConfigService;
 
 
     /*显示页面*/
@@ -36,263 +40,59 @@ public class ParkingConfigController extends BaseController {
     }
 
 
-    /*查询物业*/
-    @RequestMapping(value = "/getCompany",
-            method = RequestMethod.POST,
-            produces = {"text/json;charset=UTF-8"})
-    @ResponseBody
-    public String getCompany(){
-        try {
-            HouseExcution houseExcution = houseConfigService.findCompanyById();
-            return BaseUIResult.returnJson(houseExcution);
-        }catch (Exception e){
-            logger.error(e.getMessage(), e);
-            HouseExcution houseExcution =new HouseExcution(HouseEnum.FIND_FAIL,e.getMessage());
-
-            return  BaseUIResult.returnJsonEasyUI(houseExcution);
-        }
-    }
-
-    /*查询总部旗下物业*/
-    @RequestMapping(value = "/getLeaderCompany",
-            method = RequestMethod.POST,
-            produces = {"text/json;charset=UTF-8"})
-    @ResponseBody
-    public String getLeaderCompany(){
-        try {
-            HouseExcution houseExcution = houseConfigService.findCompanyByType();
-            return BaseUIResult.returnJson(houseExcution);
-        }catch (Exception e){
-            logger.error(e.getMessage(), e);
-            HouseExcution houseExcution =new HouseExcution(HouseEnum.FIND_FAIL,e.getMessage());
-
-            return  BaseUIResult.returnJsonEasyUI(houseExcution);
-        }
-    }
-
-    /*查询小区*/
-    @RequestMapping(value = "/getCommunity",
-            method = RequestMethod.POST,
-            produces = {"text/json;charset=UTF-8"})
-    @ResponseBody
-    public String getCommunity(){
-        try {
-            HouseExcution houseExcution = houseConfigService.findCommunityById();
-            return BaseUIResult.returnJson(houseExcution);
-        }catch (Exception e){
-            logger.error(e.getMessage(), e);
-            HouseExcution houseExcution =new HouseExcution(HouseEnum.FIND_FAIL,e.getMessage());
-
-            return  BaseUIResult.returnJsonEasyUI(houseExcution);
-        }
-    }
-
-    /*查询子小区*/
-    @RequestMapping(value = "/getChildCommunity",
-            method = RequestMethod.POST,
-            produces = {"text/json;charset=UTF-8"})
-    @ResponseBody
-    public String getChildCommunity(HouseDto houseDto){
-        try {
-            HouseExcution houseExcution = houseConfigService.findChildCommunityById(houseDto);
-            return BaseUIResult.returnJson(houseExcution);
-        }catch (Exception e){
-            logger.error(e.getMessage(), e);
-            HouseExcution houseExcution =new HouseExcution(HouseEnum.FIND_FAIL,e.getMessage());
-
-            return  BaseUIResult.returnJsonEasyUI(houseExcution);
-        }
-    }
-
-
-
-    
     /*查询信息列表*/
-   @RequestMapping(value = "/getHouseList",
+   @RequestMapping(value = "/getParkingList",
            method = RequestMethod.POST,
            produces = {"text/json;charset=UTF-8"})
     @ResponseBody
-    public String getHouseList(HouseDto houseDto){
+    public String getParkingList(ParkingConfigDto parkingConfigDto){
         try {
-            HouseExcution houseExcution = houseConfigService.findHouseInfo(houseDto);
-            return BaseUIResult.returnJsonEasyUI(houseExcution);
+            ParkingConfigExcution parkingConfigExcution = parkingConfigService.findParkingConfig(parkingConfigDto);
+            return BaseUIResult.returnJsonEasyUI(parkingConfigExcution);
         }catch (Exception e){
             logger.error(e.getMessage(), e);
-            HouseExcution houseExcution =new HouseExcution(HouseEnum.FIND_FAIL,e.getMessage());
-
-            return  BaseUIResult.returnJsonEasyUI(houseExcution);
+            ParkingConfigExcution parkingConfigExcution =new ParkingConfigExcution(ParkingConfigEnum.FIND_FAIL,e.getMessage());
+            return  BaseUIResult.returnJsonEasyUI(parkingConfigExcution);
         }
    }
-   
-/*   *//*
-    * 
-    *添加配置信息
-    * 
-    * *//*
-   @RequestMapping(value = "/addHouseInfo")
-   public ModelAndView addHouseInfo(){
-   	 ModelAndView mv = new ModelAndView();
+
+    /**
+     * 户型联想
+     *
+     * @return
+     */
+    @RequestMapping(value = "/getHouseNum",method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+    @ResponseBody
+    public String getHouseNum(ParkingConfigDto parkingConfigDto) {
+
         try {
-        	int id=1000;
-        	String employname="花非花";
-        	String corpsname="怪盗基德";
-        	 mv.addObject("corp_id", id);
-             mv.addObject("name", employname);
-             mv.addObject("corpsname",corpsname);
-            mv.setViewName("house/addHousePage");
+            ParkingConfigExcution parkingConfigExcution = parkingConfigService.fingHouseNum(parkingConfigDto);
+            return BaseUIResult.returnJson(parkingConfigExcution);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
+            ParkingConfigExcution parkingConfigExcution = new ParkingConfigExcution(ParkingConfigEnum.FIND_FAIL, e.getMessage());
+            return BaseUIResult.returnJson(parkingConfigExcution);
         }
-        return mv;
-   }*/
-   /**
-    * 获取社区名称
-    *
-    * @return
-    */
-   @RequestMapping(value = "/getCommunityName",method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
-   @ResponseBody
-   public String getCommunityName(HouseDto houseDto) {
+    }
 
-       try {
-           HouseExcution houseExcution = houseConfigService.findCommunityName(houseDto);
-           return BaseUIResult.returnJson(houseExcution);
-       } catch (Exception e) {
-           logger.error(e.getMessage(), e);
-           HouseExcution houseExcution = new HouseExcution(HouseEnum.FIND_FAIL, e.getMessage());
-           return BaseUIResult.returnJson(houseExcution);
-       }
-   }
-   
-   /**
-    * 获取户型
-    *
-    * @return
-    */
-   @RequestMapping(value = "/getRoomType",method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
-   @ResponseBody
-   public String getRoomType(HouseDto houseDto) {
 
-       try {
-           HouseExcution houseExcution = houseConfigService.findRoomType(houseDto);
-           return BaseUIResult.returnJson(houseExcution);
-       } catch (Exception e) {
-           logger.error(e.getMessage(), e);
-           HouseExcution houseExcution = new HouseExcution(HouseEnum.FIND_FAIL, e.getMessage());
-           return BaseUIResult.returnJson(houseExcution);
-       }
-   }
-   
-   /**
-    * 提交新增配置信息
-    *
-    * @return
-    */
-   @RequestMapping(value = "/subHouseInfo",method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+    /*保存信息*/
+   @RequestMapping(value = "/subAddParking",method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
    @ResponseBody
-   public String subHouseInfo(HouseDto houseDto) {
+   public String subAddParking(ParkingConfigDto parkingConfigDto) {
        try {
-           HouseExcution houseExcution = houseConfigService.saveHouseInfo(houseDto);
-           return BaseUIResult.returnJsonMSG(1, houseExcution, "新增成功");
+           ParkingConfigExcution parkingConfigExcution = parkingConfigService.addParkingConfig(parkingConfigDto);
+           return BaseUIResult.returnJsonMSG(1, parkingConfigExcution, "新增成功");
        } catch (InsertInnerErrorException e) {
-    	   logger.error(e.getMessage(), e);
-    	   HouseExcution houseExcution = new HouseExcution(HouseEnum.ADD_FAIL, e.getMessage());
+           logger.error(e.getMessage(), e);
+           HouseExcution houseExcution = new HouseExcution(HouseEnum.ADD_FAIL, e.getMessage());
            return BaseUIResult.returnJsonMSG(0,houseExcution,"新增失败");
        }catch (Exception e) {
-    	   logger.error(e.getMessage(), e);
-    	   HouseExcution houseExcution = new HouseExcution(HouseEnum.ADD_FAIL, e.getMessage());
+           logger.error(e.getMessage(), e);
+           HouseExcution houseExcution = new HouseExcution(HouseEnum.ADD_FAIL, e.getMessage());
            return BaseUIResult.returnJsonMSG(0,houseExcution,"失败");
        }
    }
-
-    /*
-    *
-    *修改配置信息
-    *
-    * */
-    @RequestMapping(value = "/editHouseInfo")
-    public ModelAndView editHouseInfo(HouseDto houseDto){
-        ModelAndView mv = new ModelAndView();
-        try {
-            HouseExcution houseExcution=houseConfigService.findHouseInfoByID(houseDto);
-            mv.addObject("data", houseExcution.getData());
-            mv.setViewName("house/editHousePage");
-        } catch (QueryInnerErrorException e) {
-            HouseExcution houseExcution = new HouseExcution(HouseEnum.FIND_FAIL, e.getMessage());
-            logger.error(e.toString(), e);
-        }catch (Exception e) {
-            HouseExcution houseExcution = new HouseExcution(HouseEnum.FIND_FAIL, e.getMessage());
-            logger.error(e.toString(), e);
-        }
-        return mv;
-    }
-
-
-    /**
-     * 提交修改配置信息
-     *
-     * @return
-     */
-    @RequestMapping(value = "/subEditHouseInfo",method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
-    @ResponseBody
-    public String subEditHouseInfo(HouseDto houseDto) {
-        try {
-            HouseExcution houseExcution = houseConfigService.editHouseInfo(houseDto);
-            return BaseUIResult.returnJsonMSG(1, houseExcution, "修改成功");
-        } catch (InsertInnerErrorException e) {
-            logger.error(e.getMessage(), e);
-            HouseExcution houseExcution = new HouseExcution(HouseEnum.ADD_FAIL, e.getMessage());
-            return BaseUIResult.returnJsonMSG(0,houseExcution,"修改失败");
-        }catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            HouseExcution houseExcution = new HouseExcution(HouseEnum.ADD_FAIL, e.getMessage());
-            return BaseUIResult.returnJsonMSG(0,houseExcution,"失败");
-        }
-    }
-
-
-    /*
-    *
-    *查询信息
-    *
-    * */
-    @RequestMapping(value = "/deleteHouseInfo")
-    public ModelAndView deleteHouseInfo(HouseDto houseDto){
-        ModelAndView mv = new ModelAndView();
-        try {
-            HouseExcution houseExcution=houseConfigService.findHouseInfoByID(houseDto);
-            mv.addObject("data", houseExcution.getData());
-            mv.setViewName("house/deleteHousePage");
-        } catch (QueryInnerErrorException e) {
-            HouseExcution houseExcution = new HouseExcution(HouseEnum.FIND_FAIL, e.getMessage());
-            logger.error(e.toString(), e);
-        }catch (Exception e) {
-            HouseExcution houseExcution = new HouseExcution(HouseEnum.FIND_FAIL, e.getMessage());
-            logger.error(e.toString(), e);
-        }
-        return mv;
-    }
-
-    /**
-     * 提交删除信息
-     *
-     * @return
-     */
-    @RequestMapping(value = "/subDelHouseInfo",method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
-    @ResponseBody
-    public String subDelHouseInfo(HouseDto houseDto) {
-        try {
-            HouseExcution houseExcution = houseConfigService.deleteHouseInfo(houseDto);
-            return BaseUIResult.returnJsonMSG(1, houseExcution, "修改成功");
-        } catch (InsertInnerErrorException e) {
-            logger.error(e.getMessage(), e);
-            HouseExcution houseExcution = new HouseExcution(HouseEnum.ADD_FAIL, e.getMessage());
-            return BaseUIResult.returnJsonMSG(0,houseExcution,"修改失败");
-        }catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            HouseExcution houseExcution = new HouseExcution(HouseEnum.ADD_FAIL, e.getMessage());
-            return BaseUIResult.returnJsonMSG(0,houseExcution,"失败");
-        }
-    }
    
+
 }

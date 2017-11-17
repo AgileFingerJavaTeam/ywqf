@@ -18,6 +18,7 @@ public class HouseCenterDto {
 	private String remark;
 	private String customer_name;
 	private String phone;
+	private String house_num;
 	public int getRows() {
 		return rows;
 	}
@@ -152,5 +153,13 @@ public class HouseCenterDto {
 
 	public void setBuilding_id(String building_id) {
 		this.building_id = building_id;
+	}
+
+	public String getHouse_num() {
+		return house_num;
+	}
+
+	public void setHouse_num(String house_num) {
+		this.house_num = house_num;
 	}
 }

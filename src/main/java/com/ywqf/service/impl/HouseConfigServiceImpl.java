@@ -155,15 +155,15 @@ public class HouseConfigServiceImpl implements HouseConfigService {
 		String room_num=houseDto.getRoom_num();
 		int house_type_id=Integer.parseInt(houseDto.getHouse_type_id());
 		double area=Double.parseDouble(houseDto.getArea());
-		double now_estate_unit_price=Double.parseDouble(houseDto.getNow_estate_unit_price());
-		double now_estate_fee=Double.parseDouble(houseDto.getNow_estate_fee());
+		double previous_estate_unit_price=Double.parseDouble(houseDto.getPrevious_estate_unit_price());
+		double previous_estate_fee=Double.parseDouble(houseDto.getPrevious_estate_fee());
 		String owner_name=houseDto.getOwner_name();
 		String owner_tel=houseDto.getOwner_tel();
 		String owner_standby_tel=houseDto.getOwner_standby_tel();
 		int family_size=Integer.parseInt(houseDto.getFamily_size());
 		String house_num=building+'-'+unit+'-'+room_num;
 		try{
-			int saveHouseInfo=houseDao.saveHouseInfo(community_id,building,unit,floor,room_num,house_type_id,area,now_estate_unit_price,now_estate_fee,owner_name,owner_tel,owner_standby_tel,family_size,house_num);
+			int saveHouseInfo=houseDao.saveHouseInfo(community_id,building,unit,floor,room_num,house_type_id,area,previous_estate_unit_price,previous_estate_fee,owner_name,owner_tel,owner_standby_tel,family_size,house_num);
 			if (saveHouseInfo>0) {
 				return  new HouseExcution(HouseEnum.ADD_SUCCESS);
 			}else{
@@ -206,15 +206,16 @@ public class HouseConfigServiceImpl implements HouseConfigService {
 		String room_num=houseDto.getRoom_num();
 		int house_type_id=Integer.parseInt(houseDto.getHouse_type_id());
 		double area=Double.parseDouble(houseDto.getArea());
-		double now_estate_unit_price=Double.parseDouble(houseDto.getNow_estate_unit_price());
-		double now_estate_fee=Double.parseDouble(houseDto.getNow_estate_fee());
+		double previous_estate_unit_price=Double.parseDouble(houseDto.getPrevious_estate_unit_price());
+		double previous_estate_fee=Double.parseDouble(houseDto.getPrevious_estate_fee());
 		String owner_name=houseDto.getOwner_name();
 		String owner_tel=houseDto.getOwner_tel();
 		String owner_standby_tel=houseDto.getOwner_standby_tel();
 		int family_size=Integer.parseInt(houseDto.getFamily_size());
+		String house_num=building+'-'+unit+'-'+room_num;
 		int id=Integer.parseInt(houseDto.getId());
 		try{
-			int editHouseInfo=houseDao.editHouseInfo(community_id,building,unit,floor,room_num,house_type_id,area,now_estate_unit_price,now_estate_fee,owner_name,owner_tel,owner_standby_tel,family_size,id);
+			int editHouseInfo=houseDao.editHouseInfo(community_id,building,unit,floor,room_num,house_type_id,area,previous_estate_unit_price,previous_estate_fee,owner_name,owner_tel,owner_standby_tel,family_size,house_num,id);
 			if (editHouseInfo>0) {
 				return  new HouseExcution(HouseEnum.UPDATE_SUCCESS);
 			}else{
