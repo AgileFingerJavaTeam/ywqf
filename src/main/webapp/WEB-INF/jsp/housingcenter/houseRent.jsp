@@ -39,17 +39,6 @@
 			<span class="select-box" style="width: 25%;display: inline-block">
 			  <select class="select" size="1" name="demo1" id="community"></select>
 			</span>
-			楼号：
-			<span class="select-box" style="width:25%;display: inline-block">
-			  <select class="select" size="1" name="demo1" id="building" >
-				<option value="0"selected>全部</option>
-			  </select>
-			</span>
-			月份：
-			<span class="select-box" style="width:25%;display: inline-block">
-			  <select class="select" size="1" name="demo1" id="month" >
-			  </select>
-			</span>
 		</div>
 		<div class="r"style="width: 50%;">
 			<button type="button" class="btn btn-success r" id="" name=""s onclick="picture_colume_add(this);"><i class="Hui-iconfont"></i> 导出</button>
@@ -68,7 +57,7 @@
 
 	</div>
 	<div class="mt-20">
-		<table class="table table-border table-bordered table-bg table-hover table-sort" id="datable">
+		<table class="table table-border table-bordered table-bg table-hover table-sort" id="datable"style="width: 100%">
 			<thead>
 			<tr class="text-c">
 				<th ><input type="checkbox" ></th>

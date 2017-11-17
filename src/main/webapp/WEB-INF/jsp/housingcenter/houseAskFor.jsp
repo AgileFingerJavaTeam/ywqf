@@ -36,13 +36,13 @@
 
 		<div class="l "style="width: 50%">
 			物业公司：
-			<span class="select-box" style="width: 40%;display: inline-block">
+			<span class="select-box" style="width: 35%;display: inline-block">
 			  <select class="select" size="1" name="demo1" id="company">
 
 			  </select>
 			</span>
 			小区：
-			<span class="select-box" style="width:40%;display: inline-block">
+			<span class="select-box" style="width:35%;display: inline-block">
 			  <select class="select" size="1" name="demo1" id="community" >
 				<option value="0"selected>全部</option>
 			  </select>
@@ -65,7 +65,7 @@
 
 	</div>
 	<div class="mt-20">
-		<table class="table table-border table-bordered table-bg table-hover table-sort" id="datable">
+		<table class="table table-border table-bordered table-bg table-hover table-sort" id="datable" style="width: 100%">
 			<thead>
 			<tr class="text-c">
 				<th ><input type="checkbox" ></th>
@@ -180,11 +180,11 @@
 			<form action="house/subEditHouseInfo" method="post" class="form form-horizontal"   id="editForm">
 
 			<div class="modal-header">
-					<h4	 style="text-align: center">编辑</h4>
+					<h4	 style="text-align: center">新增</h4>
 					<a class="close" data-dismiss="modal" aria-hidden="true" >×</a>
 				</div>
 
-				<input type="hidden" id="rowsid" >
+				<input type="hidden" id="company_id_edit" >
 				<input type="hidden" id="community_id_edit" >
 				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-5">单据编号：</label>
@@ -288,7 +288,7 @@
 <script type="text/javascript" src="//cdn.datatables.net/buttons/1.4.2/js/buttons.html5.min.js"></script>
 <script type="text/javascript" src="hui/lib/bootstrap-modal/2.2.4/bootstrap-modal.js"></script>
 <script type="text/javascript" src="hui/lib/bootstrap-modal/2.2.4/bootstrap-modalmanager.js"></script>
-<script type="text/javascript" src="../hui/lib/bootstrap-Switch/bootstrapSwitch.js"></script>
+<script type="text/javascript" src="hui/lib/bootstrap-Switch/bootstrapSwitch.js"></script>
 <script type="text/javascript">
     var select_row_id;
     var community_id;
@@ -323,7 +323,7 @@
         $.post("house/getChildCommunity",{id:id},function (data) {
 
             for(var i  in data){
-                $("#community").append("<option value="+data[i].communityId+">"+data[i].communityName+"</option>")
+                $("#community").append("<option value="+data[i].id+">"+data[i].communityName+"</option>")
             }
         },"json")
         getHouseList();
@@ -332,7 +332,7 @@
     function chooseCommunity() {
         $.post("house/getCommunity",null,function (data) {
             for(var i  in data){
-                $("#community").append("<option value="+data[i].communityId+">"+data[i].communityName+"</option>")
+                $("#community").append("<option value="+data[i].id+">"+data[i].communityName+"</option>")
             }
         },"json")
 
@@ -390,8 +390,8 @@
                     {"data": "floor"},
                     {"data": "houseAreaTypeName"},
                     {"data": "houseFitmentTypeName"},
-                    {"data": "rent"},
-                    {"data": "buy"},
+                    {"data": "housePriceRangeName"},
+                    {"data": "housePriceRangeName"},
                     {"data": "remark"},
                     {"data": "customerName"},
                     {"data": "phone"}
@@ -493,7 +493,7 @@
         },"json");
     }
     function edit(){
-        $('#rowsid').val(select_row_id);
+
         $("#modal-edit").modal("show")
 		$.post("HouseCenter/getAskById",{id:select_row_id},function (data) {
 		    console.log(data);
@@ -501,71 +501,19 @@
             $('#community_id_edit').val(data.communityId);
             $('#neednum_edit').val(data.houseNeedRentNum);
             $('#askType_edit').val(data.type);
-            $('#house_type_edit').val(data.houseTypeId);
-            $('#direction_edit').val(data.houseDirectionTypeId);
-            $('#area_edit').val(data.id);
-            $('#fitment_edit').val(data.houseFitmentTypeId);
-            $('#rent_edit').val(data.rentId);
-            $('#sale_edit').val(data.buyId);
-            $('#note_edit').val(data.remark);
+            $('#house_type_edit').val(data.houseTypeName);
+            $('#direction_edit').val(data.houseDirectionTypeName);
+            $('#area_edit').val(data.areaRange);
+            $('#fitment_edit').val(data.houseFitmentTypeName);
+            $('#rent_edit').val(data.range);
+            $('#sale_edit').val(data.range);
+            $('#note').val(data.remark);
             $('#owner_name_edit').val(data.customerName);
             $('#owner_tel_edit').val(data.phone);
         },"json")
-        $.post("HouseCenter/findHouseType",null,function (data) {
-            for(var i  in data){
-                $("#house_type_edit").append("<option value="+data[i].houseTypeId+">"+data[i].houseTypeName+"</option>")
-            }
-        },"json");
-        $.post("HouseCenter/findDirection",null,function (data) {
-            for(var i  in data){
-                $("#direction_edit").append("<option value="+data[i].houseDirectionTypeId+">"+data[i].houseDirectionTypeName+"</option>")
-            }
-        },"json");
-        $.post("HouseCenter/findArea",null,function (data) {
-            for(var i  in data){
-                $("#area_edit").append("<option value="+data[i].id+">"+data[i].houseAreaTypeName+"</option>")
-            }
-        },"json");
-        $.post("HouseCenter/findFitment",null,function (data) {
-            for(var i  in data){
-                $("#fitment_edit").append("<option value="+data[i].houseFitmentTypeId+">"+data[i].houseFitmentTypeName+"</option>")
-            }
-        },"json");
-        $.post("HouseCenter/findRentPrice",null,function (data) {
-            for(var i  in data){
-                $("#rent_edit").append("<option value="+data[i].housePriceRangeId+">"+data[i].housePriceRangeName+"</option>")
-            }
-        },"json");
-        $.post("HouseCenter/findBuyPrice",null,function (data) {
-            for(var i  in data){
-                $("#sale_edit").append("<option value="+data[i].housePriceRangeId+">"+data[i].housePriceRangeName+"</option>")
-            }
-        },"json");
         $("#modal-edit").on("hide.bs.modal", function() {
             location.reload()
         })
-    }
-    function submitDataEdit() {
-        community_id=$('#community_id_edit').val();
-        var data={}
-        data.community_id=community_id;
-        data.house_need_rent_num=$('#neednum_edit').val();
-        data.type=$('#askType_edit').val();
-        data.house_type_id=$('#house_type_edit').val();
-        data.house_direction_type_id=$('#direction_edit').val();
-        data.house_area_type_id=$('#area_edit').val();
-        data.house_fitment_type_id=$('#fitment_edit').val();
-        data.rent_house_price_range_id=$('#rent_edit').val();
-        data.buy_house_price_range_id=$('#sale_edit').val();
-        data.remark=$('#note_edit').val();
-        data.customer_name=$('#owner_name_edit').val();
-        data.phone=$('#owner_tel_edit').val();
-        data.id=$('#rowsid').val();
-        console.log(data)
-        $.post("HouseCenter/subEdit",data,function (data) {
-            location.reload()
-        })
-
     }
     function deleteMessage(){
 
