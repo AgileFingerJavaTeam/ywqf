@@ -20,6 +20,16 @@ public class StaffManagement {
     private int roleId;
     private String roleName;
 
+    private int type;
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
     public int getUserId() {
         return userId;
     }
@@ -149,6 +159,7 @@ public class StaffManagement {
                 ", deptId=" + deptId +
                 ", roleId=" + roleId +
                 ", roleName='" + roleName + '\'' +
+                ", type=" + type +
                 '}';
     }
 }

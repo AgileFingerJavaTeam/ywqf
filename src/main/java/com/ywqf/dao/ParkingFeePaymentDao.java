@@ -2,16 +2,14 @@ package com.ywqf.dao;
 
 import java.util.List;
 
-import com.ywqf.dto.excution.ParkingFeePaymentExcution;
+import com.ywqf.entity.ParkingFeePayment;
 import com.ywqf.entity.payMonthType;
 import org.apache.ibatis.annotations.Param;
-
-import com.ywqf.entity.ParkingFeePayment;
 
 public interface ParkingFeePaymentDao {
 
 	//������
-	public List<ParkingFeePayment> findParkingList(@Param("rows") int rows, @Param("offset") int offset, @Param("at_search") String at_search);
+	public List<ParkingFeePayment> findParkingList(@Param("rows") int rows, @Param("offset") int offset, @Param("at_search") String at_search, @Param("status") String status, @Param("okey") String okey, @Param("estateSearchId") int estateSearchId, @Param("comm") int comm);
     //������
 	public int findParkingListCount(@Param("at_search") String at_search);
 	//������
@@ -31,9 +29,16 @@ public interface ParkingFeePaymentDao {
     //查开始日期 = 上次 结束日期+1   where 小区ID ， 门牌号
     public ParkingFeePayment findStartTime(@Param("community_id") int community_id, @Param("house_num") String house_num);
     //添加方法
-    public int insertParking(@Param("parking_pay_num") int parking_pay_num, @Param("corp_id") int corp_id, @Param("community_id") int community_id, @Param("house_num") String house_num, @Param("parking_num") int parking_num, @Param("car_owner_name") String car_owner_name, @Param("owner_name") String owner_name, @Param("house_id") int house_id, @Param("parking_space_id") int parking_space_id, @Param("license_plate_number") String license_plate_number, @Param("parking_unit_price") double parking_unit_price, @Param("pay_month_type_id") int pay_month_type_id, @Param("pay_date") String pay_date, @Param("payment_amount") double payment_amount, @Param("service_start_date") String service_start_date, @Param("service_end_date") String service_end_date, @Param("charge_worker_id") int charge_worker_id, @Param("operator") String operator);
+    public int insertParking(@Param("parking_pay_num") int parking_pay_num, @Param("parking_space_id") int parking_space_id, @Param("parking_unit_price") double parking_unit_price, @Param("pay_month_type_id") int pay_month_type_id, @Param("owner_name") String owner_name, @Param("service_start_date") String service_start_date, @Param("service_end_date") String service_end_date, @Param("charge_worker_id") int charge_worker_id, @Param("pay_date") String pay_date, @Param("payment_amount") double payment_amount, @Param("operator") String operator);
+    //查车位缴费ID
+    public ParkingFeePayment findParkingId(@Param("parking_space_id") int parking_space_id, @Param("parking_pay_num") int parking_pay_num);
     //事务 添加 车位汇总表
-    public int insertParkingStatist1(@Param("parking_pay_num") int parking_pay_num, @Param("corp_id") int corp_id, @Param("community_id") int community_id, @Param("house_id") int house_id, @Param("parking_space_id") int parking_space_id, @Param("parking_num") int parking_num, @Param("owner_name") String owner_name, @Param("car_owner_tel") String car_owner_tel, @Param("payment_amount") double payment_amount, @Param("years") int years, @Param("o") int o, @Param("car_owner_name") String car_owner_name);
-    //事务 添加 车位汇总表
-    public int insertParkingStatist2(@Param("parking_pay_num") int parking_pay_num, @Param("corp_id") int corp_id, @Param("community_id") int community_id, @Param("house_id") int house_id, @Param("parking_space_id") int parking_space_id, @Param("parking_num") int parking_num, @Param("owner_name") String owner_name, @Param("car_owner_tel") String car_owner_tel, @Param("payment_amount") double payment_amount, @Param("years") int years, @Param("i") int i, @Param("car_owner_name") String car_owner_name);
+    public int insertParkingStatist(@Param("parkingPayId") int parkingPayId, @Param("parking_space_id") int parking_space_id, @Param("years") int years, @Param("months") int months);
+    //查询 此物业是总部还是物业公司
+    public ParkingFeePayment findType(@Param("corp_id") int corp_id);
+    //查询 操作人员有权限的小区 遍历出来
+    public List<ParkingFeePayment> findRidComm(@Param("rid") int rid);
+    //查询遍历 物业公司
+    public List<ParkingFeePayment> findEstate();
+
 }

@@ -3,6 +3,7 @@ package com.ywqf.service;
 import com.ywqf.dto.excution.ParkingFeePaymentExcution;
 import com.ywqf.dto.in.ParkingFeePaymentDto;
 import com.ywqf.dto.in.PropertyFeePaymentDto;
+import org.apache.ibatis.annotations.Param;
 
 public interface ParkingFeePaymentService {
     //查询数据
@@ -25,4 +26,10 @@ public interface ParkingFeePaymentService {
 	public ParkingFeePaymentExcution findStartTime(ParkingFeePaymentDto parkingFeePaymentDto);
 	//添加方法
 	public ParkingFeePaymentExcution insertParking(ParkingFeePaymentDto parkingFeePaymentDto);
+	//查询 此物业是总部还是物业公司
+	public ParkingFeePaymentExcution findType(ParkingFeePaymentDto parkingFeePaymentDto);
+	//查询 操作人员有权限的小区 遍历出来
+	public ParkingFeePaymentExcution findRidComm(@Param("rid") int rid);
+	//查询遍历 物业公司
+	public ParkingFeePaymentExcution findEstate(ParkingFeePaymentDto parkingFeePaymentDto);
 }
