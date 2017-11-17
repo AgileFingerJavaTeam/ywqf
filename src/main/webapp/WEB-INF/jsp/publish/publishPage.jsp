@@ -59,19 +59,19 @@
                 <div class="row cl">
                     <label class="form-label col-xs-3 col-sm-2">内容：</label>
                     <div class="formControls col-xs-4 col-sm-8">
-                       <textarea id="editor_id" name="content"></textarea>
+                       <textarea id="editor_add" name="content"></textarea>
                     </div>
                 </div>
                 <div class="row cl">
                     <label class="form-label col-xs-4 col-sm-2">发布人：</label>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <select id="houseType" class="input-text "></select>
+                        <select id="publishWorker" class="input-text "></select>
                     </div>
                 </div>
                 <div class="modal-footer " style="text-align: center">
                     <button class="btn btn-primary" id="preview">预览</button>
                     <button class="btn btn-primary" id="confirm">发布</button>
-                    <button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
+                    <button class="btn" data-dismiss="modal" >取消</button>
                 </div>
             </form>
         </div>
@@ -96,7 +96,7 @@
                 <div class="row cl">
                     <label class="form-label col-xs-4 col-sm-2">发布人：</label>
                     <div class="formControls col-xs-4 col-sm-4">
-                        <select id="releaseWorker" class="input-text "></select>
+                        <select id="edit_publishWorker" class="input-text "></select>
                     </div>
                 </div>
                 <div class="modal-footer " style="text-align: center">
@@ -127,23 +127,48 @@
             }
         })
     }
+
     //------显示dataTable
     function showDataTable (data) {
         $('#publishNewsTable').dataTable({
-            destroy: true,
-            "data":data,
+            paging:true,
+            serverSide:true,
             searching: false,
+            lengthChange:true,
+            pageLength:20,
+            language: { //国际化配置
+                "sProcessing": "正在获取数据，请稍后...",
+                "sLengthMenu": "显示 _MENU_ 条",
+                "sZeroRecords": "没有您要搜索的内容",
+                "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+                "sInfoEmpty": "记录数为0",
+                "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索",
+                "sUrl": "",
+                "oPaginate": {
+                    "sFirst": "第一页",
+                    "sPrevious": "上一页",
+                    "sNext": "下一页",
+                }
+            },
+            lengthMenu:[10,20,50,100],
+            pagingType: "full_numbers",
+            destroy: true,
+            ajax:function (data,callback,settings) {
+              console.log(data)
+            },
+            "data":data,
             "bAutoWidth": false,
             "columns": [{
                 'data': 'title',
             }, {
-                'data': 'account',
+                'data': 'name',
             }, {
                 'data': 'content',
             },{
                 'data': 'releaseTime',
             }],
-            "sServerMethod":"POST",
             /* "aaSorting" : [[10, "desc" ]],//默认第几个排序*/
             "bStateSave": true,//状态保存
             "aLengthMenu":[10,20,50],
@@ -173,28 +198,53 @@
     $(document).ready(function() {
         getDataTableInfo()
     });
+
+    //--------获取发布人姓名
+    function getPublishWorker() {
+        $.ajax({
+            type:"post",
+            url:"publish/findPublishWorker",
+            dataType:"json",
+            success:function (data) {
+                for(var i = 0; i < data.length; i++) {
+                    var id = data[i].userId;
+                    var name = data[i].name;
+                    var opt = "<option value='" + id + "'>" + name + "</option>";
+                    $("#publishWorker").append(opt);
+                }
+            }
+        })
+    }
     //-------新增事件
     function add() {
         $("#addNewsModal").modal("show")
-            var editor = KindEditor.create('#editor_id',{
-                items: [
-                    'forecolor', 'hilitecolor',
-                    'bold', 'italic', 'underline', 'hr', 'removeformat', '|', 'justifyleft', 'justifycenter',
-                    'justifyright', 'insertorderedlist', 'insertunorderedlist', '|', 'link', 'image',
-                    'unlink', 'emoticons'
-                ],
-                resizeType:0
-            });
+        getPublishWorker()
+        var editor = KindEditor.create('#editor_add',{
+            width : '600px',
+            items: [
+                'forecolor', 'hilitecolor',
+                'bold', 'italic', 'underline', 'hr', 'removeformat', '|', 'justifyleft', 'justifycenter',
+                'justifyright', 'insertorderedlist', 'insertunorderedlist', '|', 'link', 'image',
+                'unlink', 'emoticons'
+            ],
+            resizeType:0
+        });
     }
+    //--------关闭Dialog前移除编辑器
+
+    $('#addNewsModal').on('hidden.bs.modal', function () {
+      location.reload()
+    });
     //-------获取选择行的数据
     var newsInfo = {}
     function getSelectNodesInfo() {
         var nTrs = messageTable.fnGetNodes();//fnGetNodes获取表格所有行，nTrs[i]表示第i行tr对象
         for(var i = 0; i < nTrs.length; i++){
             if($(nTrs[i]).hasClass('selected')){
+                console.log(messageTable.fnGetData(nTrs[i]))
                 newsInfo.title = messageTable.fnGetData(nTrs[i]).title
                 newsInfo.content = messageTable.fnGetData(nTrs[i]).content
-                newsInfo.announcementId = messageTable.fnGetData(nTrs[i]).id
+                newsInfo.announcementId = messageTable.fnGetData(nTrs[i]).announcementId
             }
         }
     }
@@ -203,6 +253,7 @@
         getSelectNodesInfo()
         $("#newsTitle").val(newsInfo.title)
         $("#newsContent").val(newsInfo.content)
+        $("#edit_publishWorker").val()
         $("#editPublishNews").modal("show")
     }
     //-------删除事件
@@ -214,7 +265,8 @@
             dataType:"JSON",
             data:newsInfo,
             success:function(data) {
-                getDataTableInfo()
+                location.reload()
+//                getDataTableInfo()
             }
         })
 

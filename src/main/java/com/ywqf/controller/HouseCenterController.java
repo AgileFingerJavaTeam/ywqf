@@ -218,6 +218,29 @@ public class HouseCenterController extends BaseController {
     }
 
     /**
+     * 提交新增信息
+     *
+     * @return
+     */
+    @RequestMapping(value = "/subEdit",method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+    @ResponseBody
+    public String subEdit(HouseCenterDto houseCenterDto) {
+        try {
+            HouseCenterExcution houseCenterExcution = houseCenterService.subEdit(houseCenterDto);
+            return BaseUIResult.returnJsonMSG(1, houseCenterExcution, "修改成功");
+        } catch (InsertInnerErrorException e) {
+            logger.error(e.getMessage(), e);
+            HouseCenterExcution houseCenterExcution = new HouseCenterExcution(HouseCenterEnum.ADD_FAIL, e.getMessage());
+            return BaseUIResult.returnJsonMSG(0,houseCenterExcution,"修改失败");
+        }catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            HouseCenterExcution houseCenterExcution= new HouseCenterExcution(HouseCenterEnum.ADD_FAIL, e.getMessage());
+            return BaseUIResult.returnJsonMSG(0,houseCenterExcution,"失败");
+        }
+    }
+
+
+    /**
      * 提交删除信息
      *
      * @return
@@ -307,6 +330,23 @@ public class HouseCenterController extends BaseController {
             HouseCenterExcution houseCenterExcution =new HouseCenterExcution(HouseCenterEnum.FIND_FAIL,e.getMessage());
 
             return  BaseUIResult.returnJsonEasyUI(houseCenterExcution);
+        }
+    }
+
+    /*查询门牌号*/
+    @RequestMapping(value = "/getHouseNum",
+            method = RequestMethod.POST,
+            produces = {"text/json;charset=UTF-8"})
+    @ResponseBody
+    public String getHouseNum(HouseCenterDto houseCenterDto){
+        try {
+            HouseCenterExcution houseCenterExcution = houseCenterService.findHouseNum(houseCenterDto);
+            return BaseUIResult.returnJson(houseCenterExcution);
+        }catch (Exception e){
+            logger.error(e.getMessage(), e);
+            HouseExcution houseExcution =new HouseExcution(HouseEnum.FIND_FAIL,e.getMessage());
+
+            return  BaseUIResult.returnJsonEasyUI(houseExcution);
         }
     }
 

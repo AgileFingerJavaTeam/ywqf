@@ -26,12 +26,12 @@ public interface HouseDao {
     /*小区*/
     public List<HouseInfo> findCommunityName(@Param("corp_id")int corp_id);
     /*保存*/
-    public int saveHouseInfo(@Param("community_id") int community_id,@Param("building") String building,@Param("unit") String unit,@Param("floor") String floor,@Param("room_num") String room_num,@Param("house_type_id") int house_type_id,@Param("area") double area,@Param("now_estate_unit_price") double now_estate_unit_price,@Param("now_estate_fee") double now_estate_fee,@Param("owner_name") String owner_name,@Param("owner_tel") String owner_tel,@Param("owner_standby_tel") String owner_standby_tel,@Param("family_size") int family_size,@Param("house_num")String house_num);
+    public int saveHouseInfo(@Param("community_id") int community_id,@Param("building") String building,@Param("unit") String unit,@Param("floor") String floor,@Param("room_num") String room_num,@Param("house_type_id") int house_type_id,@Param("area") double area,@Param("previous_estate_unit_price") double previous_estate_unit_price,@Param("previous_estate_fee") double previous_estate_fee,@Param("owner_name") String owner_name,@Param("owner_tel") String owner_tel,@Param("owner_standby_tel") String owner_standby_tel,@Param("family_size") int family_size,@Param("house_num")String house_num);
     /*通过ID查看详细信息*/
     public  HouseInfo findHouseInfoByID(@Param("id")int id);
 
     /*保存修改*/
-    public int editHouseInfo(@Param("community_id") int community_id,@Param("building") String building,@Param("unit") String unit,@Param("floor") String floor,@Param("room_num") String room_num,@Param("house_type_id") int house_type_id,@Param("area") double area,@Param("now_estate_unit_price") double now_estate_unit_price,@Param("now_estate_fee") double now_estate_fee,@Param("owner_name") String owner_name,@Param("owner_tel") String owner_tel,@Param("owner_standby_tel") String owner_standby_tel,@Param("family_size") int family_size,@Param("id")int id);
+    public int editHouseInfo(@Param("community_id") int community_id,@Param("building") String building,@Param("unit") String unit,@Param("floor") String floor,@Param("room_num") String room_num,@Param("house_type_id") int house_type_id,@Param("area") double area,@Param("previous_estate_unit_price") double previous_estate_unit_price,@Param("previous_estate_fee") double previous_estate_fee,@Param("owner_name") String owner_name,@Param("owner_tel") String owner_tel,@Param("owner_standby_tel") String owner_standby_tel,@Param("family_size") int family_size,@Param("house_num")String house_num,@Param("id")int id);
 
     /*删除*/
     public  int deleteHouseInfo(int id);

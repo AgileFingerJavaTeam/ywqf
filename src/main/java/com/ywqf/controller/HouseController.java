@@ -212,13 +212,12 @@ public class HouseController extends BaseController {
     *修改配置信息
     *
     * */
-    @RequestMapping(value = "/editHouseInfo")
-    public ModelAndView editHouseInfo(HouseDto houseDto){
-        ModelAndView mv = new ModelAndView();
+    @RequestMapping(value = "/editHouseInfo",method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+    @ResponseBody
+    public String editHouseInfo(HouseDto houseDto){
         try {
             HouseExcution houseExcution=houseConfigService.findHouseInfoByID(houseDto);
-            mv.addObject("data", houseExcution.getData());
-            mv.setViewName("house/editHousePage");
+            return BaseUIResult.returnJson(houseExcution);
         } catch (QueryInnerErrorException e) {
             HouseExcution houseExcution = new HouseExcution(HouseEnum.FIND_FAIL, e.getMessage());
             logger.error(e.toString(), e);
@@ -226,7 +225,7 @@ public class HouseController extends BaseController {
             HouseExcution houseExcution = new HouseExcution(HouseEnum.FIND_FAIL, e.getMessage());
             logger.error(e.toString(), e);
         }
-        return mv;
+        return null;
     }
 
 
