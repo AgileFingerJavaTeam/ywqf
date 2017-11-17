@@ -1,6 +1,10 @@
 package com.ywqf.controller;
 
+import com.ywqf.dto.excution.ParkingFeePaymentExcution;
+import com.ywqf.dto.in.ParkingFeePaymentDto;
 import com.ywqf.exception.db.QueryInnerErrorException;
+import com.ywqf.service.ParkingFeePaymentService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,13 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ywqf.base.BaseController;
 import com.ywqf.base.BaseUIResult;
-import com.ywqf.dto.excution.ParkingFeePaymentExcution;
-import com.ywqf.dto.excution.PropertyFeePaymentExcution;
-import com.ywqf.dto.in.ParkingFeePaymentDto;
-import com.ywqf.dto.in.PropertyFeePaymentDto;
 import com.ywqf.enums.ParkingFeePaymentEnum;
-import com.ywqf.enums.PropertyFeePaymentEnum;
-import com.ywqf.service.ParkingFeePaymentService;
 
 @Controller
 @RequestMapping("/ParkingFeePayment")
@@ -220,4 +218,57 @@ public class ParkingFeePaymentController extends BaseController{
 			return BaseUIResult.returnJsonMSG(0,parkingFeePaymentExcution,"添加失败");
 		}
 	}
+
+	//查询 此物业是总部还是物业公司
+	@RequestMapping(value = "/findType",
+			method = RequestMethod.POST,
+			produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String findType(ParkingFeePaymentDto parkingFeePaymentDto) {
+		//参数验空
+		try {
+			ParkingFeePaymentExcution parkingFeePaymentExcution = parkingFeePaymentService.findType(parkingFeePaymentDto);
+			return BaseUIResult.returnJson(parkingFeePaymentExcution);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			ParkingFeePaymentExcution parkingFeePaymentExcution = new ParkingFeePaymentExcution(ParkingFeePaymentEnum.ERROR,e.getMessage());
+			return BaseUIResult.returnJson(parkingFeePaymentExcution);
+		}
+	}
+
+	//查询 操作人员有权限的小区 遍历出来
+	@RequestMapping(value = "/findRidComm",
+			method = RequestMethod.POST,
+			produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String findRidComm(@Param("rid")int rid) {
+		//参数验空
+		try {
+			ParkingFeePaymentExcution parkingFeePaymentExcution = parkingFeePaymentService.findRidComm(rid);
+			return BaseUIResult.returnJson(parkingFeePaymentExcution);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			ParkingFeePaymentExcution parkingFeePaymentExcution = new ParkingFeePaymentExcution(ParkingFeePaymentEnum.ERROR,e.getMessage());
+			return BaseUIResult.returnJson(parkingFeePaymentExcution);
+		}
+	}
+
+	//查询遍历 物业公司
+	@RequestMapping(value = "/findEstate",
+			method = RequestMethod.POST,
+			produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String findEstate(ParkingFeePaymentDto parkingFeePaymentDto) {
+		//参数验空
+		try {
+			ParkingFeePaymentExcution parkingFeePaymentExcution = parkingFeePaymentService.findEstate(parkingFeePaymentDto);
+			return BaseUIResult.returnJson(parkingFeePaymentExcution);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			ParkingFeePaymentExcution parkingFeePaymentExcution = new ParkingFeePaymentExcution(ParkingFeePaymentEnum.ERROR,e.getMessage());
+			return BaseUIResult.returnJson(parkingFeePaymentExcution);
+		}
+	}
+
+
 }

@@ -22,7 +22,7 @@ public class ParkingFeePayment {
 	private String operator;  //������
 	private String operateTime;  //������ʱ��
 	private String operateIp;  //����IP
-
+    private int type;//物业类型
 	private String houseNum; //���ƺ�
 	
 	private String account; //�շ�Ա��
@@ -39,6 +39,14 @@ public class ParkingFeePayment {
 	private int parkingPayId; //车位缴费ID
 	private int userId;//用户ID
 	private double previousParkingUnitPrice; //车位单价
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
 
 	public int getUserId() {
 		return userId;

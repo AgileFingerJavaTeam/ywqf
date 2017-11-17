@@ -10,7 +10,8 @@ public class ParkingFeePaymentDto {
 	private int corp_id;
 	private String House_num;
 	private int community_id;
-
+    private int comm;
+    private int estateSearchId;
 	private int parking_pay_num;
 	private int parking_num;
 	private String car_owner_name;
@@ -27,6 +28,41 @@ public class ParkingFeePaymentDto {
 	private int house_id;
 	private int parking_space_id;
 	private String car_owner_tel;
+
+	private String status;
+	private String okey;
+
+	public int getComm() {
+		return comm;
+	}
+
+	public void setComm(int comm) {
+		this.comm = comm;
+	}
+
+	public int getEstateSearchId() {
+		return estateSearchId;
+	}
+
+	public void setEstateSearchId(int estateSearchId) {
+		this.estateSearchId = estateSearchId;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getOkey() {
+		return okey;
+	}
+
+	public void setOkey(String okey) {
+		this.okey = okey;
+	}
 
 	public String getCar_owner_tel() {
 		return car_owner_tel;

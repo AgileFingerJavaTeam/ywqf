@@ -6,7 +6,7 @@ import com.ywqf.dto.in.HeatingFeePaymentDto;
 import com.ywqf.dto.in.ParkingFeePaymentDto;
 
 public interface HeatingFeePaymentService {
-    //查询数据���
+    //查询数据
 	public HeatingFeePaymentExcution findHeatingList(HeatingFeePaymentDto heatingFeePaymentDto);
 	//作废状态查询
 	public HeatingFeePaymentExcution findOver(HeatingFeePaymentDto heatingFeePaymentDto);
@@ -16,5 +16,9 @@ public interface HeatingFeePaymentService {
 	public HeatingFeePaymentExcution findHouseNumIsNull(HeatingFeePaymentDto heatingFeePaymentDto);
 	//查 采暖面积  业主名  单价
 	public HeatingFeePaymentExcution findAreaOrNameOrMoney(HeatingFeePaymentDto heatingFeePaymentDto);
+	//遍历小区采暖优惠时间段
+	public HeatingFeePaymentExcution findHeatingDiscount(HeatingFeePaymentDto heatingFeePaymentDto);
+	//添加
+	public HeatingFeePaymentExcution insertHeating(HeatingFeePaymentDto heatingFeePaymentDto);
 
 }

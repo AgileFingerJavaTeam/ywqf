@@ -49,6 +49,9 @@ public interface HouseCenterService {
 	//提交新增信息
 	public HouseCenterExcution subAdd(HouseCenterDto houseCenterDto);
 
+	//提交新增信息
+	public HouseCenterExcution subEdit(HouseCenterDto houseCenterDto);
+
 	//提交删除信息
 	public HouseCenterExcution deleteHouseInfo(HouseCenterDto houseCenterDto);
 /*
@@ -61,5 +64,6 @@ public interface HouseCenterService {
 	public HouseCenterExcution findRentSale(HouseCenterDto houseCenterDto);
 
 
-
+	/*房号联想*/
+	public  HouseCenterExcution findHouseNum(HouseCenterDto houseCenterDto);
 }
