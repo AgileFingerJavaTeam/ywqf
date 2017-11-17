@@ -1,11 +1,18 @@
 package com.ywqf.entity;
 
 public class FreeProperty {
+	private int houseId;
 	private int houseNum;
 	private String houseTypeName;
 	private double area;
 	private double previousEstateUnitPrice;
 	private double previousEstateFee;
+	public int getHouseId() {
+		return houseId;
+	}
+	public void setHouseId(int houseId) {
+		this.houseId = houseId;
+	}
 	public int getHouseNum() {
 		return houseNum;
 	}
@@ -38,8 +45,9 @@ public class FreeProperty {
 	}
 	@Override
 	public String toString() {
-		return "FreeProperty [houseNum=" + houseNum + ", houseTypeName=" + houseTypeName + ", area=" + area
-				+ ", previousEstateUnitPrice=" + previousEstateUnitPrice + ", previousEstateFee=" + previousEstateFee
-				+ "]";
+		return "FreeProperty [houseId=" + houseId + ", houseNum=" + houseNum + ", houseTypeName=" + houseTypeName
+				+ ", area=" + area + ", previousEstateUnitPrice=" + previousEstateUnitPrice + ", previousEstateFee="
+				+ previousEstateFee + "]";
 	}
+
 }

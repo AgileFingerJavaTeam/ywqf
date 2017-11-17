@@ -16,10 +16,10 @@ public interface PayYearNumDao {
 	 * @param id
 	 * @return
 	 */
-	public List<Corp> findCorpName(@Param("id") int id, @Param("type") int type);
+	public List<Corp> findCorpName(@Param("id") int id,@Param("type") int type);
 	/**
 	 * 根据物业id查询小区列表
-	 * @param
+	 * @param id
 	 * @return
 	 */
 	public List<Community> findCommunityName(CommunityDto communityDto);
