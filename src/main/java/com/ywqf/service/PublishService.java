@@ -17,4 +17,11 @@ public interface PublishService {
      */
     public PublishExcution removeNews(PublishDto publishDto);
 
+    /**
+     * 查询发布员工列表
+     * @param publishDto
+     * @return
+     */
+    public PublishExcution findPublishWorker(PublishDto publishDto);
+
 }
