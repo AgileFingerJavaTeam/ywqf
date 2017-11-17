@@ -13,6 +13,8 @@
 <link rel="stylesheet" href="hui/lib/jquery/jquery-ui.css">
 <link rel="stylesheet" href="Fontawesome/css/font-awesome.min.css">
 <link rel="stylesheet" href="hui/lib/bootstrap-Switch/bootstrapSwitch.css">
+<link rel="stylesheet" href="hui/lib/My97DatePicker/skin/WdatePicker.css">
+
 
 
 
@@ -33,34 +35,16 @@
 <hr>
 <div class="cl pd-5  mt-20">
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	<span class="select-box" style="width: 200px;">
-              <select class="select" size="1" name="demo1">
-                <option value="" selected>全部物业公司</option>
-                <option value="1">菜单一</option>
-                <option value="2">菜单二</option>
-                <option value="3">菜单三</option>
-              </select>
+	    <span class="select-box" style="width: 200px;">
+	     	  <select class="select" size="1"  id="corp">
+		      </select>
         </span>
 	&nbsp;&nbsp;&nbsp;&nbsp;缴费日期范围:&nbsp;&nbsp;&nbsp;<span style="color: #AAAAAA;">开始日期</span>&nbsp;
 	&nbsp;&nbsp;
-	<span class="select-box" style="width: 200px;">
-              <select class="select" size="1" name="demo1">
-                <option value="" selected>开始日期</option>
-                <option value="1">菜单一</option>
-                <option value="2">菜单二</option>
-                <option value="3">菜单三</option>
-              </select>
-        </span>
+	<input id="at_pay_start" name="timeYear" type="text" runat="server"  class="Wdate" style=" width:200px; height: 30px;" onFocus="WdatePicker({lang:'zh-cn',maxDate:'#F{$dp.$D(\'at_pay_end\')||\'new Date()\'}'})"/>
 	&nbsp;&nbsp;&nbsp;<span style="color: #AAAAAA;">结束日期</span>&nbsp;
 	&nbsp;&nbsp;
-	<span class="select-box" style="width: 200px;">
-              <select class="select" size="1" name="demo1">
-                <option value="" selected>结束日期</option>
-                <option value="1">菜单一</option>
-                <option value="2">菜单二</option>
-                <option value="3">菜单三</option>
-              </select>
-        </span>
+	<input id="at_pay_end" name="timeYear" type="text" runat="server"   class="Wdate" style=" width:200px; height: 30px;" onclick="WdatePicker({minDate:'#F{$dp.$D(\'at_pay_start\')}',dateFmt:'yyyy-MM-dd',dchanging:cDayFuncd , Mchanging: cMonthFuncd , ychanging: cYearFuncd , dchanged:cDayFuncd , Mchanged: cMonthFuncd , ychanged: cYearFuncd})"/>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	正常
 	<div class="switch" id="mySwitch" data-on="warning" data-off="danger" style=" right:-10px; top:10px;">
@@ -75,34 +59,16 @@
 	<br><br>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<span class="select-box" style="width: 200px;">
-              <select class="select" size="1" name="demo1">
-                <option value="" selected>全部小区</option>
-                <option value="1">菜单一</option>
-                <option value="2">菜单二</option>
-                <option value="3">菜单三</option>
+              <select class="select" size="1" id="comm">
               </select>
-        </span>
+    </span>
 	&nbsp;&nbsp;&nbsp;&nbsp;缴费日期范围:&nbsp;&nbsp;&nbsp;<span style="color: #AAAAAA;">开始日期</span>&nbsp;
 	&nbsp;&nbsp;
-	<span class="select-box" style="width: 200px;">
-              <select class="select" size="1" name="demo1">
-                <option value="" selected>开始日期</option>
-                <option value="1">菜单一</option>
-                <option value="2">菜单二</option>
-                <option value="3">菜单三</option>
-              </select>
-        </span>
+	<input id="at_service_start" name="timeYear" type="text" runat="server" class="Wdate" style=" width:200px; height: 30px;" onFocus="WdatePicker({lang:'zh-cn',maxDate:'#F{$dp.$D(\'at_service_end\')||\'new Date()\'}'})"/>
 	&nbsp;&nbsp;
 	<span style="color: #AAAAAA;">结束日期</span>&nbsp;
 	&nbsp;&nbsp;
-	<span class="select-box" style="width: 200px;">
-              <select class="select" size="1" name="demo1">
-                <option value="" selected>结束日期</option>
-                <option value="1">菜单一</option>
-                <option value="2">菜单二</option>
-                <option value="3">菜单三</option>
-              </select>
-        </span>
+	<input id="at_service_end" name="timeYear" type="text" runat="server" class="Wdate" style=" width:200px; height: 30px;"  onclick="WdatePicker({minDate:'#F{$dp.$D(\'at_service_start\')}',dateFmt:'yyyy-MM-dd',dchanging:cDayFunc , Mchanging: cMonthFunc , ychanging: cYearFunc , dchanged:cDayFunc , Mchanged: cMonthFunc , ychanged: cYearFunc})"/>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<input type="text" placeholder="请输入关键词" class="input-text ac_input" name="search_text" value="" id="at_search" autocomplete="off" style="width:250px"><button type="submit" class="btn btn-default" id="search_button">搜索</button>
 </div>
@@ -274,9 +240,228 @@
 <script type="text/javascript" src="../hui/lib/bootstrap-modal/2.2.4/bootstrap-modal.js"></script>
 <script type="text/javascript" src="../hui/lib/bootstrap-modal/2.2.4/bootstrap-modalmanager.js"></script>
 <script type="text/javascript" src="../hui/lib/bootstrap-Switch/bootstrapSwitch.js"></script>
+<script type="text/javascript" src="../hui/lib/My97DatePicker/WdatePicker.js"></script>
+
 
 <%-- 自定义js --%>
 <script type="text/javascript">
+	$(function(){
+        $(function(){
+            var corpId = $('#corpId').val();
+            var data = {};
+            data.corp_id = corpId;
+            $.ajax({
+                url:"ParkingFeePayment/findType",
+                type:'post',
+                data: data ,
+                dataType:'json',
+                success:function(data) {
+                    //物业下拉框定住 start
+                    var type = data.type;
+                    if (type == 0) {     //type 为物业类型  1为总部  0为物业公司
+                        $("#corp").append("<option value=" + data.corpId + ">" + data.corpName + "</option>")
+                        //物业下拉框定住 end
+                        //查询操作人有权限的小区 遍历
+                        var rid = $('#Rid').val();
+                        var ppp = {};
+                        ppp.rid = rid;
+                        $.ajax({
+                            type:'post',
+                            url:'ParkingFeePayment/findRidComm',
+                            data: ppp,
+                            dataType:'json',
+                            success:function(data){
+                                jQuery('#comm').empty();
+                                $("#comm").append("<option value=" + 0 + ">" + '全部小区' + "</option>")
+                                for (var i in data) {
+                                    var a = data[i].communityId;
+                                    $("#comm").append("<option value=" + a + ">" + data[i].communityName + "</option>")
+                                }
+                            }
+                        })
+                        var estateSearchId = $('#corp').val();
+                        var a = $('#mySwitch').bootstrapSwitch('status');
+                        var b = $('#mySwitchs').bootstrapSwitch('status');
+                        var at_search = $('#at_search').val();
+                        var data = {};
+                        data.at_search = at_search;
+                        data.estateSearchId = estateSearchId;
+                        if(a == b){
+                            data.status = '';
+                            data.okey ='';
+                            $.ajax({
+                                url:"ParkingFeePayment/getParkingList",
+                                type:"POST",
+                                data:data,
+                                dataType:"json",
+                                success:function (data){
+                                    showDataTable(data);
+                                }
+                            })
+                        }else if(a == true && b == false){
+                            data.status = '1';
+                            data.okey ='';
+                            $.ajax({
+                                url:"ParkingFeePayment/getParkingList",
+                                type:"POST",
+                                data:data,
+                                dataType:"json",
+                                success:function (data){
+                                    showDataTable(data);
+                                }
+                            })
+                        }else if(a == false && b == true){
+                            data.status = '';
+                            data.okey ='0';
+                            $.ajax({
+                                url:"ParkingFeePayment/getParkingList",
+                                type:"POST",
+                                data:data,
+                                dataType:"json",
+                                success:function (data){
+                                    showDataTable(data);
+                                }
+                            })
+                        }
+                    }else if (type == 1){
+                        //遍历除总部 所有物业公司
+                        $.ajax({
+                            type:'post',
+                            url:'ParkingFeePayment/findEstate',
+                            dataType:'json',
+                            success:function(data){
+                                jQuery("#corp").empty();
+                                $("#corp").append("<option value="+ 0 +">" + '全部物业公司' + "</option>")
+                                $("#comm").append("<option value="+ 0 +">" + '全部小区' + "</option>")
+                                for(var i in data){
+                                    $("#corp").append("<option value="+ data[i].corpId +">" + data[i].corpName + "</option>")
+                                }
+                                $('#corp ').change(function(){
+                                    corpVal(); //通过物业改变  查物业下小区
+                                    //总部物业公司查询
+                                    var estateSearchId = $('#corp').val();
+                                    var a = $('#mySwitch').bootstrapSwitch('status');
+                                    var b = $('#mySwitchs').bootstrapSwitch('status');
+                                    var at_search = $('#at_search').val();
+                                    var data = {};
+                                    data.at_search = at_search;
+                                    data.estateSearchId = estateSearchId;
+                                    if(a == b){
+                                        data.status = '';
+                                        data.okey ='';
+                                        $.ajax({
+                                            url:"ParkingFeePayment/getParkingList",
+                                            type:"POST",
+                                            data:data,
+                                            dataType:"json",
+                                            success:function (data){
+                                                showDataTable(data);
+                                            }
+                                        })
+                                    }else if(a == true && b == false){
+                                        data.status = '1';
+                                        data.okey ='';
+                                        $.ajax({
+                                            url:"ParkingFeePayment/getParkingList",
+                                            type:"POST",
+                                            data:data,
+                                            dataType:"json",
+                                            success:function (data){
+                                                showDataTable(data);
+                                            }
+                                        })
+                                    }else if(a == false && b == true){
+                                        data.status = '';
+                                        data.okey ='0';
+                                        $.ajax({
+                                            url:"ParkingFeePayment/getParkingList",
+                                            type:"POST",
+                                            data:data,
+                                            dataType:"json",
+                                            success:function (data){
+                                                showDataTable(data);
+                                            }
+                                        })
+                                    }
+                                })
+
+                            }
+                        })
+                    }
+                    function corpVal() {
+                        var corpVal = $('#corp').val();
+                        var data = {};
+                        data.corp_id = corpVal;
+                        $.ajax({
+                            type: 'post',
+                            url: 'ParkingFeePayment/findVillage',
+                            data: data,
+                            dataType: 'json',
+                            success: function (data) {
+                                jQuery('#comm').empty();
+                                $("#comm").append("<option value=" + 0 + ">" + '全部小区' + "</option>")
+                                for (var i in data) {
+                                    var a = data[i].communityId;
+                                    $("#comm").append("<option value=" + a + ">" + data[i].communityName + "</option>")
+                                }
+                            }
+                        })
+                    }
+                }
+            })
+
+        })
+	})
+    //小区change事件
+    $('#comm').on('change',function(){
+        var comm = $('#comm').val();
+        var estateSearchId = $('#corp').val();
+        var a = $('#mySwitch').bootstrapSwitch('status');
+        var b = $('#mySwitchs').bootstrapSwitch('status');
+        var at_search = $('#at_search').val();
+        var data = {};
+        data.at_search = at_search;
+        data.estateSearchId = estateSearchId;
+        data.comm = comm;
+        if(a == b){
+            data.status = '';
+            data.okey ='';
+            $.ajax({
+                url:"ParkingFeePayment/getParkingList",
+                type:"POST",
+                data:data,
+                dataType:"json",
+                success:function (data){
+                    showDataTable(data);
+                }
+            })
+        }else if(a == true && b == false){
+            data.status = '1';
+            data.okey ='';
+            $.ajax({
+                url:"ParkingFeePayment/getParkingList",
+                type:"POST",
+                data:data,
+                dataType:"json",
+                success:function (data){
+                    showDataTable(data);
+                }
+            })
+        }else if(a == false && b == true){
+            data.status = '';
+            data.okey ='0';
+            $.ajax({
+                url:"ParkingFeePayment/getParkingList",
+                type:"POST",
+                data:data,
+                dataType:"json",
+                success:function (data){
+                    showDataTable(data);
+                }
+            })
+        }
+
+    })
 	//初始查询
     $(function(){
         $.ajax({
@@ -299,7 +484,10 @@
                 {'data': 'carOwnerName',},
                 {"data": 'licensePlateNumber',},
                 {'data': 'houseNum',},
-                {'data': 'parkingUnitPrice',},
+                {'data':function (value) {
+                       var mony = value.parkingUnitPrice
+					return mony+'元/月'
+				} },
                 {
                     'data': function (value) {
                         var a_time = value.serviceStartDate;
@@ -420,16 +608,22 @@
             window.print();
         }
     }
-    //正常switch
+    //正常状态筛选
     $('#mySwitch').on('switch-change', function (e, data) {
         var a = $('#mySwitchs').bootstrapSwitch('status');
         var status = data.value;
+        var comm = $('#comm').val();
+        var estateSearchId = $('#corp').val();
+        var at_search = $('#at_search').val();
         var data = {};
         if(status == a){
             data.status = '';
             data.okey ='';
+            data.comm = comm;
+            data.estateSearchId = estateSearchId;
+            data.at_search = at_search;
             $.ajax({
-                url:"PropertyFeePayment/getPropertyList",
+                url:"ParkingFeePayment/getParkingList",
                 type:"POST",
                 data:data,
                 dataType:"json",
@@ -440,8 +634,11 @@
         }else if(status == false && a == true){
             data.status = '';
             data.okey ='0';
+            data.comm = comm;
+            data.estateSearchId = estateSearchId;
+            data.at_search = at_search;
             $.ajax({
-                url:"PropertyFeePayment/getPropertyList",
+                url:"ParkingFeePayment/getParkingList",
                 type:"POST",
                 data:data,
                 dataType:"json",
@@ -452,8 +649,11 @@
         }else if(status == true && a == false){
             data.status = '1';
             data.okey ='';
+            data.comm = comm;
+            data.estateSearchId = estateSearchId;
+            data.at_search = at_search;
             $.ajax({
-                url:"PropertyFeePayment/getPropertyList",
+                url:"ParkingFeePayment/getParkingList",
                 type:"POST",
                 data:data,
                 dataType:"json",
@@ -463,16 +663,22 @@
             })
         }
     });
-    //作废switch
+    //作废状态筛选
     $('#mySwitchs').on('switch-change', function (e, data) {
         var status = $('#mySwitch').bootstrapSwitch('status');
         var a = data.value;
+        var comm = $('#comm').val();
+        var estateSearchId = $('#corp').val();
+        var at_search = $('#at_search').val();
         var data = {};
         if(status == a){
             data.status = '';
             data.okey ='';
+            data.comm = comm;
+            data.estateSearchId = estateSearchId;
+            data.at_search = at_search;
             $.ajax({
-                url:"PropertyFeePayment/getPropertyList",
+                url:"ParkingFeePayment/getParkingList",
                 type:"POST",
                 data:data,
                 dataType:"json",
@@ -483,8 +689,11 @@
         }else if(status == false && a == true){
             data.status = '';
             data.okey ='0';
+            data.comm = comm;
+            data.estateSearchId = estateSearchId;
+            data.at_search = at_search;
             $.ajax({
-                url:"PropertyFeePayment/getPropertyList",
+                url:"ParkingFeePayment/getParkingList",
                 type:"POST",
                 data:data,
                 dataType:"json",
@@ -495,8 +704,11 @@
         }else if(status == true && a == false){
             data.status = '1';
             data.okey ='';
+            data.comm = comm;
+            data.estateSearchId = estateSearchId;
+            data.at_search = at_search;
             $.ajax({
-                url:"PropertyFeePayment/getPropertyList",
+                url:"ParkingFeePayment/getParkingList",
                 type:"POST",
                 data:data,
                 dataType:"json",
@@ -506,12 +718,10 @@
             })
         }
     });
-    //模糊查询
-    $('#search_button').on('click',function(){
+    //模糊查询和状态筛选 方法
+    function MoHuAndStatus(){
         var a = $('#mySwitch').bootstrapSwitch('status');
         var b = $('#mySwitchs').bootstrapSwitch('status');
-        alert('a='+a);
-        alert('b='+b);
         var at_search = $('#at_search').val();
         var data = {};
         data.at_search = at_search;
@@ -519,7 +729,7 @@
             data.status = '';
             data.okey ='';
             $.ajax({
-                url:"PropertyFeePayment/getPropertyList",
+                url:"ParkingFeePayment/getParkingList",
                 type:"POST",
                 data:data,
                 dataType:"json",
@@ -531,7 +741,7 @@
             data.status = '1';
             data.okey ='';
             $.ajax({
-                url:"PropertyFeePayment/getPropertyList",
+                url:"ParkingFeePayment/getParkingList",
                 type:"POST",
                 data:data,
                 dataType:"json",
@@ -543,7 +753,7 @@
             data.status = '';
             data.okey ='0';
             $.ajax({
-                url:"PropertyFeePayment/getPropertyList",
+                url:"ParkingFeePayment/getParkingList",
                 type:"POST",
                 data:data,
                 dataType:"json",
@@ -552,7 +762,15 @@
                 }
             })
         }
-
+    }
+    //模糊查询
+    $('#search_button').on('click',function(){
+        MoHuAndStatus();
+    })
+    $('#at_search').on('keyup',function(){
+        if($('#at_search').val() == '' || $('#at_search').val() == null){
+            MoHuAndStatus();
+        }
     })
     //新增模态框
     function modaldemoAdd(){
@@ -768,45 +986,33 @@
 	//添加缴费单
     $('#insert').on('click',function(){
         var parking_pay_num = $('#parking_pay_num').val();
-        var community_id = $('#community_id').val();
-        var house_num = $('#house_num').val();
-        var parking_num = $('#parking_num').val();
-        var car_owner_name = $('#car_owner_name').val();
-        var owner_name = $('#owner_name').val();
-        var house_id = $('#house_id').val();
         var parking_space_id = $('#parking_space_id').val();
-        var license_plate_number = $('#license_plate_number').val();
         var parking_unit_price = $('#parking_unit_price').val();
         var pay_month_type_id = $('#pay_month_type_id').val();
+        var owner_name = $('#owner_name').val();  //j缴费人姓名
         var service_start_date = $('#service_start_date').val();
         var service_end_date = $('#service_end_date').val();
-        var payment_amount = $('#payment_amount').val();
         var charge_worker_id = $('#charge_worker_id').val();
         var pay_date = $('#pay_date').val();
-        var corp_id = $('#corpId').val();
+        var payment_amount = $('#payment_amount').val();
         var operator = $('#Rname').val();
-        var car_owner_tel = $('#car_owner_tel').val();
+
+        var house_num = $('#house_num').val();
+
 
         var data = {};
-        data.corp_id = corp_id;
         data.parking_pay_num = parking_pay_num;
-        data.community_id = community_id;
-        data.house_num = house_num;
-        data.parking_num = parking_num;
-        data.car_owner_name = car_owner_name;
-        data.owner_name = owner_name;
-        data.house_id = house_id;
         data.parking_space_id = parking_space_id;
-        data.license_plate_number = license_plate_number;
         data.parking_unit_price = parking_unit_price;
         data.pay_month_type_id = pay_month_type_id;
-        data.pay_date = pay_date;
-        data.payment_amount = payment_amount;
+        data.owner_name = owner_name;
         data.service_start_date = service_start_date;
         data.service_end_date = service_end_date;
         data.charge_worker_id = charge_worker_id;
+        data.pay_date = pay_date;
+        data.payment_amount = payment_amount;
         data.operator = operator;
-        data.car_owner_tel = car_owner_tel;
+
         if(parking_pay_num == ''&& house_num == ''){
             layer.alert('单号和门牌号不能为空！')
         }else if(parking_pay_num == '' ){
@@ -844,6 +1050,169 @@
             }
         })
     })
+
+    function cDayFuncd(){
+        cFuncd('d');
+    }
+    function cMonthFuncd(){
+        cFuncd('M');
+    }
+    function cYearFuncd(){
+        cFuncd('y');
+    }
+    function cFuncd(whod) {
+        var  p, c = $dp.cal;
+        if (whod == 'y') {
+            p = 'y';
+        }
+        else if (whod == 'M') {
+            p = 'M';
+        }
+        else if (whod == 'd') {
+            p = 'd';
+        }
+        var PDdatas = $dp.cal.newdate
+        var PDend = PDdatas.d + 1;
+        var at_pay_end = PDdatas.y + '-' + PDdatas.M + '-' + PDend;
+        var at_pay_start = $('#at_pay_start').val();
+        var at_service_end = $('#at_service_end').val()
+        var at_service_start = $('#at_service_start').val()
+        var comm = $('#comm').val();
+        var estateSearchId = $('#corp').val();
+        var a = $('#mySwitch').bootstrapSwitch('status');
+        var b = $('#mySwitchs').bootstrapSwitch('status');
+        var at_search = $('#at_search').val();
+        if(at_pay_start == ''){
+            layer.alert('开始日期不能为空')
+        }
+        var FWtime = {};
+        FWtime.at_pay_start = at_pay_start;
+        FWtime.at_pay_end = at_pay_end;
+        FWtime.at_service_start = at_service_start;
+        FWtime.at_service_end = at_service_end;
+        FWtime.comm = comm;
+        FWtime.estateSearchId = estateSearchId;
+        FWtime.at_search = at_search;
+        if(a == b){
+            FWtime.status = '';
+            FWtime.okey ='';
+            $.ajax({
+                url:"PropertyFeePayment/getPropertyList",
+                type:"POST",
+                data:FWtime,
+                dataType:"json",
+                success:function (data){
+                    showDataTable(data);
+                }
+            })
+        }else if(a == true && b == false){
+            FWtime.status = '1';
+            FWtime.okey ='';
+            $.ajax({
+                url:"PropertyFeePayment/getPropertyList",
+                type:"POST",
+                data:FWtime,
+                dataType:"json",
+                success:function (data){
+                    showDataTable(data);
+                }
+            })
+        }else if(a == false && b == true){
+            FWtime.status = '';
+            FWtime.okey ='0';
+            $.ajax({
+                url:"PropertyFeePayment/getPropertyList",
+                type:"POST",
+                data:FWtime,
+                dataType:"json",
+                success:function (data){
+                    showDataTable(data);
+                }
+            })
+        }
+
+    }
+    function cDayFunc(){
+        cFunc('d');
+    }
+    function cMonthFunc(){
+        cFunc('M');
+    }
+    function cYearFunc(){
+        cFunc('y');
+    }
+    function cFunc(who){
+        var str,p,c = $dp.cal;
+        if(who=='y'){
+            p='y';
+        }
+        else if(who=='M'){
+            p='M';
+        }
+        else if(who=='d'){
+            p='d';
+        }
+        var PDdatas = $dp.cal.newdate
+        var PDend = PDdatas.d+1;
+        var at_service_end = PDdatas.y+'-'+PDdatas.M+'-'+PDdatas.d;
+        var at_service_start = $('#at_service_start').val()
+        var at_pay_end = $('#at_pay_end').val();
+        var at_pay_start = $('#at_pay_start').val();
+        var comm = $('#comm').val();
+        var estateSearchId = $('#corp').val();
+        var a = $('#mySwitch').bootstrapSwitch('status');
+        var b = $('#mySwitchs').bootstrapSwitch('status');
+        var at_search = $('#at_search').val();
+        if(at_service_start == ''){
+            layer.alert('开始日期不能为空')
+        }
+        var FWtime = {};
+        FWtime.at_pay_start = at_pay_start;
+        FWtime.at_pay_end = at_pay_end;
+        FWtime.at_service_start = at_service_start;
+        FWtime.at_service_end = at_service_end;
+        FWtime.comm = comm;
+        FWtime.estateSearchId = estateSearchId;
+        FWtime.at_search = at_search;
+        if(a == b){
+            FWtime.status = '';
+            FWtime.okey ='';
+            $.ajax({
+                url:"ParkingFeePayment/getParkingList",
+                type:"POST",
+                data:FWtime,
+                dataType:"json",
+                success:function (data){
+                    showDataTable(data);
+                }
+            })
+        }else if(a == true && b == false){
+            FWtime.status = '1';
+            FWtime.okey ='';
+            $.ajax({
+                url:"ParkingFeePayment/getParkingList",
+                type:"POST",
+                data:FWtime,
+                dataType:"json",
+                success:function (data){
+                    showDataTable(data);
+                }
+            })
+        }else if(a == false && b == true){
+            FWtime.status = '';
+            FWtime.okey ='0';
+            $.ajax({
+                url:"ParkingFeePayment/getParkingList",
+                type:"POST",
+                data:FWtime,
+                dataType:"json",
+                success:function (data){
+                    showDataTable(data);
+                }
+            })
+        }
+
+    }
 </script>
 </body>
 </html>

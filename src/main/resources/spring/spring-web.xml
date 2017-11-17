@@ -51,6 +51,18 @@
     <mvc:resources mapping="/css/**" location="/resource/css/" />
     <mvc:resources mapping="/Fontawesome/**" location="/resource/Fontawesome/" />
     <mvc:resources mapping="/hui/**" location="/resource/hui/" />
-    
+
+    <!-- 配置form表单 enctype="multipart/form-data" 正确调用 -->
+    <bean id="multipartResolver"   class="org.springframework.web.multipart.commons.CommonsMultipartResolver" >
+        <property name="maxUploadSize">
+            <value>1048576000</value>
+        </property>
+        <property name="maxInMemorySize">
+            <value>4096</value>
+        </property>
+        <property name="defaultEncoding">
+            <value>utf-8</value>
+        </property>
+    </bean>
 
 </beans>

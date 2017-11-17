@@ -222,10 +222,10 @@
 <!--startprint1--><!--endprint1-->
 <!--新增模态框  end -->
 <%@ include file="../common/footer.jsp" %>
-<script type="text/javascript" src="hui/lib/bootstrap-modal/2.2.4/bootstrap-modal.js"></script>
-<script type="text/javascript" src="hui/lib/bootstrap-modal/2.2.4/bootstrap-modalmanager.js"></script>
-<script type="text/javascript" src="hui/lib/bootstrap-Switch/bootstrapSwitch.js"></script>
-<script type="text/javascript" src="hui/lib/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="../hui/lib/bootstrap-modal/2.2.4/bootstrap-modal.js"></script>
+<script type="text/javascript" src="../hui/lib/bootstrap-modal/2.2.4/bootstrap-modalmanager.js"></script>
+<script type="text/javascript" src="../hui/lib/bootstrap-Switch/bootstrapSwitch.js"></script>
+<script type="text/javascript" src="../hui/lib/My97DatePicker/WdatePicker.js"></script>
 <%-- 自定义js --%>
 <script type="text/javascript">
     $(function(){
@@ -316,7 +316,7 @@
                               $("#corp").append("<option value="+ 0 +">" + '全部物业公司' + "</option>")
                               $("#comm").append("<option value="+ 0 +">" + '全部小区' + "</option>")
                               for(var i in data){
-                              $("#corp").append("<option value="+ data[i].id +">" + data[i].corpName + "</option>")
+                              $("#corp").append("<option value="+ data[i].corpId +">" + data[i].corpName + "</option>")
                               }
                               $('#corp ').change(function(){
                                   corpVal(); //通过物业改变  查物业下小区
@@ -383,7 +383,7 @@
                               jQuery('#comm').empty();
                                   $("#comm").append("<option value=" + 0 + ">" + '全部小区' + "</option>")
                               for (var i in data) {
-                                  var a = data[i].id;
+                                  var a = data[i].communityId;
                                   $("#comm").append("<option value=" + a + ">" + data[i].communityName + "</option>")
                               }
                           }

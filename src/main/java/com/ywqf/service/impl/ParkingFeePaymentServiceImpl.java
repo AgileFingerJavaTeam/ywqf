@@ -6,6 +6,7 @@ import java.util.*;
 import com.ywqf.entity.payMonthType;
 import com.ywqf.exception.db.InsertInnerErrorException;
 import com.ywqf.exception.db.QueryInnerErrorException;
+import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ParkingFeePaymentServiceImpl implements ParkingFeePaymentService{
-	 //��־����
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
@@ -36,15 +36,27 @@ public class ParkingFeePaymentServiceImpl implements ParkingFeePaymentService{
 	@Override
 	public ParkingFeePaymentExcution findParkingList(ParkingFeePaymentDto parkingFeePaymentDto) {
 		  try {
+			/*    String at_service_start = parkingFeePaymentDto.getAt_service_start();
+			    String at_service_end = parkingFeePaymentDto.getAt_service_end();
+			    String at_pay_start = parkingFeePaymentDto.getAt_pay_start();
+			    String at_pay_end = parkingFeePaymentDto.getAt_pay_end();*/
+			    int comm = parkingFeePaymentDto.getComm();
+			    int estateSearchId = parkingFeePaymentDto.getEstateSearchId();
 	            String at_search = parkingFeePaymentDto.getAt_search();
+			    String status = parkingFeePaymentDto.getStatus();
+			    String okey = parkingFeePaymentDto.getOkey();
 	            int page = (parkingFeePaymentDto.getPage() != 0) ? parkingFeePaymentDto.getPage() :1;
 	            int rows = (parkingFeePaymentDto.getRows() !=0) ? parkingFeePaymentDto.getRows() :20;
 	            int offset = (page - 1) * rows;
-	            List<ParkingFeePayment> info = parkingFeePaymentDao.findParkingList(rows,offset,at_search);
+	            List<ParkingFeePayment> info = parkingFeePaymentDao.findParkingList(rows,offset,at_search,status,okey,estateSearchId,comm);
+/*
 	            int total = parkingFeePaymentDao.findParkingListCount(at_search);
+*/
 	            HashMap map = new HashMap();
 	            map.put("rows", info);
+/*
 	            map.put("total", total);
+*/
 	            return new ParkingFeePaymentExcution(ParkingFeePaymentEnum.SUCCESS, map);
 	        } catch (Exception e) {
 	            logger.error(e.getMessage(), e);
@@ -199,28 +211,23 @@ public class ParkingFeePaymentServiceImpl implements ParkingFeePaymentService{
 	@Transactional
 	public ParkingFeePaymentExcution insertParking(ParkingFeePaymentDto parkingFeePaymentDto) {
 		try {
-			int corp_id = parkingFeePaymentDto.getCorp_id();
 			int parking_pay_num = parkingFeePaymentDto.getParking_pay_num();
-			int community_id = parkingFeePaymentDto.getCommunity_id();
-			String house_num = parkingFeePaymentDto.getHouse_num();
-			int parking_num = parkingFeePaymentDto.getParking_num();
-			String car_owner_name = parkingFeePaymentDto.getCar_owner_name();
-			String owner_name = parkingFeePaymentDto.getOwner_name();
-			int house_id = parkingFeePaymentDto.getHouse_id();
 			int parking_space_id = parkingFeePaymentDto.getParking_space_id();
-			String license_plate_number = parkingFeePaymentDto.getLicense_plate_number();
 			double parking_unit_price = parkingFeePaymentDto.getParking_unit_price();
 			int pay_month_type_id = parkingFeePaymentDto.getPay_month_type_id();
-			String pay_date = parkingFeePaymentDto.getPay_date();
-			double payment_amount = parkingFeePaymentDto.getPayment_amount();
+			String owner_name = parkingFeePaymentDto.getOwner_name();
 			String service_start_date = parkingFeePaymentDto.getService_start_date();
 			String service_end_date = parkingFeePaymentDto.getService_end_date();
 			int charge_worker_id = parkingFeePaymentDto.getCharge_worker_id();
+			String pay_date = parkingFeePaymentDto.getPay_date();
+			double payment_amount = parkingFeePaymentDto.getPayment_amount();
 			String operator = parkingFeePaymentDto.getOperator();
-			String car_owner_tel = parkingFeePaymentDto.getCar_owner_tel();
+			String house_num = parkingFeePaymentDto.getHouse_num();
 
-			int insertAccount = parkingFeePaymentDao.insertParking(parking_pay_num,corp_id,community_id,house_num,parking_num,car_owner_name,owner_name,house_id,parking_space_id,license_plate_number,parking_unit_price,pay_month_type_id,pay_date,payment_amount,service_start_date,service_end_date,charge_worker_id,operator);
+			int insertAccount = parkingFeePaymentDao.insertParking(parking_pay_num,parking_space_id,parking_unit_price,pay_month_type_id,owner_name,service_start_date,service_end_date,charge_worker_id,pay_date,payment_amount,operator);
 			if(insertAccount > 0){
+				ParkingFeePayment findId = parkingFeePaymentDao.findParkingId(parking_space_id,parking_pay_num);
+				int parkingPayId = findId.getParkingPayId();
 			    //起始日期的月份
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				Date date = sdf.parse(service_start_date);
@@ -230,42 +237,91 @@ public class ParkingFeePaymentServiceImpl implements ParkingFeePaymentService{
 			    int years = cal.get(Calendar.YEAR);
 				int month = months+1;
 				int pmont = month+pay_month_type_id;
-			    System.out.println(years);
 			    //
 			if(pmont > 12){
               int Dow = 12-months;
-              for(int o = 0; o<= Dow; o++){
-              	 months+= months;
-				int insertTime = parkingFeePaymentDao.insertParkingStatist1(parking_pay_num,corp_id,community_id,house_id,parking_space_id,parking_num,owner_name,car_owner_tel,payment_amount,years,months,car_owner_name);
-			  if(insertTime>0){
-			  	return new ParkingFeePaymentExcution(ParkingFeePaymentEnum.SUCCESS,null);
-			  }else{
-				throw new InsertInnerErrorException("添加失败");
-			  }
+              for(int o = 1; o<= Dow; o++){
+				  months = months+1;
+				  int insertTime = parkingFeePaymentDao.insertParkingStatist(parkingPayId,parking_space_id,years,months);
+				  if(insertTime == 0 ){
+					  break;
+				  }
               }
-				int monthsd = pmont - 12;
+				int monthsd = pay_month_type_id - Dow;
 				years = years+1;
+				months=0;
 				for(int i=1;i<= monthsd;i++){
-				int insertTimes = parkingFeePaymentDao.insertParkingStatist2(parking_pay_num,corp_id,community_id,house_id,parking_space_id,parking_num,owner_name,car_owner_tel,payment_amount,years,i,car_owner_name);
-					if(insertTimes>0){
-						return new ParkingFeePaymentExcution(ParkingFeePaymentEnum.SUCCESS,null);
-					}else{
-						throw new InsertInnerErrorException("添加失败");
+					months= months+1;
+				int insertTimes = parkingFeePaymentDao.insertParkingStatist(parkingPayId,parking_space_id,years,months);
+					if(insertTimes == 0){
+						break;
 					}
 				}
-
+				return new ParkingFeePaymentExcution(ParkingFeePaymentEnum.SUCCESS,null);
+			}else{
+				for(int i=1;i<= pay_month_type_id;i++){
+					months= months+1;
+					int insertTimes = parkingFeePaymentDao.insertParkingStatist(parkingPayId,parking_space_id,years,months);
+					if(insertTimes == 0){
+						break;
+					}
+				}
+				return new ParkingFeePaymentExcution(ParkingFeePaymentEnum.SUCCESS,null);
 			}
-
 			}else{
 				throw new InsertInnerErrorException("添加失败");
 			}
 		}catch (InsertInnerErrorException e1) {
 			throw e1;
-		}
-		catch (Exception e) {
+		}catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw new BaseException(e.getMessage());
 		}
-		return null;
+	}
+
+	@Override
+	public ParkingFeePaymentExcution findType(ParkingFeePaymentDto parkingFeePaymentDto) {
+		int corp_id = parkingFeePaymentDto.getCorp_id();
+		try {
+			ParkingFeePayment findType = parkingFeePaymentDao.findType(corp_id);
+			if(findType == null){
+				throw new QueryInnerErrorException("查询失败");
+			}else{
+				return new ParkingFeePaymentExcution(ParkingFeePaymentEnum.SUCCESS, findType);
+			}
+		}catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw new BaseException(e.getMessage());
+		}
+	}
+
+	@Override
+	public ParkingFeePaymentExcution findRidComm(@Param("rid") int rid) {
+		try {
+			List<ParkingFeePayment> findRidComm = parkingFeePaymentDao.findRidComm(rid);
+			if(findRidComm == null){
+				throw new QueryInnerErrorException("查询失败");
+			}else{
+				return new ParkingFeePaymentExcution(ParkingFeePaymentEnum.SUCCESS, findRidComm);
+			}
+		}catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw new BaseException(e.getMessage());
+		}
+	}
+
+	@Override
+	public ParkingFeePaymentExcution findEstate(ParkingFeePaymentDto parkingFeePaymentDto) {
+		try {
+			List<ParkingFeePayment> findEstate = parkingFeePaymentDao.findEstate();
+			if(findEstate == null){
+				throw new QueryInnerErrorException("查询失败");
+			}else{
+				return new ParkingFeePaymentExcution(ParkingFeePaymentEnum.SUCCESS, findEstate);
+			}
+		}catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw new BaseException(e.getMessage());
+		}
 	}
 }
