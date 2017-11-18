@@ -130,50 +130,196 @@
 
     <!--石匡代码-->
     <!-- 查询缴费欠费列表 -->
-    <select id="queryEstatePayList" resultType="EstatePay">
-        SELECT * FROM(
-        SELECT
-        h.house_num,
-        h.owner_name,
-        h.owner_tel,
-        h.owner_standby_tel,
-        h.area,
-        h.previous_estate_fee,
-        IF (ISNULL(eps.id), 0, 1) status
-        FROM
-        house h
-        LEFT JOIN estate_pay_statistics eps ON eps.house_id = h.house_id
-        AND eps.year = #{year}
-        AND eps.month = #{month}) s
-        <where>
-            1=1
-        </where>
-        <if test="check!=2">
-            and status=#{check}
-        </if>
-    </select>
+	<select id="queryEstatePayList" resultType="EstatePay">
+		SELECT * FROM(
+		SELECT
+		h.house_num,
+		h.owner_name,
+		h.owner_tel,
+		h.owner_standby_tel,
+		h.area,
+		h.previous_estate_fee,
+		community.corp_id,
+		cdru.community_id,
+		cdru.user_id,
+		IF (ISNULL(eps.id), 0, 1) status
+		FROM
+		house h
+		LEFT JOIN estate_pay_statistics eps ON eps.house_id = h.house_id
+		AND eps.year = #{year}
+		AND eps.month = #{month}
+		LEFT JOIN community_dept_role_user cdru ON cdru.community_id=h.community_id
+		LEFT JOIN community ON community.community_id=h.community_id
+		GROUP BY h.house_id
+		) s
+		<where>
+			1=1
+			<if test="search!=null and search!=''">
+				and (house_num like '%${search}%'
+				or owner_name like '%${search}%'
+				or owner_tel like '%${search}%'
+				or owner_standby_tel like '%${search}%'
+				or area like '%${search}%'
+				or previous_estate_fee like '%${search}%')
+			</if>
+			<if test="check!=2">
+				and status=#{check}
+			</if>
+			<if test="corpsId!=0">
+				and corp_id=#{corpsId}
+			</if>
+			<if test="communityId!=0">
+				and community_id=#{communityId}
+			</if>
+			<if test="type==0">
+				<if test="userId!=0">
+					and user_id=#{userId}
+				</if>
+			</if>
+		</where>
+		
+	</select>
 
-    <!-- 查询缴费欠费列表条数 -->
-    <select id="queryEstatePayCount" resultType="int">
-        SELECT count(*) FROM(
-        SELECT
-        h.house_num,
-        h.owner_name,
-        h.owner_tel,
-        h.owner_standby_tel,
-        h.area,
-        h.previous_estate_fee,
-        IF (ISNULL(eps.id), 0, 1) status
-        FROM
-        house h
-        LEFT JOIN estate_pay_statistics eps ON eps.house_id = h.house_id
-        AND eps.year = #{year}
-        AND eps.month = #{month}) s
-        <where>
-            1=1
-        </where>
-        <if test="check!=2">
-            and status=#{check}
-        </if>
-    </select>
+	<!-- 查询缴费欠费列表条数 -->
+	<select id="queryEstatePayCount" resultType="int">
+		SELECT count(*) FROM(
+		SELECT
+		h.house_num,
+		h.owner_name,
+		h.owner_tel,
+		h.owner_standby_tel,
+		h.area,
+		h.previous_estate_fee,
+		community.corp_id,
+		cdru.community_id,
+		cdru.user_id,
+		IF (ISNULL(eps.id), 0, 1) status
+		FROM
+		house h
+		LEFT JOIN estate_pay_statistics eps ON eps.house_id = h.house_id
+		AND eps.year = #{year}
+		AND eps.month = #{month}
+		LEFT JOIN community_dept_role_user cdru ON cdru.community_id=h.community_id
+		LEFT JOIN community ON community.community_id=h.community_id
+		GROUP BY h.house_id
+		) s
+		<where>
+			1=1
+			<if test="search!=null and search!=''">
+				and (house_num like '%${search}%'
+				or owner_name like '%${search}%'
+				or owner_tel like '%${search}%'
+				or owner_standby_tel like '%${search}%'
+				or area like '%${search}%'
+				or previous_estate_fee like '%${search}%')
+			</if>
+			<if test="check!=2">
+				and status=#{check}
+			</if>
+			<if test="corpsId!=0">
+				and corp_id=#{corpsId}
+			</if>
+			<if test="communityId!=0">
+				and community_id=#{communityId}
+			</if>
+			<if test="type==0">
+				<if test="userId!=0">
+					and user_id=#{userId}
+				</if>
+			</if>
+		</where>
+	</select>
+	
+	<!--根据物业搜索小区 -->
+	<select id="getHeatingCommunity" resultType="EstatePay">
+		SELECT
+		community.community_id,
+		community.community_name
+		FROM
+		community
+		<if test="type==0">
+			LEFT JOIN community_dept_role_user ON community_dept_role_user.community_id = community.community_id
+		</if>
+		<where>
+			1=1
+			<if test="type==0">
+				and community_dept_role_user.user_id=#{userId}
+			</if>
+			<if test="type==1">
+				and corp_id =#{corpsId}
+			</if>
+		</where>
+	</select>
+	
+	<!--根据物业搜索小区 -->
+	<select id="getEstatePayCommunity" resultType="EstatePay">
+		SELECT
+		community.community_id,
+		community.community_name
+		FROM
+		community
+		<if test="type==0">
+			LEFT JOIN community_dept_role_user ON community_dept_role_user.community_id = community.community_id
+		</if>
+		<where>
+			1=1
+			<if test="type==0">
+				and community_dept_role_user.user_id=#{userId}
+			</if>
+			<if test="type==1">
+				and corp_id =#{corpsId}
+			</if>
+		</where>
+	</select>
+	
+	<!--缴费数 -->
+	<select id="getPay" resultType="int">
+		SELECT count(*) FROM(
+		SELECT
+		h.house_num,
+		h.owner_name,
+		h.owner_tel,
+		h.owner_standby_tel,
+		h.area,
+		h.previous_estate_fee,
+		community.corp_id,
+		cdru.community_id,
+		cdru.user_id,
+		IF (ISNULL(eps.id), 0, 1) status
+		FROM
+		house h
+		LEFT JOIN estate_pay_statistics eps ON eps.house_id = h.house_id
+		AND eps.year = #{year}
+		AND eps.month = #{month}
+		LEFT JOIN community_dept_role_user cdru ON cdru.community_id=h.community_id
+		LEFT JOIN community ON community.community_id=h.community_id
+		GROUP BY h.house_id
+		) s
+		<where>
+			1=1
+			
+				and status=1
+			<if test="corpsId!=0">
+				and corp_id=#{corpsId}
+			</if>
+			<if test="communityId!=0">
+				and community_id=#{communityId}
+			</if>
+			<if test="type==0">
+				<if test="userId!=0">
+					and user_id=#{userId}
+				</if>
+			</if>
+		</where>
+	</select>
+
+
+	<!--总数 -->
+	<select id="getAll" resultType="int">
+		SELECT
+		count(*)
+		FROM
+		house
+		WHERE house.community_id=#{communityId}
+	</select>
 </mapper>
