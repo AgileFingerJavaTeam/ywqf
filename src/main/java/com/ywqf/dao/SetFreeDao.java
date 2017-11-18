@@ -12,5 +12,9 @@ public interface SetFreeDao {
 	 * @return
 	 */
 	public List<FreeProperty> listFreeProperty(FreePropertyDto freePropertyDto);
+	/*
+	 * SQL修改
+	 */
+	public int updataFreeProperty(FreePropertyDto freePropertyDto);
 
 }

@@ -8,4 +8,7 @@ public class FreePropertyExcution extends BaseAPIExcution{
 		this.code =payCarNumEnum.getCode();
 		this.data =data;
 	}
+	public  FreePropertyExcution(Object data) {
+		this.data =data;
+	}
 }

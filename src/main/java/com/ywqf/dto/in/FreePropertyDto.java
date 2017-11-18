@@ -5,13 +5,13 @@ import com.fasterxml.jackson.core.util.DefaultPrettyPrinter.Indenter;
 public class FreePropertyDto {
 	private Integer userid;
 	private Integer type;
-	private Integer corp;
+	private Integer corps;
 	private Integer community;
 	private Integer hourse;
 	private Integer door;
 	private Integer floor;
 	private double money;
-	private String like;
+	private String likes;
 	public Integer getUserid() {
 		return userid;
 	}
@@ -24,11 +24,11 @@ public class FreePropertyDto {
 	public void setType(Integer type) {
 		this.type = type;
 	}
-	public Integer getCorp() {
-		return corp;
+	public Integer getCorps() {
+		return corps;
 	}
-	public void setCorp(Integer corp) {
-		this.corp = corp;
+	public void setCorps(Integer corps) {
+		this.corps = corps;
 	}
 	public Integer getCommunity() {
 		return community;
@@ -60,16 +60,17 @@ public class FreePropertyDto {
 	public void setMoney(double money) {
 		this.money = money;
 	}
-	public String getLike() {
-		return like;
+	public String getLikes() {
+		return likes;
 	}
-	public void setLike(String like) {
-		this.like = like;
+	public void setLikes(String likes) {
+		this.likes = likes;
 	}
 	@Override
 	public String toString() {
-		return "FreePropertyDto [userid=" + userid + ", type=" + type + ", corp=" + corp + ", community=" + community
-				+ ", hourse=" + hourse + ", door=" + door + ", floor=" + floor + ", money=" + money + ", like=" + like
+		return "FreePropertyDto [userid=" + userid + ", type=" + type + ", corps=" + corps + ", community=" + community
+				+ ", hourse=" + hourse + ", door=" + door + ", floor=" + floor + ", money=" + money + ", likes=" + likes
 				+ "]";
 	}
+	
 }

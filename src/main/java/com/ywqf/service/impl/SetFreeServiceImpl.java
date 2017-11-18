@@ -58,4 +58,16 @@ public class SetFreeServiceImpl implements SetFreeService {
 			}
 			return null;
 		}
+		@Override
+		public FreePropertyExcution UpdatePropertyExcution(FreePropertyDto freePropertyDto) {
+			try {
+				int result =setFreeDao.updataFreeProperty(freePropertyDto);
+				if(result>0){
+					return new FreePropertyExcution(PayCarNumEnum.SUCCESS);
+				}
+			} catch (Exception e) {
+				logger.error(e.getMessage(), e);
+			}
+			return null;
+		}
 }

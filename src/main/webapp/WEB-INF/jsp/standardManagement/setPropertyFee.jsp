@@ -45,6 +45,7 @@
 	<input  id="hourse" type="text" class="input-text ac_input" style="width:150px" placeholder="楼号">
 	<input  id="door" type="text" class="input-text ac_input" style="width:150px" placeholder="门号">
 	<input  id="floor" type="text" class="input-text ac_input" style="width:150px" placeholder="层数">
+	<input value="搜索" type="submit" class="btn btn-default" id="search" onclick="showDataTable()">
 	<button style="margin-left:200px" type="submit" class="btn btn-default" id="preview" onclick="modaldemo()">预览</button>
 	<button type="submit" class="btn btn-default" id="update">修改</button>
 </div>
@@ -152,7 +153,46 @@ $(function(){
 			} 
 		});
 	}
-//dataTable
+	//update
+	function updateTable(){
+		var userid =$("#userid").val();
+		var type =$("#type").val();
+		var corps =$("#corp").val();
+		var community =$("#community").val();
+		var likes =$("#likes").val();
+		var hourse =$("#hourse").val();
+		var door =$("#door").val();
+		var floor =$("#floor").val();
+		var money =$("#money").val();
+		if(money==''){
+			alert("资费更新不能为空");
+		}else{
+			var data = {};
+			data.userid =userid;
+			data.type =type;
+			data.community =community;
+			data.corps =corps;
+			data.likes =likes;
+			data.hourse =hourse;
+			data.door =door;
+			data.floor =floor;
+			data.money=money;
+			$.ajax({
+				url:'setfree/updateFreeProperty',
+			    type:'POST', //GET
+			    data:data,
+			    dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+			    success:function(data){
+			    	console.log(data);
+			    	if(data.status==1){
+			    		alert(data.info);
+			    		showDataTable();
+			    	}
+			    }
+			})
+		}
+	}
+	//dataTable
 	function showDataTable() {
 		var userid =$("#userid").val();
 		var type =$("#type").val();
@@ -183,8 +223,8 @@ $(function(){
 				    		"data": data.rows,
 				 	        destroy:true,
 				 	       "columns": [
-				 	           {'data': 'houseId',},
 				 	           {'data': 'houseNum',},
+				 	           {'data': 'houseTypeName',},
 				 	           {"data": 'area',},
 				 	           {'data': 'previousEstateUnitPrice',},
 				 	           {'data': 'previousEstateFee',}
@@ -262,6 +302,10 @@ $(function(){
 	<!--------------小区改变进行搜索------------------>
 	$("#community").change(function(){
 		showDataTable();
+	})
+	<!--------------修改物业费------------------>
+	$("#update").click(function(){
+		updateTable();
 	})
 </script>
 </body>

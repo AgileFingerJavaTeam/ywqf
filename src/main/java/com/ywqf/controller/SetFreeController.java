@@ -73,4 +73,16 @@ public class SetFreeController {
 			return BaseUIResult.returnJsonEasyUI(freePropertyExcution);
 		}
 	}
+	@ResponseBody
+	@RequestMapping(value="updateFreeProperty",method = RequestMethod.POST,produces = "text/json;charset=UTF-8")
+	public Object updateFreeProperty(FreePropertyDto freePropertyDto){
+		try {
+			FreePropertyExcution freepropertyExcution = setFreeService.UpdatePropertyExcution(freePropertyDto);
+			return BaseUIResult.returnJsonMSG(1, freepropertyExcution, "修改成功");
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			FreePropertyExcution freepropertyExcution = new FreePropertyExcution(PayCarNumEnum.FAIL);
+			return BaseUIResult.returnJsonMSG(0, freepropertyExcution, "修改失败");
+		}
+	}
 }

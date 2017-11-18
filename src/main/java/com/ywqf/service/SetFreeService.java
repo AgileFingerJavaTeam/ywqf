@@ -16,4 +16,10 @@ public interface SetFreeService {
 	 * @return
 	 */
 	public FreePropertyExcution ListpreviewFreeProperty(FreePropertyDto freePropertyDto);
+	/**
+	 * 修改所查询的物业费
+	 * @param freePropertyDto
+	 * @return
+	 */
+	public FreePropertyExcution UpdatePropertyExcution(FreePropertyDto freePropertyDto);
 }
