@@ -6,22 +6,50 @@
 
     <select id="findHeatingList" resultType="HeatingFeePayment">
         SELECT *
-		FROM heating_pay  a
-		LEFT JOIN USER b
-		ON a.charge_worker_id = b.id
+        FROM heating_pay a
+        LEFT JOIN house b
+        ON a.house_id = b.house_id
+        LEFT JOIN USER c
+        ON a.charge_worker_id = c.user_id
+        <where>
+            <if test="at_search!=null and at_search!=''">
+                AND CONCAT_WS(',',a.heating_pay_num,b.house_num,a.owner_name,a.heating_area,a.discount_heating_unit_price,a.year,a.payment_amount,c.name,a.operator) LIKE '%${at_search}%'
+            </if>
+            <if test="status!=null and status!=''">
+                AND a.status = #{status}
+            </if>
+            <if test="okey!=null and okey!=''">
+                AND a.status = #{okey}
+            </if>
+            <if test="estateSearchId!=0">
+                AND c.corp_id = #{estateSearchId}
+            </if>
+            <if test="comm!=0">
+                AND b.community_id = #{comm}
+            </if>
+            <!--  <if test="at_pay_start !=null and at_pay_start !=''">
+                  AND pay_date BETWEEN #{at_pay_start} AND #{at_pay_end}
+              </if>
+              <if test="at_service_end !=null and at_service_end !=''">
+                  AND #{at_service_end}>= service_end_date
+              </if>
+              <if test="at_service_start !=null and at_service_start !=''">
+                  AND service_start_date >= #{at_service_start}
+              </if>-->
+        </where>
     </select>
 
     <select id="findOver" resultType="HeatingFeePayment">
         SELECT *
         FROM heating_pay
-        WHERE id = #{id}
+        WHERE heating_pay_id = #{id}
     </select>
 
     <update id="updateOver">
         UPDATE heating_pay
         SET status = '0',
         operator = #{Rname}
-        WHERE id = #{id}
+        WHERE heating_pay_id = #{id}
     </update>
 
     <!-- 查询门牌号是否为空 -->
@@ -33,15 +61,24 @@
     </select>
 
     <select id="findAreaOrNameOrMoney" resultType="HeatingFeePayment">
-        SELECT c.owner_name,c.area,a.heating_unit_price,b.discount_start_date,b.discount_end_date,b.rate
-		FROM heating_pay  a
-		LEFT JOIN heating_discount_type b
-		ON a.corp_id = b.corp_id
-		LEFT JOIN house c
-		ON a.house_num = c.house_num
+        SELECT a.house_id,a.owner_name,a.area,c.heating_unit_price
+        FROM house a
+        LEFT JOIN community c
+        ON a.community_id = c.community_id
         WHERE a.house_num = #{house_num}
         AND a.community_id = #{community_id}
     </select>
 
+    <select id="findHeatingDiscount" resultType="HeatingFeePayment">
+        SELECT *
+        FROM heating_discount_type
+        WHERE community_id = #{community_id}
+    </select>
 
+    <insert id="insertHeating">
+        INSERT INTO heating_pay
+        (heating_pay_num,house_id,owner_name,discount_heating_unit_price,heating_area,payment_amount,year,heating_discount,payment_date,charge_worker_id,operator,operate_time)
+        VALUES
+        (#{heating_pay_num},#{house_id},#{owner_name},#{discount_heating_unit_price},#{heating_area},#{payment_amount},#{year},#{heating_discount},#{payment_date},#{charge_worker_id},#{operator},now())
+    </insert>
 </mapper>

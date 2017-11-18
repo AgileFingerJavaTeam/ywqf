@@ -138,6 +138,10 @@
         <dl id="menu-system">
             <dt><a _href="newsHall/showNewsHallPage" style = "text-decoration: none" data-title="消息大厅" href="javascript:void(0)">消息大厅</a></dt>
         </dl>
+        <dl id="Staff">
+            <dt><a _href="StaffManagement/showStaff" style = "text-decoration: none" data-title="员工管理" href="javascript:void(0)">员工管理</a></dt>
+        </dl>
+
         <dl id="hosue-ask">
             <dt><a _href="HouseCenter/AskForPage" style = "text-decoration: none" data-title="房产中心-求租求购" href="javascript:void(0) ">房产中心-求租求购</a></dt>
         </dl>

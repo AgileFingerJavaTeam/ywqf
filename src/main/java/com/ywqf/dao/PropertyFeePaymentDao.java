@@ -2,10 +2,9 @@ package com.ywqf.dao;
 
 import java.util.List;
 
+import com.ywqf.entity.PropertyFeePayment;
 import com.ywqf.entity.payMonthType;
 import org.apache.ibatis.annotations.Param;
-
-import com.ywqf.entity.PropertyFeePayment;
 
 public interface PropertyFeePaymentDao {
  

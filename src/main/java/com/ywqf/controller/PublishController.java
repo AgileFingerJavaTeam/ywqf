@@ -22,6 +22,11 @@ import org.springframework.web.servlet.ModelAndView;
 public class PublishController extends BaseController {
     @Autowired
     private PublishService publishService;
+
+    /**
+     * 显示发布信息页面
+     * @return
+     */
     @RequestMapping(value = "/showPublishPage",
             produces = {"text/json;charset=UTF-8"})
     public ModelAndView showPublishPage(){
@@ -33,6 +38,32 @@ public class PublishController extends BaseController {
         }
         return mv;
     }
+
+    /**
+     * 查询发布员工列表
+     * @param publishDto
+     * @return
+     */
+    @RequestMapping(value = "/findPublishWorker",
+            method = RequestMethod.POST,
+            produces = {"text/json;charset=UTF-8"})
+    @ResponseBody
+    public String findPublishWorker(PublishDto publishDto){
+        try{
+            PublishExcution publishExcution = publishService.findPublishWorker(publishDto);
+            return BaseUIResult.returnJson(publishExcution);
+        }catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            PublishExcution publishExcution = new PublishExcution(PublishEnum.FIND_FAIL, e.getMessage());
+            return BaseUIResult.returnJson(publishExcution);
+        }
+    }
+
+    /**
+     * 新增信息
+     * @param publishDto
+     * @return
+     */
     @RequestMapping(value = "/addNews",
             method = RequestMethod.POST,
             produces = {"text/json;charset=UTF-8"})

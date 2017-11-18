@@ -25,6 +25,10 @@ public class HouseAsk {
 	private int houseFitmentTypeId;
 	private int houseDirectionTypeId;
 	private int houseTypeId;
+	private String rent;
+	private String buy;
+	private int  rentId;
+	private int buyId;
 	public Integer getId() {
 		return id;
 	}
@@ -193,6 +197,38 @@ public class HouseAsk {
 		this.houseTypeId = houseTypeId;
 	}
 
+	public String getRent() {
+		return rent;
+	}
+
+	public void setRent(String rent) {
+		this.rent = rent;
+	}
+
+	public String getBuy() {
+		return buy;
+	}
+
+	public void setBuy(String buy) {
+		this.buy = buy;
+	}
+
+	public int getRentId() {
+		return rentId;
+	}
+
+	public void setRentId(int rentId) {
+		this.rentId = rentId;
+	}
+
+	public int getBuyId() {
+		return buyId;
+	}
+
+	public void setBuyId(int buyId) {
+		this.buyId = buyId;
+	}
+
 	@Override
 	public String toString() {
 		return "HouseAsk{" +
@@ -217,6 +253,10 @@ public class HouseAsk {
 				", houseFitmentTypeId=" + houseFitmentTypeId +
 				", houseDirectionTypeId=" + houseDirectionTypeId +
 				", houseTypeId=" + houseTypeId +
+				", rent='" + rent + '\'' +
+				", buy='" + buy + '\'' +
+				", rentId=" + rentId +
+				", buyId=" + buyId +
 				'}';
 	}
 }

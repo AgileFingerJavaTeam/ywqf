@@ -8,4 +8,10 @@
         SET status = -1
         WHERE announcement_id = #{announcementId}
     </update>
+    <!--查询发布员工-->
+    <select id="findPublishWorker" resultType="PublishWorker">
+        SELECT name,user_id
+        FROM user
+        WHERE corp_id = #{corpId}
+    </select>
 </mapper>

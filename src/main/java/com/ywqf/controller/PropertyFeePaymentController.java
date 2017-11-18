@@ -1,6 +1,9 @@
 package com.ywqf.controller;
 
+import com.ywqf.dto.excution.PropertyFeePaymentExcution;
+import com.ywqf.dto.in.PropertyFeePaymentDto;
 import com.ywqf.exception.db.QueryInnerErrorException;
+import com.ywqf.service.PropertyFeePaymentService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,13 +16,9 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.alibaba.druid.support.logging.Log;
 import com.ywqf.base.BaseController;
 import com.ywqf.base.BaseUIResult;
-import com.ywqf.dto.excution.PropertyFeePaymentExcution;
-import com.ywqf.dto.in.PropertyFeePaymentDto;
 import com.ywqf.enums.PropertyFeePaymentEnum;
-import com.ywqf.service.PropertyFeePaymentService;
 
 
 @Controller
