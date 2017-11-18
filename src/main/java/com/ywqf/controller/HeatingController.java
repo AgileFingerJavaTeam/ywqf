@@ -54,21 +54,5 @@ public class HeatingController {
       }
 	}
 	
-	/**
-	 * 小区,列表查询
-	 * @return
-	 */
-	@RequestMapping(value="getHeatingCorps",method=RequestMethod.POST,produces={"text/json;charset=UTF-8"})
-	@ResponseBody
-	public String getHeatingCorps(){
-		try {
-			HeatingExcution heatingExcution = heatingService.getHeatingCoursAndCommunity();
-			return BaseUIResult.returnJson(heatingExcution);
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-	          HeatingExcution heatingExcution =new HeatingExcution(HeatingEnum.FAIL,e.getMessage());
 
-	          return  BaseUIResult.returnJson(heatingExcution);
-		}
-	}
 }

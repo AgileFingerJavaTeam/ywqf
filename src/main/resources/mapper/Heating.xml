@@ -15,18 +15,27 @@
 		house.owner_name,
 		house.owner_tel,
 		house.owner_standby_tel,
-		house.area * community.heating_unit_price heatingPrice,
+		house.area * community.heating_unit_price
+		heatingPrice,
 		house.area heatingArea,
+
+		corps.corp_id,
+		community_dept_role_user.community_id,
+		community_dept_role_user.user_id,
+
 		IF(ISNULL(heating_pay.heating_pay_id),0,1) isStatus,
 		IF (
 		ISNULL(heating_pay.heating_pay_id),
 		CASE
 		WHEN (
-		NOW() BETWEEN heating_discount_type.discount_start_date
-		AND heating_discount_type.discount_end_date
+		NOW() BETWEEN
+		heating_discount_type.discount_start_date
+		AND
+		heating_discount_type.discount_end_date
 		) THEN
 		(
-		house.area * community.heating_unit_price * heating_discount_type.rate
+		house.area *
+		community.heating_unit_price * heating_discount_type.rate
 		)
 		ELSE
 		(
@@ -37,18 +46,51 @@
 		) payment_amount
 		FROM
 		house
-		LEFT JOIN community ON community.community_id = house.community_id
-		LEFT JOIN heating_pay ON heating_pay.house_id = house.house_id AND heating_pay.year=#{timeYear}
+		LEFT JOIN community
+		ON community.community_id = house.community_id
+		LEFT JOIN heating_pay ON
+		heating_pay.house_id = house.house_id AND heating_pay.year=#{timeYear}
 		LEFT
 		JOIN heating_discount_type ON heating_discount_type.community_id =
 		community.community_id
+
+		LEFT JOIN corps ON corps.corp_id =
+		community.corp_id
+		LEFT JOIN
+		community_dept_role_user ON
+		community_dept_role_user.community_id =
+		community.community_id
+		GROUP BY house.house_id
 		) a
 		<where>
 			1=1
+			<if test="search!=null and search!=''">
+				and (house_num like '%${search}%'
+				or owner_name like
+				'%${search}%'
+				or owner_tel like '%${search}%'
+				or owner_standby_tel
+				like '%${search}%'
+				or heatingPrice like '%${search}%'
+				or heatingArea
+				like '%${search}%'
+				or payment_amount like '%${search}%')
+			</if>
+			<if test="checked!=2">
+				and isStatus=#{checked}
+			</if>
+			<if test="corpsId!=0">
+				and corp_id=#{corpsId}
+			</if>
+			<if test="communityId!=0">
+				and community_id=#{communityId}
+			</if>
+			<if test="type==0">
+				<if test="userId!=0">
+					and user_id=#{userId}
+				</if>
+			</if>
 		</where>
-		<if test="checked!=2">
-			and isStatus=#{checked}
-		</if>
 	</select>
 
 	<!--数量统计 -->
@@ -62,18 +104,27 @@
 		house.owner_name,
 		house.owner_tel,
 		house.owner_standby_tel,
-		house.area * community.heating_unit_price heatingPrice,
+		house.area *
+		community.heating_unit_price heatingPrice,
 		house.area heatingArea,
+
+		corps.corp_id,
+		community_dept_role_user.community_id,
+		community_dept_role_user.user_id,
+
 		IF(ISNULL(heating_pay.heating_pay_id),0,1) isStatus,
 		IF (
 		ISNULL(heating_pay.heating_pay_id),
 		CASE
 		WHEN (
-		NOW() BETWEEN heating_discount_type.discount_start_date
-		AND heating_discount_type.discount_end_date
+		NOW() BETWEEN
+		heating_discount_type.discount_start_date
+		AND
+		heating_discount_type.discount_end_date
 		) THEN
 		(
-		house.area * community.heating_unit_price * heating_discount_type.rate
+		house.area *
+		community.heating_unit_price * heating_discount_type.rate
 		)
 		ELSE
 		(
@@ -84,18 +135,51 @@
 		) payment_amount
 		FROM
 		house
-		LEFT JOIN community ON community.community_id = house.community_id
-		LEFT JOIN heating_pay ON heating_pay.house_id = house.house_id AND heating_pay.year=#{timeYear}
+		LEFT JOIN community
+		ON community.community_id = house.community_id
+		LEFT JOIN heating_pay ON
+		heating_pay.house_id = house.house_id AND heating_pay.year=#{timeYear}
 		LEFT
 		JOIN heating_discount_type ON heating_discount_type.community_id =
 		community.community_id
+
+		LEFT JOIN corps ON corps.corp_id =
+		community.corp_id
+		LEFT JOIN
+		community_dept_role_user ON
+		community_dept_role_user.community_id =
+		community.community_id
+		GROUP BY house.house_id
 		) a
 		<where>
 			1=1
+			<if test="search!=null and search!=''">
+				and (house_num like '%${search}%'
+				or owner_name like
+				'%${search}%'
+				or owner_tel like '%${search}%'
+				or owner_standby_tel
+				like '%${search}%'
+				or heatingPrice like '%${search}%'
+				or heatingArea
+				like '%${search}%'
+				or payment_amount like '%${search}%')
+			</if>
+			<if test="checked!=2">
+				and isStatus=#{checked}
+			</if>
+			<if test="corpsId!=0">
+				and corp_id=#{corpsId}
+			</if>
+			<if test="communityId!=0">
+				and community_id=#{communityId}
+			</if>
+			<if test="type==0">
+				<if test="userId!=0">
+					and user_id=#{userId}
+				</if>
+			</if>
 		</where>
-		<if test="checked!=2">
-			and isStatus=#{checked}
-		</if>
 	</select>
 
 	<!--物业公司 -->
@@ -112,32 +196,111 @@
 		</if>
 	</select>
 
-	<!--小区 -->
+	<!--根据物业搜索小区 -->
 	<select id="getHeatingCommunity" resultType="Heating">
 		SELECT
-		c.community_name,c.id as communityId
+		community.community_id,
+		community.community_name
 		FROM
-		community c
-		LEFT JOIN
-		dept_community dc ON dc.community_id = c.corp_id
-		LEFT JOIN
-		role_dept_community rdc ON rdc.dept_community_id = dc.id
-		LEFT JOIN
-		role_dept_community_user rdcu ON rdcu.role_dept_community_id = rdc.id
+		community
+		<if test="type==0">
+			LEFT JOIN community_dept_role_user ON
+			community_dept_role_user.community_id = community.community_id
+		</if>
 		<where>
 			1=1
+			<if test="type==0">
+				and community_dept_role_user.user_id=#{userId}
+			</if>
+			<if test="type==1">
+				and corp_id =#{corpsId}
+			</if>
 		</where>
-		and rdcu.user_id=#{userID}
 	</select>
 
-	<!-- 总部小区 -->
-	<select id="getAllCommunity" resultType="Heating">
-		SELECT DISTINCT
-		community_name,community.id
-		FROM community
-		LEFT JOIN corps
-		ON
-		community.corp_id=corps.id
-		WHERE corps.id=#{corpsID}
+	<!--缴费数 -->
+	<select id="getPay" resultType="int">
+		SELECT
+		count(*)
+		FROM
+		(
+		SELECT
+		house.house_num,
+		house.owner_name,
+		house.owner_tel,
+		house.owner_standby_tel,
+		house.area *
+		community.heating_unit_price heatingPrice,
+		house.area heatingArea,
+
+		corps.corp_id,
+		community_dept_role_user.community_id,
+		community_dept_role_user.user_id,
+
+		IF(ISNULL(heating_pay.heating_pay_id),0,1) isStatus,
+		IF (
+		ISNULL(heating_pay.heating_pay_id),
+		CASE
+		WHEN (
+		NOW() BETWEEN
+		heating_discount_type.discount_start_date
+		AND
+		heating_discount_type.discount_end_date
+		) THEN
+		(
+		house.area *
+		community.heating_unit_price * heating_discount_type.rate
+		)
+		ELSE
+		(
+		house.area * community.heating_unit_price
+		)
+		END ,
+		heating_pay.payment_amount
+		) payment_amount
+		FROM
+		house
+		LEFT JOIN community
+		ON community.community_id = house.community_id
+		LEFT JOIN heating_pay ON
+		heating_pay.house_id = house.house_id AND heating_pay.year=#{timeYear}
+		LEFT
+		JOIN heating_discount_type ON heating_discount_type.community_id =
+		community.community_id
+
+		LEFT JOIN corps ON corps.corp_id =
+		community.corp_id
+		LEFT JOIN
+		community_dept_role_user ON
+		community_dept_role_user.community_id =
+		community.community_id
+		GROUP BY house.house_id
+		) a
+		<where>
+			1=1
+				and isStatus=1
+			<if test="corpsId!=0">
+				and corp_id=#{corpsId}
+			</if>
+			<if test="communityId!=0">
+				and community_id=#{communityId}
+			</if>
+			<if test="type==0">
+				<if test="userId!=0">
+					and user_id=#{userId}
+				</if>
+			</if>
+		</where>
 	</select>
+
+	<!--总数 -->
+	<select id="getAll" resultType="int">
+		SELECT
+		count(*)
+		FROM
+		house
+		WHERE house.community_id=#{communityId}
+	</select>
+
+
 </mapper>

@@ -11,6 +11,46 @@ public class Parking {
 	private Double previousParkingUnitPrice;
 	private int paymentStatus;
 	
+	private String corpName;
+	private int type;
+	private String communityName;
+	private int corpId;
+	private int communityId;
+	
+	
+	
+	
+	
+	public String getCorpName() {
+		return corpName;
+	}
+	public void setCorpName(String corpName) {
+		this.corpName = corpName;
+	}
+	public int getType() {
+		return type;
+	}
+	public void setType(int type) {
+		this.type = type;
+	}
+	public String getCommunityName() {
+		return communityName;
+	}
+	public void setCommunityName(String communityName) {
+		this.communityName = communityName;
+	}
+	public int getCorpId() {
+		return corpId;
+	}
+	public void setCorpId(int corpId) {
+		this.corpId = corpId;
+	}
+	public int getCommunityId() {
+		return communityId;
+	}
+	public void setCommunityId(int communityId) {
+		this.communityId = communityId;
+	}
 	public String getCarOwnerName() {
 		return carOwnerName;
 	}
