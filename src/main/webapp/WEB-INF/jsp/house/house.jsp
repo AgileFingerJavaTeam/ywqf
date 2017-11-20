@@ -49,7 +49,7 @@
 		</span>
 	</div>
 	<div class="mt-20">
-		<table class="table table-border table-bordered table-bg table-hover table-sort" id="datable">
+		<table class="table table-border table-bordered table-bg table-hover table-sort" id="datable"style="width: 100%">
 			<thead>
 			<tr class="text-c">
 				<th width="25"><input type="checkbox" ></th>

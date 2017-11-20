@@ -65,7 +65,7 @@
 
 	</div>
 	<div class="mt-20">
-		<table class="table table-border table-bordered table-bg table-hover table-sort" id="datable">
+		<table class="table table-border table-bordered table-bg table-hover table-sort" id="datable" style="width: 100%">
 			<thead>
 			<tr class="text-c">
 				<th ><input type="checkbox" ></th>
@@ -288,7 +288,7 @@
 <script type="text/javascript" src="//cdn.datatables.net/buttons/1.4.2/js/buttons.html5.min.js"></script>
 <script type="text/javascript" src="hui/lib/bootstrap-modal/2.2.4/bootstrap-modal.js"></script>
 <script type="text/javascript" src="hui/lib/bootstrap-modal/2.2.4/bootstrap-modalmanager.js"></script>
-<script type="text/javascript" src="../hui/lib/bootstrap-Switch/bootstrapSwitch.js"></script>
+<script type="text/javascript" src="hui/lib/bootstrap-Switch/bootstrapSwitch.js"></script>
 <script type="text/javascript">
     var select_row_id;
     var community_id;

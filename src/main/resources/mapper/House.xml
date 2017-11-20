@@ -55,7 +55,7 @@
 				AND  community.community_id=#{community_id}
 			</if>
 		</where>
-		limit #{offset},#{rows}
+		/*limit #{offset},#{rows}*/
     </select>
 	<!--&lt;!&ndash;数量&ndash;&gt;
 	<select id="findHouseCount"  resultType="int">

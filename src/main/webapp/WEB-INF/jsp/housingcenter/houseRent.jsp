@@ -57,7 +57,7 @@
 
 	</div>
 	<div class="mt-20">
-		<table class="table table-border table-bordered table-bg table-hover table-sort" id="datable">
+		<table class="table table-border table-bordered table-bg table-hover table-sort" id="datable" style="width: 100%">
 			<thead>
 			<tr class="text-c">
 				<th ><input type="checkbox" ></th>
@@ -132,7 +132,7 @@
 				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-5">面积：</label>
 					<div class="formControls col-xs-4 col-sm-5	">
-						<select id="area" class="input-text "></select>
+						<input id="area" class="input-text "></input>
 					</div>
 				</div>
 				<div class="row cl">
@@ -146,6 +146,12 @@
 					<div class="formControls col-xs-4 col-sm-5	">
 						<select  class="input-text " id="rent"></select>
 						<select  class="input-text " id="sale" hidden></select>
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-5">照片：</label>
+					<div class="formControls col-xs-4 col-sm-5	">
+						<input type="file"  id="avater">
 					</div>
 				</div>
 				<div class="row cl">
@@ -288,7 +294,7 @@
 <script type="text/javascript" src="//cdn.datatables.net/buttons/1.4.2/js/buttons.html5.min.js"></script>
 <script type="text/javascript" src="hui/lib/bootstrap-modal/2.2.4/bootstrap-modal.js"></script>
 <script type="text/javascript" src="hui/lib/bootstrap-modal/2.2.4/bootstrap-modalmanager.js"></script>
-<script type="text/javascript" src="../hui/lib/bootstrap-Switch/bootstrapSwitch.js"></script>
+<script type="text/javascript" src="hui/lib/bootstrap-Switch/bootstrapSwitch.js"></script>
 <script type="text/javascript">
     var select_row_id;
     $(function(){
@@ -449,6 +455,31 @@
                 },"json")
             }
         });
+        $.post("HouseCenter/findHouseType",null,function (data) {
+            for(var i  in data){
+                $("#house_type").append("<option value="+data[i].houseTypeId+">"+data[i].houseTypeName+"</option>")
+            }
+        },"json");
+        $.post("HouseCenter/findDirection",null,function (data) {
+            for(var i  in data){
+                $("#direction").append("<option value="+data[i].houseDirectionTypeId+">"+data[i].houseDirectionTypeName+"</option>")
+            }
+        },"json");
+        $.post("HouseCenter/findFitment",null,function (data) {
+            for(var i  in data){
+                $("#fitment").append("<option value="+data[i].houseFitmentTypeId+">"+data[i].houseFitmentTypeName+"</option>")
+            }
+        },"json");
+        $.post("HouseCenter/findRentPrice",null,function (data) {
+            for(var i  in data){
+                $("#rent").append("<option value="+data[i].housePriceRangeId+">"+data[i].housePriceRangeName+"</option>")
+            }
+        },"json");
+        $.post("HouseCenter/findBuyPrice",null,function (data) {
+            for(var i  in data){
+                $("#sale").append("<option value="+data[i].housePriceRangeId+">"+data[i].housePriceRangeName+"</option>")
+            }
+        },"json");
 
 
         $("#modal-add").on("hide.bs.modal", function() {
