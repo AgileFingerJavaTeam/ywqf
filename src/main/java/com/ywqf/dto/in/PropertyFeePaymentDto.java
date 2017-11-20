@@ -6,6 +6,8 @@ public class PropertyFeePaymentDto {
 	private int page;
 	private int rows;
 	private String status;
+	private String Rname;
+	private int Rid;
 	//
 	private int id;
 	//
@@ -44,6 +46,22 @@ public class PropertyFeePaymentDto {
 	private String okey;
 
 	private int comm;
+
+	public int getRid() {
+		return Rid;
+	}
+
+	public void setRid(int rid) {
+		Rid = rid;
+	}
+
+	public String getRname() {
+		return Rname;
+	}
+
+	public void setRname(String rname) {
+		Rname = rname;
+	}
 
 	public int getComm() {
 		return comm;
