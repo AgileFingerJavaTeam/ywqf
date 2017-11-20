@@ -53,7 +53,7 @@
                 <div class="row cl">
                     <label class="form-label col-xs-4 col-sm-2">标题：</label>
                     <div class="formControls col-xs-4 col-sm-8	">
-                        <input type="text" class="input-text " id="owner_name"  placeholder="请输入标题" style="width: 100%">
+                        <input type="text" class="input-text " id="add_title"  placeholder="请输入标题" style="width: 100%">
                     </div>
                 </div>
                 <div class="row cl">
@@ -70,7 +70,7 @@
                 </div>
                 <div class="modal-footer " style="text-align: center">
                     <button class="btn btn-primary" id="preview">预览</button>
-                    <button class="btn btn-primary" id="confirm">发布</button>
+                    <button class="btn btn-primary" id="publish">发布</button>
                     <button class="btn" data-dismiss="modal" >取消</button>
                 </div>
             </form>
@@ -120,14 +120,13 @@
         $.ajax({
             url:"newsHall/findNewsInfo",
             type:"POST",
-            dataType:"JSON",
+            dataType:"data",
             data:searchInfo,
             success:function (data) {
-                showDataTable(data)
+                callback(data)
             }
         })
     }
-
     //------显示dataTable
     function showDataTable (data) {
         $('#publishNewsTable').dataTable({
@@ -155,12 +154,13 @@
             lengthMenu:[10,20,50,100],
             pagingType: "full_numbers",
             destroy: true,
+            info: true,
             ajax:function (data,callback,settings) {
-              console.log(data)
+                getDataTableInfo()
             },
-            "data":data,
-            "bAutoWidth": false,
-            "columns": [{
+//            "data":data,
+            autoWidth: false,
+            columns: [{
                 'data': 'title',
             }, {
                 'data': 'name',
@@ -215,7 +215,7 @@
             }
         })
     }
-    //-------新增事件
+    //-------新增事件显示新增模态框
     function add() {
         $("#addNewsModal").modal("show")
         getPublishWorker()
@@ -227,8 +227,24 @@
                 'justifyright', 'insertorderedlist', 'insertunorderedlist', '|', 'link', 'image',
                 'unlink', 'emoticons'
             ],
+            afterBlur:function () {
+                this.sync();
+            },
             resizeType:0
         });
+    }
+    $("#publish").click(function () {
+        publish()
+    });
+    function publish() {
+       var title = $("#add_title").val();
+       var content = $("#editor_add").val();
+       var publishWorker = $("#publishWorker").val();
+        searchInfo.title = title;
+        searchInfo.content = content;
+        searchInfo.publishWorker = publishWorker;
+        console.log(searchInfo)
+
     }
     //--------关闭Dialog前移除编辑器
 

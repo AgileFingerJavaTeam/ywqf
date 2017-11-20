@@ -86,22 +86,11 @@
         $("#TotalDues").val(count)//给缴费总额赋值
         $('.table-sort').dataTable({
             "data":data.data,
-//            "bPaginate" : true,//分页工具条显示
-//            paging: true,
+            paging: true,
             destroy: true,
             searching: false,
-//            "serverSide":true,
             "sAjaxDataProp" : "aData",//是服务器分页的标志，必须有
-//        "sAjaxSource": "estatePay/findTodayEstatePayInfo",
             "columns": [
-//                {
-//                "sClass": "text-center",
-//                "data": "ID",
-//                "render": function (data, type, full, meta) {
-//                    return '<input type="checkbox"  class="checkchild"  value="' + data + '" />';
-//                },
-//                "bSortable": false
-//            },
                {
                 'data': 'estatePayNum',
             }, {
