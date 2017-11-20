@@ -8,7 +8,7 @@ public class Parking {
 	private int gender;
 	private String carOwnerTel;
 	private String carOwnerStandbyTel;
-	private Double previousParkingUnitPrice;
+	private String previousParkingUnitPrice;
 	private int paymentStatus;
 	
 	private String corpName;
@@ -57,10 +57,11 @@ public class Parking {
 	public void setCarOwnerName(String carOwnerName) {
 		this.carOwnerName = carOwnerName;
 	}
-	public Double getPreviousParkingUnitPrice() {
+	
+	public String getPreviousParkingUnitPrice() {
 		return previousParkingUnitPrice;
 	}
-	public void setPreviousParkingUnitPrice(Double previousParkingUnitPrice) {
+	public void setPreviousParkingUnitPrice(String previousParkingUnitPrice) {
 		this.previousParkingUnitPrice = previousParkingUnitPrice;
 	}
 	public int getParkingNum() {
@@ -115,8 +116,11 @@ public class Parking {
 				+ ", carOwnerTel=" + carOwnerTel + ", carOwnerStandbyTel="
 				+ carOwnerStandbyTel + ", previousParkingUnitPrice="
 				+ previousParkingUnitPrice + ", paymentStatus=" + paymentStatus
-				+ "]";
+				+ ", corpName=" + corpName + ", type=" + type
+				+ ", communityName=" + communityName + ", corpId=" + corpId
+				+ ", communityId=" + communityId + "]";
 	}
+	
 	
 	
 	

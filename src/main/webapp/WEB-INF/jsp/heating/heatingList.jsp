@@ -141,6 +141,7 @@
 								$('#percentage').text(data.percentage);
 								
 								$('#Ddl_Year').val(year);
+								
 								$('#heating').dataTable({
 									"data": data.rows,
 									"columns": [
@@ -160,13 +161,15 @@
 										}},
 										{'data': 'paymentAmount'},
 									],
-									 "sServerMethod":"POST",
-								        "aaSorting": [[ 1, "desc" ]],//默认第几个排序
-								        "bStateSave": true,//状态保存
-								        "aoColumnDefs": [
-								            //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-								            {"orderable":false,"aTargets":[0]}// 不参与排序的列
-								        ]
+									
+									
+ 									 "sServerMethod":"POST",
+ 							         "aaSorting": [[ 1, "desc" ]],//默认第几个排序
+ 							         "bStateSave": true,//状态保存
+ 							         "aoColumnDefs": [
+ 							            //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+ 							            {"orderable":false,"aTargets":[0]}// 不参与排序的列
+ 							        ]
 								});
 							}
 						});
