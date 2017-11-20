@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -55,64 +55,4 @@
 	</select>
 
 
-
-=======
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
-<mapper namespace="com.ywqf.dao.CorpAndCommunityDao">
-	<!--目的:为dao接口方法提供sql语句配置 即针对dao接口中的方法编写我们的sql语句 -->
-
-
-
-	<!-- 获取总部所有物业 -->
-	<select id="getAllCorp" resultType="CorpAndCommunity">
-		SELECT
-		corp_name,corp_id
-		FROM
-		corps
-		WHERE
-		type = 0
-	</select>
-
-
-	<!-- 获取总部 同一物业下所有小区 -->
-	<select id="getAllCommunity" resultType="CorpAndCommunity">
-		SELECT
-		community_name,community_id
-		FROM
-		community
-		WHERE
-		corp_id =#{corpsID}
-	</select>
-
-
-	<!-- 获取物业公司管辖的小区 -->
-	<select id="getCommunity" resultType="CorpAndCommunity">
-		SELECT
-		c.community_name,c.corp_id,c.community_id
-		FROM
-		community_dept_role_user cdru
-		LEFT JOIN
-		community c ON c.community_id = cdru.community_id
-		WHERE
-		1 = 1
-		AND
-		cdru.user_id = #{userID}
-	</select>
-
-	<!-- 获取物业公司管辖的小区 获取物业公司员工所在的物业名称 -->
-	<select id="getCorp" resultType="CorpAndCommunity">
-		SELECT
-		corp_name,corp_id
-		FROM
-		corps
-		WHERE
-		corp_id=#{corpId}
-	</select>
-
-
-
->>>>>>> 9c99b64c33e4de793abd5f59e1d05f6f926718dd
 </mapper>
