@@ -32,11 +32,10 @@ public class CompanyInforServiceImpl implements CompanyInforService{
      */
 	@Override
 	public CompanyInforExcution findCompanyInfor() {
-		//HttpSession session = this.getRequest().getSession();
-		//int id = (int) session.getAttribute("id");
-		int id = 1;
+		HttpSession session = this.getRequest().getSession();
+		int corp_id = (int) session.getAttribute("corp_id");
 		try{
-			CompanyInfor findCompanyInfor = companyInforDao.findCompanyInfor(id);
+			CompanyInfor findCompanyInfor = companyInforDao.findCompanyInfor(corp_id);
 			if (findCompanyInfor == null) {
 				return new CompanyInforExcution(CompanyInforEnum.FIND_ERROR);
 			}
@@ -61,15 +60,14 @@ public class CompanyInforServiceImpl implements CompanyInforService{
 	 */
 	@Override
 	public CompanyInforExcution editCompanyInfor(CompanyInforDto companyInforDto) {
-		//HttpSession session = this.getRequest().getSession();
-		//int id = (int) session.getAttribute("id");
-		int id = 1;
+		HttpSession session = this.getRequest().getSession();
+		int corp_id = (int) session.getAttribute("corp_id");
 		String aptitude = companyInforDto.getAptitude();
 		String reg_address = companyInforDto.getRegAddress();
 		String description = companyInforDto.getDescription();
 		String service_tel = companyInforDto.getServiceTel();
 		try{
-			int editCompanyInfor = companyInforDao.editCompanyInfor(id, aptitude, reg_address, description, service_tel);
+			int editCompanyInfor = companyInforDao.editCompanyInfor(corp_id, aptitude, reg_address, description, service_tel);
 			if (editCompanyInfor > 0) {
 				return new CompanyInforExcution(CompanyInforEnum.UPDATE_SUCCESS);
 			}else {
