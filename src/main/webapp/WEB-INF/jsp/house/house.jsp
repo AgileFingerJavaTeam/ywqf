@@ -124,7 +124,7 @@
 				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-5">户型：</label>
 					<div class="formControls col-xs-4 col-sm-5	">
-						<select id="houseType" class="input-text " id="house_type_id"></select>
+						<select id="houseType" class="input-text "></select>
 					</div>
 				</div>
 				<div class="row cl">
@@ -167,7 +167,7 @@
 				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-5">物业费合计：</label>
 					<div class="formControls col-xs-4 col-sm-5	">
-						<input type="text" class="input-text "name="now_estate_fee" id="sum" autocomplete="off" readonly>
+						<input type="text" class="input-text "id="sum" autocomplete="off" readonly>
 					</div>
 				</div>
 			</form>
@@ -178,26 +178,26 @@
 		</div>
 	</div>
 </div>
-<%--
 <div id="modal-edit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content radius" style=" overflow:scroll;height:600px;width: 500px">
 			<form action="house/subEditHouseInfo" method="post" class="form form-horizontal"   id="editForm">
 				<div class="modal-header">
-					<h4	 style="text-align: center">新增小区配置</h4>
+					<h4	 style="text-align: center">修改小区配置</h4>
 					<a class="close" data-dismiss="modal" aria-hidden="true" >×</a>
 				</div>
 				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-5">物业：</label>
 					<div class="formControls col-xs-4 col-sm-5	">
 						<input type="text"class="input-text add" id="editCompany"readonly >
+						<input type="hidden"id="chooseid">
 					</div>
 				</div>
 				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-5">小区：</label>
 					<div class="formControls col-xs-4 col-sm-5	">
 
-						<select class="input-text add" size="1" name="community_id" id="editCommunity" >
+						<select class="input-text add" size="1" id="editCommunity" >
 
 						</select>
 
@@ -206,90 +206,85 @@
 				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-5">楼号：</label>
 					<div class="formControls col-xs-4 col-sm-5	">
-						<input type="text" class="input-text add" name="building" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();" placeholder="请输入楼号">
+						<input type="text" class="input-text add" id="editBuilding" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();" placeholder="请输入楼号">
 					</div>
 				</div>
 				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-5">门号：</label>
 					<div class="formControls col-xs-4 col-sm-5	">
-						<input type="text" class="input-text add" name="unit" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();"  placeholder="请输入门号">
+						<input type="text" class="input-text add" id="editUnit" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();"  placeholder="请输入门号">
 					</div>
 				</div>
 				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-5">层号：</label>
 					<div class="formControls col-xs-4 col-sm-5	">
-						<input type="text" class="input-text add" name="floor" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();"  placeholder="请输入层号">
+						<input type="text" class="input-text add" id="editFloor" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();"  placeholder="请输入层号">
 					</div>
 				</div>
 				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-5">房号：</label>
 					<div class="formControls col-xs-4 col-sm-5	">
-						<input type="text" class="input-text add" name="room_num" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();" placeholder="请输入房号">
+						<input type="text" class="input-text add" id="editRoom"  onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();" placeholder="请输入房号">
 					</div>
 				</div>
 
 				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-5">户型：</label>
 					<div class="formControls col-xs-4 col-sm-5	">
-						<select id="editHouseType" class="input-text add" name="house_type_id"></select>
+						<select id="editHouseType" class="input-text add" ></select>
 					</div>
 				</div>
 				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-5">面积：</label>
 					<div class="formControls col-xs-4 col-sm-5	">
-						<input type="text" class="input-text " name="area" id="areaEdit" onkeyup="(this.v=function(){this.val(/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/);}).call(this)" onblur="this.v();" placeholder="请输入面积">
+						<input type="text" class="input-text " id="areaEdit" onkeyup="(this.v=function(){this.val(/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/);}).call(this)" onblur="this.v();" placeholder="请输入面积">
 					</div>
 				</div>
 				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-5">物业单价：</label>
 					<div class="formControls col-xs-4 col-sm-5	">
-						<input type="text" class="input-text " name="now_estate_unit_price" id="prizeEdit" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();" placeholder="请输入物业单价">
+						<input type="text" class="input-text " id="prizeEdit" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();" placeholder="请输入物业单价">
 					</div>
 				</div>
 				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-5">户主姓名：</label>
 					<div class="formControls col-xs-4 col-sm-5	">
-						<input type="text" class="input-text " name="owner_name"  placeholder="请输入户主姓名">
+						<input type="text" id="editName" class="input-text "placeholder="请输入户主姓名">
 					</div>
 				</div>
 				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-5">联系电话：</label>
 					<div class="formControls col-xs-4 col-sm-5	">
-						<input type="text" class="input-text "name="owner_tel" autocomplete="off" placeholder="请输入联系电话">
+						<input type="text" class="input-text "id="editTel" autocomplete="off" placeholder="请输入联系电话">
 					</div>
 				</div>
 				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-5">备用联系电话：</label>
 					<div class="formControls col-xs-4 col-sm-5	">
-						<input type="text" class="input-text "name="owner_standby_tel" autocomplete="off" placeholder="请输入备用联系电话">
+						<input type="text" id="editTelCopy" class="input-text " autocomplete="off" placeholder="请输入备用联系电话">
 					</div>
 				</div>
 
 				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-5">家庭成员数量：</label>
 					<div class="formControls col-xs-4 col-sm-5	">
-						<input type="text" class="input-text "name="family_size" autocomplete="off" placeholder="请输入家庭成员数量">
+						<input type="text"id="editNum" class="input-text "autocomplete="off" placeholder="请输入家庭成员数量">
 					</div>
 				</div>
 				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-5">物业费合计：</label>
 					<div class="formControls col-xs-4 col-sm-5	">
-						<input type="text" class="input-text "name="now_estate_fee" id="sumEdit" autocomplete="off" readonly>
+						<input type="text" class="input-text " id="sumEdit" autocomplete="off" readonly>
 					</div>
 				</div>
 			</form>
 			<div class="modal-footer" style="text-align: center">
-				<button class="btn btn-primary"onclick="$('#form1').submit()">确定</button>
+				<button class="btn btn-primary"onclick="EDIT()">确定</button>
 				<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
 			</div>
 		</div>
 	</div>
 </div>
---%>
-
-
-
-
 <div id="deleteMessage" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content radius">
@@ -299,12 +294,12 @@
 				</div>
 				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-5">是否删除本条数据?</label>
-					<input type="hidden" name="id" id="rowid">
+					<input type="hidden" id="rowid">
 				</div>
 				<div class="modal-footer" style="text-align: center">
 					<button class="btn btn-primary"onclick="Delete()">确定</button>
 					<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
-				</div
+				</div>
 		</div>
 	</div>
 </div>
@@ -312,6 +307,7 @@
 <%@ include file="../common/footer.jsp" %>
 
 <script type="text/javascript" src="//code.jquery.com/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="hui/static/h-ui/js/H-ui.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
@@ -319,7 +315,7 @@
 <script type="text/javascript" src="hui/lib/bootstrap-modal/2.2.4/bootstrap-modal.js"></script>
 <script type="text/javascript" src="hui/lib/bootstrap-modal/2.2.4/bootstrap-modalmanager.js"></script>
 <script type="text/javascript">
-	var select_row_id;
+	var select_row_id=null;
 	var area=0;
 	var prize=0;
 	$(function(){
@@ -334,7 +330,7 @@
                     getHouseList();
                     $.post("house/getLeaderCompany",null,function (data) {
                         for(var i  in data){
-                            $("#company").append("<option value="+data[i].id+">"+data[i].corpName+"</option>")
+                            $("#company").append("<option value="+data[i].corpId+">"+data[i].corpName+"</option>")
                         }
                     },"json")
                     $("#company").change(function(){
@@ -351,7 +347,7 @@
            $.post("house/getChildCommunity",{id:id},function (data) {
 
                for(var i  in data){
-                   $("#community").append("<option value="+data[i].id+">"+data[i].communityName+"</option>")
+                   $("#community").append("<option value="+data[i].communityId+">"+data[i].communityName+"</option>")
                }
            },"json")
            getHouseList();
@@ -360,7 +356,7 @@
     function chooseCommunity() {
         $.post("house/getCommunity",null,function (data) {
             for(var i  in data){
-                    $("#community").append("<option value="+data[i].id+">"+data[i].communityName+"</option>")
+                    $("#community").append("<option value="+data[i].communityId+">"+data[i].communityName+"</option>")
 			}
         },"json")
 
@@ -391,7 +387,7 @@
                 "columns": [
                     {
                         "sClass": "text-center",
-                        "data": "id",
+                        "data": "houseId",
                         "render": function (data, type, row, meta) {
                             return '<input type="checkbox"  class="checkchild"  value="' + data + '"  onclick="get(this)"/>';
                         },
@@ -405,13 +401,13 @@
                     {"data": "houseTypeName"},
                     {"data": "area"},
                     {"sClass": "text-r",
-                        "data": "nowEstateUnitPrice"
+                        "data": "previousEstateUnitPrice"
                     },
                     {"data": "ownerName"},
                     {"data": "ownerTel"},
                     {"data": "ownerStandbyTel"},
                     {"data": "familySize"},
-                    {"data": "nowEstateFee"}
+                    {"data": "previousEstateFee"}
                 ],
                 "oLanguage": { //国际化配置
                     "sProcessing" : "正在获取数据，请稍后...",
@@ -451,13 +447,13 @@
         $("#modal-add").modal("show")
             $.post("house/getCommunity",null,function (data) {
                 for(var i  in data){
-                    $("#writeCommunity").append("<option value="+data[i].id+">"+data[i].communityName+"</option>")
+                    $("#writeCommunity").append("<option value="+data[i].communityId+">"+data[i].communityName+"</option>")
                 }
             },"json")
         $("#houseType").empty()
         $.post("house/getRoomType",null,function (data) {
             for(var i in data){
-                $("#houseType").append("<option value="+data[i].id+">"+data[i].houseTypeName+"</option>")
+                $("#houseType").append("<option value="+data[i].houseTypeId+">"+data[i].houseTypeName+"</option>")
 
             }
         },"json")
@@ -466,56 +462,94 @@
         })
     }
     function ADD() {
-		var json={}
-		json.community_id=$('#writeCommunity').val();
-		json.building=$('#building').val();
-		json.unit=$('#unit').val();
-		json.floor=$('#floor').val();
-		json.room_num=$('#room_num').val();
-		json.house_type_id=$('#house_type_id').val();
-        json.area=$('#area').val();
-        json.now_estate_unit_price=$('#prize').val();
-        json.owner_name=$('#owner_name').val();
-        json.owner_tel=$('#owner_tel').val();
-        json.family_size=$('#family_size').val();
-        json.now_estate_fee=$('#sum').val();
-        console.log(json)
-        $.post("house/subHouseInfo",{json:json},function (data) {
-				alert("添加成功")
+		var data={}
+		data.community_id=$('#writeCommunity').val();
+		data.building=$('#building').val();
+		data.unit=$('#unit').val();
+		data.floor=$('#floor').val();
+		data.room_num=$('#room_num').val();
+		data.house_type_id=$('#houseType').val();
+        data.area=$('#area').val();
+        data.previous_estate_unit_price=$('#prize').val();
+        data.owner_name=$('#owner_name').val();
+        data.owner_tel=$('#owner_tel').val();
+        data.owner_standby_tel=$('#owner_standby_tel').val();
+        data.family_size=$('#family_size').val();
+        data.previous_estate_fee=$('#sum').val();
+        $.post("house/subHouseInfo",data,function (data) {
+            location.reload()
         })
 
     }
-
-
     function edit(){
-
+        if(select_row_id==null){
+			alert("请选择要编辑的数据行");
+            return false;
+		}
+        $("#modal-edit").modal("show");
+        $('#chooseid').val(select_row_id);
         $.post("house/editHouseInfo",{id:select_row_id},function (data) {
-            $('#writeCompany').val(data.corpName)
+            console.log(data);
+            $('#editCompany').val(data.corpName)
+           $('#editCommunity').val(data.communityId);
+            $('#editBuilding').val(data.building);
+            $('#editUnit').val(data.unit);
+            $('#editFloor').val(data.floor);
+            $('#editRoom').val(data.roomNum);
+            $('#editHouseType').val(data.houseTypeId);
+            $('#areaEdit').val(data.area);
+            $('#prizeEdit').val(data.previousEstateUnitPrice);
+            $('#editName').val(data.ownerName);
+            $('#editTel').val(data.ownerTel);
+            $('#editTelCopy').val(data.ownerStandbyTel);
+            $('#editNum').val(data.familySize);
+            $('#sumEdit').val(data.previousEstateFee);
         })
-        $.post("house/getCompany",null,function (data) {
-            $('#writeCompany').val(data.corpName)
-        })
-        $("#modal-edit").modal("show")
         $.post("house/getCommunity",null,function (data) {
             for(var i  in data){
-                $("#writeCommunity").append("<option value="+data[i].id+">"+data[i].communityName+"</option>")
+                $("#editCommunity").append("<option value="+data[i].communityId+">"+data[i].communityName+"</option>")
             }
         },"json")
 
         $.post("house/getRoomType",null,function (data) {
             for(var i in data){
-                $("#houseType").append("<option value="+data[i].id+">"+data[i].houseTypeName+"</option>")
+                $("#editHouseType").append("<option value="+data[i].houseTypeId+">"+data[i].houseTypeName+"</option>")
 
             }
         },"json")
         $("#modal-edit").on("hide.bs.modal", function() {
-            $("#writeCommunity").empty();
-            $("#houseType").empty()
+            $("#editCommunity").empty();
+            $("#editHouseType").empty()
             location.reload()
         })
     }
-	function deleteMessage(){
+    function EDIT() {
+        var data={}
+        data.community_id=$('#editCommunity').val();
+        data.building=$('#editBuilding').val();
+        data.unit=$('#editUnit').val();
+        data.floor=$('#editFloor').val();
+        data.room_num=$('#editRoom').val();
+        data.house_type_id=$('#editHouseType').val();
+        data.area=$('#areaEdit').val();
+        data.previous_estate_unit_price=$('#prizeEdit').val();
+        data.owner_name=$('#editName').val();
+        data.owner_tel=$('#editTel').val();
+        data.owner_standby_tel=$('#editTelCopy').val();
+        data.family_size=$('#editNum').val();
+        data.previous_estate_fee=$('#sumEdit').val();
+        data.id=$('#chooseid').val();
+        $.post("house/subEditHouseInfo",data,function (data) {
+            location.reload()
+        })
 
+    }
+
+	function deleteMessage(){
+        if(select_row_id==null){
+            alert("请选择要删除的数据行");
+            return false;
+        }
             $("#deleteMessage").modal("show");
 			$('#rowid').val(select_row_id);
             $("#deleteMessage").on("hide.bs.modal", function() {
@@ -523,8 +557,9 @@
             })
         }
 	function Delete(){
-        $.post("house/subDelHouseInfo",{id:$('#rowid').val()},function (data) {
-
+	    var id=$('#rowid').val();
+        $.post("house/subDelHouseInfo",{id:id},function (data) {
+            location.reload();
         })
 	}
     $('#area').bind('input propertychange', function() {

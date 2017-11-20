@@ -12,8 +12,8 @@
     <select id="findHouseAsk"  resultType="HouseAsk">
 		SELECT need.id,need.house_need_rent_num,need.release_time,need.type,
 		house_type.house_type_name,direction.house_direction_type_name,
-		need.floor,area.min_area,area.max_area,fitment.house_fitment_type_name,
-		price.`min_price`,price.max_price,need.remark,need.customer_name,need.phone
+		need.floor,area.min_area,area.max_area,area.house_area_type_name,fitment.house_fitment_type_name,
+		price.`min_price`,price.max_price,price.house_price_range_name as rent,prices.house_price_range_name as buy,need.remark,need.customer_name,need.phone
 		FROM house_need need
 		LEFT JOIN house_type
 		ON need.house_type_id=house_type.house_type_id
@@ -25,11 +25,17 @@
 		ON need.house_fitment_type_id=fitment.house_fitment_type_id
 		LEFT JOIN house_price_range price
 		ON need.rent_house_price_range_id=price.house_price_range_id
+		LEFT JOIN house_price_range prices
+		ON need.buy_house_price_range_id=prices.house_price_range_id
+		LEFT JOIN community
+		ON need.community_id=community.community_id
+		LEFT JOIN corps
+		ON community.corp_id=corps.corp_id
 		<where>
 			1=1
-			<!--<if test="corp_id!=0">
-				AND  need.corp_id=#{corp_id}
-			</if>-->
+			<if test="corp_id!=0">
+				AND  corps.corp_id=#{corp_id}
+			</if>
 			<if test="community_id!=0">
 				AND  need.community_id=#{community_id}
 			</if>
@@ -40,9 +46,25 @@
     </select>
 
 	<select id="findAskById" resultType="HouseAsk">
-		SELECT * FROM  house_need
+		SELECT need.id,need.house_need_rent_num,need.release_time,need.type,
+		house_type.house_type_name,house_type.house_type_id,direction.house_direction_type_name,direction.house_direction_type_id,
+		need.floor,area.min_area,area.max_area,area.house_area_type_name,area.id,fitment.house_fitment_type_name,fitment.house_fitment_type_id,
+		price.`min_price`,price.max_price,price.house_price_range_name as rent,price.house_price_range_id as rent_id,prices.house_price_range_name as buy,prices.house_price_range_id as buy_id,need.remark,need.customer_name,need.phone
+		FROM house_need need
+		LEFT JOIN house_type
+		ON need.house_type_id=house_type.house_type_id
+		LEFT JOIN house_direction_type direction
+		ON need.house_direction_type_id=direction.house_direction_type_id
+		LEFT JOIN house_area_type area
+		ON need.house_area_type_id=area.id
+		LEFT JOIN house_fitment_type fitment
+		ON need.house_fitment_type_id=fitment.house_fitment_type_id
+		LEFT JOIN house_price_range price
+		ON need.rent_house_price_range_id=price.house_price_range_id
+		LEFT JOIN house_price_range prices
+		ON need.buy_house_price_range_id=prices.house_price_range_id
 		WHERE 1=1
-		AND id=#{id}
+		AND need.id=#{id}
 	</select>
 	<!--查询需求-->
 	<select id="findAskType" resultType="HouseAsk">
@@ -92,6 +114,14 @@
 		VALUES(#{community_id},NOW(),#{house_need_rent_num},#{type},#{house_type_id},#{house_direction_type_id},#{house_area_type_id},#{house_fitment_type_id},#{rent_house_price_range_id},#{remark},#{customer_name},#{phone})
 	</insert>
 
+	<update id="editData">
+		UPDATE house_need
+		SET house_need_rent_num=#{house_need_rent_num},customer_name=#{customer_name},phone=#{phone},house_type_id=#{house_type_id},
+		rent_house_price_range_id=#{rent_house_price_range_id},house_direction_type_id=#{house_direction_type_id},house_fitment_type_id=#{house_fitment_type_id},
+		house_area_type_id=#{house_area_type_id},remark=#{remark},type=#{type}
+		WHERE house_need.id=#{id}
+	</update>
+
 	<delete id="deleteData">
 		DELETE FROM house_need WHERE id=#{id}
 	</delete>
@@ -123,7 +153,7 @@
 	<select id="findBuildingById" resultType="RentAndSale">
 		SELECT building FROM house
 		LEFT JOIN community
-		ON house.community_id=community.id
+		ON house.community_id=community.community_id
 		<where>
 			1=1
 			<if test="building_id!=0">
@@ -134,25 +164,38 @@
 
 	<!--查询租售列表-->
 	<select id="findRentSale"  resultType="RentAndSale">
-		SELECT rent.id rent.estate_sell_rent_num,rent.release_time,rent.type,house.house_num,
-		house_type.house_type_name,house_direction_type.house_direction_type_name,
-		house.area,house_fitment_type.house_fitment_type_name,rent.rent_price,rent.sale_price,
-		house_pic.url,house.owner_name,house.owner_tel
-		FROM house_sell_rent rent
+		SELECT house_sell_rent.id,estate_sell_rent_num,release_time,type,house_num,house_type_name,
+		house_direction_type_name,area,house_fitment_type_name,
+		rent_price,sale_price,url,remark,owner_name,owner_tel
+		FROM house_sell_rent
 		LEFT JOIN house
-		ON rent.house_id=house.id
+		ON house_sell_rent.house_id=house.house_id
 		LEFT JOIN house_type
-		ON rent.house_id=house_type.id
+		ON house.house_type_id=house_type.house_type_id
 		LEFT JOIN house_direction_type
-		ON rent.house_id=house_direction_type.id
+		ON house_sell_rent.house_direction_type_id=house_direction_type.house_direction_type_id
 		LEFT JOIN house_fitment_type
-		ON rent.house_id=house_fitment_type.id
+		ON house_sell_rent.house_fitment_type_id=house_fitment_type.house_fitment_type_id
 		LEFT JOIN house_pic
-		ON rent.id= house_pic.house_sell_rent_id
+		ON house_sell_rent.id=house_pic.house_sell_rent_id
 		<where>
 			1=1
+			<!--<if test="community_id!=0">
+				AND  need.community_id=#{community_id}
+			</if>
+			<if test="type!=3">
+				AND  need.type=#{type}
+			</if>-->
 		</where>
 	</select>
+	<!--房号联想-->
+	<select id="findHouseNum" resultType="RentAndSale">
+		SELECT house_id,area
+		FROM house
+		WHERE house_num=#{house_num}
+		AND community_id=#{community_id}
+	</select>
+
 
 
 

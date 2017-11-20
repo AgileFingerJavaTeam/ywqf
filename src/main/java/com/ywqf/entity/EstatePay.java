@@ -133,6 +133,7 @@ public class EstatePay {
         this.ownerName = ownerName;
     }
 
+<<<<<<< HEAD
     public String getArea() {
         return area;
     }
@@ -140,8 +141,19 @@ public class EstatePay {
     public void setArea(String area) {
         this.area = area;
     }
+=======
+    
 
-    public String getEstateUnitPrice() {
+    public String getArea() {
+		return area;
+	}
+>>>>>>> 9c99b64c33e4de793abd5f59e1d05f6f926718dd
+
+	public void setArea(String area) {
+		this.area = area;
+	}
+
+	public String getEstateUnitPrice() {
         return estateUnitPrice;
     }
 
@@ -230,6 +242,7 @@ public class EstatePay {
         this.operateIp = operateIp;
     }
 
+<<<<<<< HEAD
     @Override
     public String toString() {
         return "EstatePay{" +
@@ -260,4 +273,26 @@ public class EstatePay {
                 ", previousEstateFee='" + previousEstateFee + '\'' +
                 '}';
     }
+=======
+	@Override
+	public String toString() {
+		return "EstatePay [chargeWorkerName=" + chargeWorkerName
+				+ ", operateName=" + operateName + ", communityName="
+				+ communityName + ", id=" + id + ", estatePayNum="
+				+ estatePayNum + ", corpId=" + corpId + ", communityId="
+				+ communityId + ", houseId=" + houseId + ", houseNum="
+				+ houseNum + ", ownerName=" + ownerName + ", area=" + area
+				+ ", estateUnitPrice=" + estateUnitPrice + ", payMonth="
+				+ payMonth + ", payDate=" + payDate + ", paymentAmount="
+				+ paymentAmount + ", serviceStartDate=" + serviceStartDate
+				+ ", serviceEndDate=" + serviceEndDate + ", chargeWorkerId="
+				+ chargeWorkerId + ", status=" + status + ", operator="
+				+ operator + ", operateTime=" + operateTime + ", operateIp="
+				+ operateIp + ", ownerTel=" + ownerTel + ", ownerStandbyTel="
+				+ ownerStandbyTel + ", previousEstateFee=" + previousEstateFee
+				+ "]";
+	}
+
+    
+>>>>>>> 9c99b64c33e4de793abd5f59e1d05f6f926718dd
 }

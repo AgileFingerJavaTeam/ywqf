@@ -144,9 +144,9 @@ public class EstatePayServiceImpl implements EstatePayService {
     @Override
     public EstatePayExcution findUserType(EstatePayDto estatePayDto) {
 //        int userId = estatePayDto.getUserId();
-        int userId = 1000;
+        int corpId = 1000;
         try {
-            String userType = estatePayDao.findUserType(userId);
+            String userType = estatePayDao.findUserType(corpId);
             return new EstatePayExcution(EstatePayEnum.FIND_SUCCESS,userType);
         }catch (Exception e) {
             logger.error(e.getMessage(), e);

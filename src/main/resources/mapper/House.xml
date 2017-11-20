@@ -41,23 +41,23 @@
     <select id="findHouseInfo"  resultType="HouseInfo">
 		SELECT * FROM house
 		LEFT JOIN house_type
-		ON house.house_type_id=house_type.id
+		ON house.house_type_id=house_type.house_type_id
 		LEFT JOIN community
-		ON house.community_id=community.id
+		ON house.community_id=community.community_id
 		LEFT JOIN corps
-		ON  community.corp_id=corps.id
+		ON  community.corp_id=corps.corp_id
 		<where>
 			1=1
 			<if test="corp_id!=0">
-			AND  corps.id=#{corp_id}
-		</if>
+			AND  corps.corp_id=#{corp_id}
+			</if>
 			<if test="community_id!=0">
-				AND  community_id=#{community_id}
+				AND  community.community_id=#{community_id}
 			</if>
 		</where>
 		limit #{offset},#{rows}
     </select>
-	<!--数量-->
+	<!--&lt;!&ndash;数量&ndash;&gt;
 	<select id="findHouseCount"  resultType="int">
         SELECT count(*)  FROM house
 		LEFT JOIN house_type
@@ -75,7 +75,7 @@
 				AND  community_id=#{community_id}
 			</if>
 		</where>
-    </select>
+    </select>-->
     <!--小区-->
      <select id="findCommunityName" resultType="HouseInfo">
     	SELECT community_name ,id
@@ -84,37 +84,39 @@
     </select>
     <!--户型-->
     <select id="findRoomType" resultType="HouseInfo">
-    	SELECT house_type_name,id FROM house_type
+    	SELECT house_type_name,house_type_id FROM house_type
 		WHERE 1=1
     </select>
 	<!--保存信息-->
 	<insert id="saveHouseInfo">
-		INSERT INTO house (community_id,building,unit,floor,room_num,house_type_id,area,now_estate_unit_price,now_estate_fee,owner_name,owner_tel,owner_standby_tel,family_size,house_num)
-		VALUES(#{community_id},#{building},#{unit},#{floor},#{room_num},#{house_type_id},#{area},#{now_estate_unit_price},#{now_estate_fee},#{owner_name},#{owner_tel},#{owner_standby_tel},#{family_size},#{house_num})
+		INSERT INTO house (community_id,building,unit,floor,room_num,house_type_id,area,previous_estate_unit_price,previous_estate_fee,owner_name,owner_tel,owner_standby_tel,family_size,house_num)
+		VALUES(#{community_id},#{building},#{unit},#{floor},#{room_num},#{house_type_id},#{area},#{previous_estate_unit_price},#{previous_estate_fee},#{owner_name},#{owner_tel},#{owner_standby_tel},#{family_size},#{house_num})
 	</insert>
 	<!--根据id查询详细信息-->
 	<select id="findHouseInfoByID" resultType="HouseInfo">
 		SELECT * FROM house
 		LEFT JOIN house_type
-		ON house.house_type_id=house_type.id
+		ON house.house_type_id=house_type.house_type_id
 		LEFT JOIN  community
-		ON house.community_id=community.id
+		ON house.community_id=community.community_id
+		LEFT JOIN corps
+		ON community.corp_id=corps.corp_id
 		WHERE 1=1
-		AND house.id=#{id}
+		AND house.house_id=#{id}
 	</select>
 	<!--更新信息-->
 	<update id="editHouseInfo">
 		UPDATE house
 		SET community_id=#{community_id},building=#{building},unit=#{unit},floor=#{floor},
 		room_num=#{room_num},house_type_id=#{house_type_id},area=#{area},
-		now_estate_unit_price=#{now_estate_unit_price},now_estate_fee=#{now_estate_fee},
+		previous_estate_unit_price=#{previous_estate_unit_price},previous_estate_fee=#{previous_estate_fee},
 		owner_name=#{owner_name},owner_tel=#{owner_tel},owner_standby_tel=#{owner_standby_tel},
-		family_size=#{family_size}
+		family_size=#{family_size},house_num=#{house_num}
 		WHERE 1=1
-		AND house.id=#{id}
+		AND house.house_id=#{id}
 	</update>
 
 	<delete id="deleteHouseInfo" >
-		DELETE FROM house WHERE id =#{id}
+		DELETE FROM house WHERE house_id=#{id}
 	</delete>
 </mapper>

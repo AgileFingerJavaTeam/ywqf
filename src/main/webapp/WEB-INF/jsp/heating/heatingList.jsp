@@ -99,7 +99,10 @@
 	<script type="text/javascript">
 			
 		    $(function(){
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9c99b64c33e4de793abd5f59e1d05f6f926718dd
 			    $.ajax({
 			    	url:"corpAndCommunity/getCorpAndCommunity",
 			    	type:"post",
@@ -120,8 +123,13 @@
 			    				$("#community").append("<option value="+community[i].communityId+">"+community[i].communityName+"</option>")
 			    			}
 			    		}
+<<<<<<< HEAD
 			    		
 			    		
+=======
+			    		
+			    		
+>>>>>>> 9c99b64c33e4de793abd5f59e1d05f6f926718dd
 			    		var now = new Date();    
 					    var year = now.getFullYear();
 					    var at_marchant_search={};
@@ -142,6 +150,10 @@
 								$('#percentage').text(data.percentage);
 								
 								$('#Ddl_Year').val(year);
+<<<<<<< HEAD
+=======
+								
+>>>>>>> 9c99b64c33e4de793abd5f59e1d05f6f926718dd
 								$('#heating').dataTable({
 									"data": data.rows,
 									"columns": [
@@ -161,6 +173,7 @@
 										}},
 										{'data': 'paymentAmount'},
 									],
+<<<<<<< HEAD
 
 
 
@@ -171,14 +184,30 @@
 								            //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
 								            {"orderable":false,"aTargets":[0]}// 不参与排序的列
 								        ]
+=======
+									
+									
+ 									 "sServerMethod":"POST",
+ 							         "aaSorting": [[ 1, "desc" ]],//默认第几个排序
+ 							         "bStateSave": true,//状态保存
+ 							         "aoColumnDefs": [
+ 							            //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+ 							            {"orderable":false,"aTargets":[0]}// 不参与排序的列
+ 							        ]
+>>>>>>> 9c99b64c33e4de793abd5f59e1d05f6f926718dd
 								});
 							}
 						});
 			    	}
 			    })
 		    })
+<<<<<<< HEAD
 
 
+=======
+		    
+			
+>>>>>>> 9c99b64c33e4de793abd5f59e1d05f6f926718dd
 		    function cYearFunc(){
 		    	cFunc('y');
 		    	}

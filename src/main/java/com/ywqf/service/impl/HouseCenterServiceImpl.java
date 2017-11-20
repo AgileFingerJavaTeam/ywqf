@@ -12,6 +12,7 @@ import com.ywqf.enums.HouseCenterEnum;
 import com.ywqf.exception.db.DeleteInnerErrorException;
 import com.ywqf.exception.db.InsertInnerErrorException;
 import com.ywqf.exception.db.QueryInnerErrorException;
+import com.ywqf.exception.db.UpdateInnerErrorException;
 import com.ywqf.service.HouseCenterService;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -170,6 +171,36 @@ public class HouseCenterServiceImpl implements HouseCenterService {
 		}
 	}
 
+	@Override
+	public HouseCenterExcution subEdit(HouseCenterDto houseCenterDto) {
+		/*int community_id=Integer.parseInt(houseCenterDto.getCommunity_id());*/
+		String house_need_rent_num=houseCenterDto.getHouse_need_rent_num();
+		int type=houseCenterDto.getType();
+		int house_type_id=houseCenterDto.getHouse_type_id();
+		int	rent_house_price_range_id=houseCenterDto.getRent_house_price_range_id();
+		int buy_house_price_range_id=houseCenterDto.getBuy_house_price_range_id();
+		int house_direction_type_id=houseCenterDto.getHouse_direction_type_id();
+		int  house_fitment_type_id=houseCenterDto.getHouse_fitment_type_id();
+		int house_area_type_id=houseCenterDto.getHouse_area_type_id();
+		String remark=houseCenterDto.getRemark();
+		String customer_name=houseCenterDto.getCustomer_name();
+		String phone=houseCenterDto.getPhone();
+		int id=houseCenterDto.getId();
+		try{
+			int editData=houseCenterDao.editData(/*community_id*/house_need_rent_num,type,house_type_id,rent_house_price_range_id,buy_house_price_range_id,house_direction_type_id,house_fitment_type_id,house_area_type_id,remark,customer_name,phone,id);
+			if (editData>0) {
+				return  new HouseCenterExcution(HouseCenterEnum.ADD_SUCCESS);
+			}else{
+				throw new InsertInnerErrorException("新增失败");
+			}
+		}catch (UpdateInnerErrorException d) {
+			throw d;
+		}catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw new BaseException(e.getMessage());
+		}
+	}
+
 	/*删除数据*/
 	@Override
 	public HouseCenterExcution deleteHouseInfo(HouseCenterDto houseCenterDto) {
@@ -224,6 +255,18 @@ public class HouseCenterServiceImpl implements HouseCenterService {
 		}
 	}
 
+	@Override
+	public HouseCenterExcution findHouseNum(HouseCenterDto houseCenterDto) {
+		int community_id=Integer.parseInt(houseCenterDto.getCommunity_id());
+		String house_num=houseCenterDto.getHouse_num();
+		try{
+			List<RentAndSale> findHouseNum=houseCenterDao.findHouseNum(house_num,community_id);
+			return new HouseCenterExcution(HouseCenterEnum.FIND_SUCCESS,findHouseNum);
+		}catch (Exception  e){
+			logger.error(e.getMessage(),e);
+			throw new BaseException(e.getMessage());
+		}
+	}
 
 
 }

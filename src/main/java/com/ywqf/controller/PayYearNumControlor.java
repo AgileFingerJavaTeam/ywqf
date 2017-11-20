@@ -43,7 +43,7 @@ public class PayYearNumControlor extends BaseController{
 		HttpSession authSession = this.getRequest().getSession();
 		//type 为物业类型  1为总部  0为物业公司
 		int userid =1000;
-		int type = 1;
+		int type = 0;
 		ModelAndView mv =new ModelAndView();
 		mv.addObject("userid", userid);
 		mv.addObject("type", type);
@@ -56,7 +56,6 @@ public class PayYearNumControlor extends BaseController{
 		HttpSession authSession = this.getRequest().getSession();
 		try {
 			PayYearResultExcution payYearResultExcution=payYearNumService.PayYearResult(payYearNumDto);
-			List<List<PayYearResultExcution>> result =new ArrayList<List<PayYearResultExcution>>();
 			return BaseUIResult.returnJson(payYearResultExcution);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
@@ -72,7 +71,7 @@ public class PayYearNumControlor extends BaseController{
 	@RequestMapping(value ="/corpsList",method = RequestMethod.POST,produces = "text/json;charset=UTF-8")
 	public Object corpsList(){
 		int userid=1000;
-		int type=1;
+		int type=0;
 		CorpExcution corpExcution =payYearNumService.CorpList(userid,type);
 		return BaseUIResult.returnJson(corpExcution);
 	}

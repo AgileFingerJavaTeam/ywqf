@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 public class HouseInfo {
 	private int id;
 	private int communityId;
+	private int houseId;
 	private String building;
 	private String unit;
 	private String floor;
@@ -79,7 +80,14 @@ public class HouseInfo {
 		this.houseTypeId = houseTypeId;
 	}
 
-	
+	public int getHouseId() {
+		return houseId;
+	}
+
+	public void setHouseId(int houseId) {
+		this.houseId = houseId;
+	}
+
 	public String getCommunityName() {
 		return communityName;
 	}
@@ -192,6 +200,7 @@ public class HouseInfo {
 		return "HouseInfo{" +
 				"id=" + id +
 				", communityId=" + communityId +
+				", houseId=" + houseId +
 				", building='" + building + '\'' +
 				", unit='" + unit + '\'' +
 				", floor='" + floor + '\'' +
@@ -217,6 +226,4 @@ public class HouseInfo {
 				", corpId=" + corpId +
 				'}';
 	}
-
-
 }

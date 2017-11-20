@@ -9,14 +9,15 @@ public class RentAndSale {
 	private String houseTypeName;
 	private String houseDirectionTypeName;
 	private double area;
+	private int houseId;
 	private String houseFitmentTypeName;
 	private double salePrice;
 	private double rentPrice;
 	private String url;
+	private String remark;
 	private String ownerName;
 	private String ownerTel;
 	private  String building;
-
 	public Integer getId() {
 		return id;
 	}
@@ -137,6 +138,22 @@ public class RentAndSale {
 		this.building = building;
 	}
 
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public int getHouseId() {
+		return houseId;
+	}
+
+	public void setHouseId(int houseId) {
+		this.houseId = houseId;
+	}
+
 	@Override
 	public String toString() {
 		return "RentAndSale{" +
@@ -148,10 +165,12 @@ public class RentAndSale {
 				", houseTypeName='" + houseTypeName + '\'' +
 				", houseDirectionTypeName='" + houseDirectionTypeName + '\'' +
 				", area=" + area +
+				", houseId=" + houseId +
 				", houseFitmentTypeName='" + houseFitmentTypeName + '\'' +
 				", salePrice=" + salePrice +
 				", rentPrice=" + rentPrice +
 				", url='" + url + '\'' +
+				", remark='" + remark + '\'' +
 				", ownerName='" + ownerName + '\'' +
 				", ownerTel='" + ownerTel + '\'' +
 				", building='" + building + '\'' +

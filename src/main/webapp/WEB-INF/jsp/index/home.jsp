@@ -105,6 +105,7 @@
                     <li><a _href="estatePay/showEstatePayCheckBillPage" data-title="缴费情况当日对账" href="javascript:void(0)">缴费情况当日对账</a></li>
                     <li><a _href="payCost/showPayCost" data-title="业主缴费查询" href="javascript:void(0)">业主缴费查询</a></li>
                     <li><a _href="estatePay/getEstatePayQueryList" data-title="月度缴费/欠费查询" href="javascript:void(0)">月度缴费/欠费查询</a></li>
+                    <li><a _href="setfree/property" data-title="收费标准" href="javascript:void(0)">收费标准</a></li>
                     <li><a _href="payYearNum/list" data-title="年度汇总" href="javascript:void(0)">年度汇总</a></li>
                 </ul>
             </dd>
@@ -113,7 +114,7 @@
             <dt>车位费<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul>
-                    <li><a _href="PropertyFeePayment/showProperty" data-title="缴费" href="javascript:;">缴费</a></li>
+                    <li><a _href="ParkingFeePayment/showParking" data-title="缴费" href="javascript:;">缴费</a></li>
                     <li><a _href="parkingPay/showParkingPayCheckBillPage" data-title="缴费情况当日对账" href="javascript:;">缴费情况当日对账</a></li>
                     <li><a _href="parkingPay/showParkingPay" data-title="车位缴费查询" href="javascript:;">车位缴费查询</a></li>
                     <li><a _href="parking/getParkingList" data-title="月度缴费/欠费查询" href="javascript:void(0)">月度缴费/欠费查询</a></li>
@@ -126,7 +127,7 @@
             <dd>
                 <ul>
                     <li><a _href="heatingPrefeTreat/showHeatingPrefeTreat" data-title="优惠设置" href="javascript:void(0) ">优惠设置</a></li>
-                    <li><a _href="PropertyFeePayment/showProperty" data-title="缴费" href="javascript:void(0);">缴费</a></li>
+                    <li><a _href="HeatingFeePayment/showHeating" data-title="缴费" href="javascript:void(0);">缴费</a></li>
                     <li><a _href="heatingPay/showHeatingPayCheckBillPage" data-title="缴费情况当日对账" href="javascript:void(0)">缴费情况当日对账</a></li>
                     <li><a _href="heating/getHeatintList" data-title="年度缴费/欠费查询汇总" href="javascript:void(0)">年度缴费/欠费查询汇总</a></li>
                 </ul>
@@ -138,6 +139,10 @@
         <dl id="menu-system">
             <dt><a _href="newsHall/showNewsHallPage" style = "text-decoration: none" data-title="消息大厅" href="javascript:void(0)">消息大厅</a></dt>
         </dl>
+        <dl id="Staff">
+            <dt><a _href="StaffManagement/showStaff" style = "text-decoration: none" data-title="员工管理" href="javascript:void(0)">员工管理</a></dt>
+        </dl>
+
         <dl id="hosue-ask">
             <dt><a _href="HouseCenter/AskForPage" style = "text-decoration: none" data-title="房产中心-求租求购" href="javascript:void(0) ">房产中心-求租求购</a></dt>
         </dl>

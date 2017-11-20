@@ -8,7 +8,9 @@
     .table>tbody>tr>td{
         text-align:center;
     }
-
+   .bgRed {
+       background-color: #FF0000;
+   }
 </style>
 <link rel="stylesheet" href="hui/lib/jquery/jquery-ui.css">
 <link rel="stylesheet" href="Fontawesome/css/font-awesome.min.css">
@@ -72,13 +74,13 @@
         <table class="table table-border table-bordered table-hover table-bg table-sort">
             <thead>
             <tr class="text-c">
-                <th style="display: none;">id</th>
-                <th width="50" class="text-center">工号</th>
-                <th width="70">姓名</th>
-                <th width="80">头像</th>
-                <th width="80">绑定手机</th>
-                <th width="80">角色</th>
-                <th width="70">状态</th>
+                <th width="20">id</th>
+                <th width="25" class="text-center">工号</th>
+                <th width="35">姓名</th>
+                <th width="55">头像</th>
+                <th width="40">绑定手机</th>
+                <th width="55">角色</th>
+                <th width="30">状态</th>
             </tr>
             </thead>
         </table>
@@ -89,11 +91,12 @@
     <div class="modal-dialog">
         <div class="modal-content radius">
             <div class="modal-header">
-                <h3 class="modal-title">修改作废状态</h3>
+                <h3 class="modal-title">作废单据</h3>
                 <a class="close" data-dismiss="modal" aria-hidden="true" href="javascript:void()">×</a>
             </div>
             <div class="modal-body">
-                <span style="text-align: center;">是否修改作废状态？</span>
+                <span style="text-align: center;">是否作废此单据？</span>
+                <span style="text-align: center; color: red;">(执行后无法撤回！)</span>
                 <input style="display: none;" value="" id="asd">
             </div>
             <div class="modal-footer">
@@ -107,72 +110,59 @@
 <!-- 新增模态框  start-->
 <div id="modal-demo-add" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content radius" style="overflow:scroll;  height:600px;width: 500px">
-            <form action="" method="post" class="form form-horizontal" id="demoform-1">
+        <div class="modal-content radius" style="overflow:scroll;  height:400px;width: 500px">
+            <form action="StaffManagement/insertStaff" method="post" class="form form-horizontal" id="InsertForm"  method="post" enctype="multipart/form-data">
                 <div class="modal-header">
-                    <h4	 style="text-align: center">创建缴费单</h4>
+                    <h4	 style="text-align: center">新增员工</h4>
                     <a class="close" data-dismiss="modal" aria-hidden="true" href="javascript:void();">×</a>
                 </div>
-                <div class="row cl">
-                    <label class="form-label col-xs-4 col-sm-5">收费单编号</label>
+                <div class="row cl" style="display: none;">
+                    <label class="form-label col-xs-4 col-sm-5">物业ID</label>
                     <div class="formControls col-xs-4 col-sm-5	">
-                        <input type="text" class="input-text" name="heating_pay_num" id="heating_pay_num"  placeholder="请输入单号" required:true;>
+                        <input type="text" class="input-text" name="corp_id" id="at_corp_id"  placeholder="请输入姓名"; required:true;>
+                    </div>
+                </div>
+                <div class="row cl" style="display: none;">
+                    <label class="form-label col-xs-4 col-sm-5">操作人名称</label>
+                    <div class="formControls col-xs-4 col-sm-5	">
+                        <input type="text" class="input-text" name="operator" id="Rnames"  placeholder="请输入姓名"; required:true;>
                     </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-4 col-sm-5">小区</label>
+                    <label class="form-label col-xs-4 col-sm-5">姓名</label>
                     <div class="formControls col-xs-4 col-sm-5	">
-                        <select class="select" size="1" name="community_id" id="community_id" style="height: 31px;">
+                        <input type="text" class="input-text" name="name" id="names"  placeholder="请输入姓名"; required:true;>
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-5">电话</label>
+                    <div class="formControls col-xs-4 col-sm-5	">
+                        <input type="text" class="input-text" id="telephone"  name="telephone" placeholder="请输入电话"; required:true; >
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-5">头像</label>&nbsp;&nbsp;
+                        <span class="btn-upload">
+                          <a href="javascript:void();" class="btn btn-primary radius"><i class="Hui-iconfont Hui-iconfont-upload"></i> 浏览文件</a>
+                          <input type="file" multiple name="avater" class="input-file" id="avater">
+                        </span>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-5">角色</label>
+                    <div class="formControls col-xs-4 col-sm-5	">
+                        <select class="select" size="1" name="role_name" id="role_name" style="height: 31px;">
+                            <option value="1">物业公司管理人员</option>
+                            <option value="2">小区项目管理人员</option>
                         </select>
                     </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-4 col-sm-5">门牌号</label>
+                    <label class="form-label col-xs-4 col-sm-5">状态</label>
                     <div class="formControls col-xs-4 col-sm-5	">
-                        <input type="text" class="input-text" id="house_num"  name="house_num" autocomplete="off" placeholder="请输入门牌号" >
-                    </div>
-                </div>
-                <div class="row cl">
-                    <label class="form-label col-xs-4 col-sm-5">业主姓名</label>
-                    <div class="formControls col-xs-4 col-sm-5	">
-                        <input type="text" class="input-text" id="owner_name"  name="owner_name" readonly="readonly" placeholder="请输入业主姓名" >
-                    </div>
-                </div>
-                <div class="row cl">
-                    <label class="form-label col-xs-4 col-sm-5">面积</label>
-                    <div class="formControls col-xs-4 col-sm-5	">
-                        <input type="text" class="input-text" id="area"   name="area" readonly="readonly" placeholder="请输入采暖面积" >
-                    </div>
-                </div>
-                <div class="row cl">
-                    <label class="form-label col-xs-4 col-sm-5">单价</label>
-                    <div class="formControls col-xs-4 col-sm-5	">
-                        <input type="text" class="input-text"  id="heating_unit_price"  name="heating_unit_price"  placeholder="请输入单价" >
-                    </div>
-                </div>
-                <div class="row cl">
-                    <label class="form-label col-xs-4 col-sm-5">优惠后单价</label>
-                    <div class="formControls col-xs-4 col-sm-5	">
-                        <input type="text" class="input-text"  id="discount_heating_unit_price"  name="discount_heating_unit_price"  placeholder="优惠后单价"  readonly>
-                    </div>
-                </div>
-                <div class="row cl">
-                    <label class="form-label col-xs-4 col-sm-5">缴费金额</label>
-                    <div class="formControls col-xs-4 col-sm-5	">
-                        <input type="text" class="input-text" autocomplete="off" id="payment_amount"  name="payment_amount" readonly="readonly">
-                    </div>
-                </div>
-                <div class="row cl">
-                    <label class="form-label col-xs-4 col-sm-5">收费员工</label>
-                    <div class="formControls col-xs-4 col-sm-5	">
-                        <select class="select" size="1" name="charge_worker_id" id="charge_worker_id" style="height: 31px;">
+                        <select class="select" size="1" name="status" id="status" style="height: 31px;">
+                            <option value="1" selected>启用</option>
+                            <option value="0">停用</option>
                         </select>
-                    </div>
-                </div>
-                <div class="row cl">
-                    <label class="form-label col-xs-4 col-sm-5">缴费日期</label>
-                    <div class="formControls col-xs-4 col-sm-5	">
-                        <input type="text" class="input-text"  id="payment_date"  name="payment_date" readonly="readonly">
 
                     </div>
                 </div>
@@ -191,6 +181,7 @@
 <!--startprint1--><!--endprint1-->
 <!--新增模态框  end -->
 <%@ include file="../common/footer.jsp" %>
+<script type="text/javascript" src="../scripts/jquery.form.min.js"></script>
 <script type="text/javascript" src="../hui/lib/bootstrap-modal/2.2.4/bootstrap-modal.js"></script>
 <script type="text/javascript" src="../hui/lib/bootstrap-modal/2.2.4/bootstrap-modalmanager.js"></script>
 <script type="text/javascript" src="../hui/lib/bootstrap-Switch/bootstrapSwitch.js"></script>
@@ -214,17 +205,42 @@
             "data": data.rows,
             destroy:true,
             "columns": [
+                {'data': function(value){
+                var Uid = value.userId;
+                var html="<input type='checkbox' value="+ Uid +">"
+                    return html;
+                }},
                 {'data': 'userId',},
                 {'data': 'name',},
-                {'data': 'avater',},
+                {'data': function(value){
+                    var avater = value.avater
+                    var html='<div style="padding:10px">';
+                    if (avater!='' || avater!=null){
+                        html+='<img src="'+avater+'" style="width:60px; height:50px">';
+                    } else {
+                        html+='<img src="TP/default_category.png" style="width:60px; height:50px">';
+                    }
+                    html+='</div>';
+                   return html;
+                }
+                },
                 {"data": 'telephone',},
-                {'data': 'roleName',},
+                {'data': function (value) {
+                    var type = value.type;
+                    if(type == 1){
+                        return '物业公司管理人员';
+                    }else{
+                        return '小区项目管理人员';
+                    }
+
+                } },
                 {'data':  function (value) {
                     var a = value.status;
                     if (a == 1) {
                         return '启用';
                     } else {
-                        return '停用';
+                        var html ="<span style='color: red;'>停用</span>";
+                        return html;
                     }
                 },},
 
@@ -238,24 +254,9 @@
             ]
         });
     }
-    //打印
-    function put(oper)
-    {
-        if (oper < 10)
-        {
-            bdhtml=window.document.body.innerHTML;//获取当前页的html代码
-            sprnstr="<!--startprint"+oper+"-->";//设置打印开始区域
-            eprnstr="<!--endprint"+oper+"-->";//设置打印结束区域
-            prnhtml=bdhtml.substring(bdhtml.indexOf(sprnstr)+18); //从开始代码向后取html
 
-            prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));//从结束代码向前取html
-            window.document.body.innerHTML=prnhtml;
-            window.print();
-            window.document.body.innerHTML=bdhtml;
-        } else {
-            window.print();
-        }
-    }
+
+
     //正常switch
     $('#mySwitch').on('switch-change', function (e, data) {
         var a = $('#mySwitchs').bootstrapSwitch('status');
@@ -393,99 +394,15 @@
     //新增模态框
     function modaldemoAdd(){
         var id = $('#Rid').val();
-        var corpId = $('#corpId').val();
         $('#id').val(id);
-        $('#corp_id').val(corpId);
+        var a = $('#corpId').val();
+        $('#at_corp_id').val(a);
+        var Rname = $('#Rname').val();
+        $('#Rnames').val(Rname);
         $('#modal-demo-add').modal("show") //显示模态框
-        // 遍历小区 start
-        var corp_id={};
-        corp_id.corp_id=corpId;
-        $.ajax({
-            type:"POST",
-            url:"ParkingFeePayment/findVillage",
-            data:corp_id,
-            dataType:"json",
-            success:function(asdf){
-                jQuery("#community_id").empty();
-                for(var i in asdf){
-                    var a = asdf[i].id;
-                    $("#community_id").append("<option value="+a+">"+asdf[i].communityName+"</option>")
-                }
-            }
-        });
-        // 遍历小区 end
-        //缴费日期 start
-        var aa = new Date();
-        var year = aa.getFullYear();
-        var month = aa.getMonth() + 1 < 10 ? "0" + (aa.getMonth() + 1): aa.getMonth() + 1;
-        var day = aa.getDate() < 10 ? "0" + aa.getDate() : aa.getDate();
-        var dateStr = year + "-" + month + "-" + day;
-        $('#payment_date').val(dateStr);
-        //缴费日期 end
-        //小区change事件
-        $('#community_id').on('change',function(){
-            $('#house_num').val('');
-            $('#owner_name').val('');
-            $('#area').val('');
-            $('#heating_unit_price').val('');
-            $('#discount_heating_unit_price').val('');
-            $('#payment_amount').val('');
-        })
-        //遍历收费员工
-        $.ajax({
-            type:"GET",
-            url:"ParkingFeePayment/findAccount",
-            dataType:"json",
-            success:function(account){
-                jQuery("#charge_worker_id").empty();
-                for(var i in account){
-                    var a = account[i].id;
-                    $("#charge_worker_id").append("<option value="+a+">"+account[i].account+"</option>")
-                }
-            }
-        });
 
-        // 模糊联想 门牌号 start
-        $('#house_num').keyup(function () {
-            var houseNum =$('#house_num').val();
-            var community_id =  $("#community_id").val();
-            var data = {};
-            data.house_num = houseNum;
-            data.community_id = community_id;
-            if(houseNum != null && houseNum != ''){
-                $.ajax({
-                    type:"POST",
-                    url:"HeatingFeePayment/findHouseNumIsNull",
-                    data:data,
-                    dataType:"json",
-                    success:function(result){
-                        if(result > 0){
-                            //查 业主名 采暖面积  原始采暖单价 优惠起始日  优惠结束日  优惠比例
-                            $.ajax({
-                                type:"POST",
-                                url:"HeatingFeePayment/findAreaOrNameOrMoney",
-                                data:data,
-                                dataType:"json",
-                                success:function(findData){
-                                    $('#owner_name').val(findData.ownerName);
-                                    $('#area').val(findData.area);
-                                    $('#heating_unit_price').val(findData.heatingUnitPrice);
 
-                                    if(($('#payment_date').val() >= findData.discountStartDate) && ($('#payment_date').val() <= findData.discountEndDate)){
-                                        var newPrice = $('#discount_heating_unit_price').val( $('#heating_unit_price').val()* findData.rate);
-                                    }else{
-                                        var newPrice = $('#discount_heating_unit_price').val($('#heating_unit_price').val())
-                                    }
-                                    $('#payment_amount').val($('#discount_heating_unit_price').val() *  $('#area').val());
-                                }
-                            })
 
-                        }
-                    }
-                })
-            }
-        })
-        // 模糊联想 门牌号 end
         //单价keyup事件 键盘输入事件
         $('#parking_unit_price').keyup(function (){
             var month = $('#pay_month_type_id').val();
@@ -500,85 +417,32 @@
     }
     //添加缴费单
     $('#insert').on('click',function(){
-        var parking_pay_num = $('#parking_pay_num').val();
-        var community_id = $('#community_id').val();
-        var house_num = $('#house_num').val();
-        var parking_num = $('#parking_num').val();
-        var car_owner_name = $('#car_owner_name').val();
-        var owner_name = $('#owner_name').val();
-        var house_id = $('#house_id').val();
-        var parking_space_id = $('#parking_space_id').val();
-        var license_plate_number = $('#license_plate_number').val();
-        var parking_unit_price = $('#parking_unit_price').val();
-        var pay_month_type_id = $('#pay_month_type_id').val();
-        var service_start_date = $('#service_start_date').val();
-        var service_end_date = $('#service_end_date').val();
-        var payment_amount = $('#payment_amount').val();
-        var charge_worker_id = $('#charge_worker_id').val();
-        var pay_date = $('#pay_date').val();
-        var corp_id = $('#corpId').val();
-        var operator = $('#Rname').val();
-        var car_owner_tel = $('#car_owner_tel').val();
+        document.getElementById("InsertForm").submit();
+    })
 
-        var data = {};
-        data.corp_id = corp_id;
-        data.parking_pay_num = parking_pay_num;
-        data.community_id = community_id;
-        data.house_num = house_num;
-        data.parking_num = parking_num;
-        data.car_owner_name = car_owner_name;
-        data.owner_name = owner_name;
-        data.house_id = house_id;
-        data.parking_space_id = parking_space_id;
-        data.license_plate_number = license_plate_number;
-        data.parking_unit_price = parking_unit_price;
-        data.pay_month_type_id = pay_month_type_id;
-        data.pay_date = pay_date;
-        data.payment_amount = payment_amount;
-        data.service_start_date = service_start_date;
-        data.service_end_date = service_end_date;
-        data.charge_worker_id = charge_worker_id;
-        data.operator = operator;
-        data.car_owner_tel = car_owner_tel;
-        if(parking_pay_num == ''&& house_num == ''){
-            layer.alert('单号和门牌号不能为空！')
-        }else if(parking_pay_num == '' ){
-            layer.alert('单号不能为空！')
-        }else if(house_num == ''){
-            layer.alert('门牌号不能为空！')
-        }
-        $.ajax({
-            type:'post',
-            url:'ParkingFeePayment/insertParking',
-            data:data,
-            dataType:'json',
-            success:function(){
-                location.reload();
+   /* $('#table-sort  tr').live('click', function() {
+        alert('123')
+        //为点击的这一行切换样式bgRed里的代码：background-color:#FF0000;
+        $(this).children().toggleClass("bgRed");
+
+    })*/
+
+
+    $(document).ready(function() {
+        var table = $('.table-sort').DataTable();
+
+        $('.table-sort').on( 'click', 'tr', function () {
+
+            if ( $(this).hasClass('bgRed') ) {
+                $( $(this).children().first().children().attr("checked", true))
             }
-        })
-    })
-    //作废模态框
-    function modaldemo(id){
-        $('#asd').val(id);
-        $('#modal-demo').modal("show")
-    }
-    //修改作废状态
-    $('#Okey').on('click',function(){
-        var d = $('#asd').val();
-        var dN = $('#Rname').val();
-        var id = {};
-        id.id=d;
-        id.Rname = dN;
-        $.ajax({
-            url:'HeatingFeePayment/updateOver',
-            data:id,
-            dataType:'json',
-            method:'post',
-            success:function(data){
-                location.reload()
+            else {
+                table.$('tr.selected').removeClass('bgRed');
+                $(this).addClass('bgRed');
             }
-        })
-    })
+        } );
+    } );
+
 </script>
 </body>
 </html>

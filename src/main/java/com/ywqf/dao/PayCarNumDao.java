@@ -16,7 +16,7 @@ public interface PayCarNumDao {
 	 * @param id
 	 * @return
 	 */
-	public List<Corp> findCorpName(@Param("id") int id, @Param("type") int type);
+	public List<Corp> findCorpName(@Param("id") int id,@Param("type") int type);
 	/**
 	 * 根据物业id查询小区列表
 	 * @param id

@@ -36,20 +36,20 @@
 	</div>
 	<div class="cl pd-5   mt-20">
 		物业公司：
-		<span class="select-box" style="width: 20%;display: inline-block">
+		<span class="select-box" style="width: 10%;display: inline-block">
 		  <select class="select" size="1" name="demo1" id="company">
 
 		  </select>
 		</span>
 		小区：
-		<span class="select-box" style="width: 20%;display: inline-block">
+		<span class="select-box" style="width: 10%;display: inline-block">
 		  <select class="select" size="1" name="demo1" id="community" >
 		  	<option value="0"selected>全部</option>
 		  </select>
 		</span>
 	</div>
 	<div class="mt-20">
-		<table class="table table-border table-bordered table-bg table-hover table-sort" id="datable">
+		<table class="table table-border table-bordered table-bg table-hover table-sort" id="datable" style="width: 100%">
 			<thead>
 			<tr class="text-c">
 				<th ><input type="checkbox" ></th>
@@ -70,7 +70,7 @@
 <div id="modal-add" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content radius" style=" overflow:scroll;height:600px;width: 500px">
-			<form action="house/subHouseInfo" method="post" class="form form-horizontal"   id="addForm">
+			<form action="house/subHouseInfo" method="post" class="form form-horizontal" >
 				<div class="modal-header">
 					<h4	 style="text-align: center">新增车位配置</h4>
 					<a class="close" data-dismiss="modal" aria-hidden="true" >×</a>
@@ -94,44 +94,61 @@
 				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-5">车位编号：</label>
 					<div class="formControls col-xs-4 col-sm-5	">
-						<input type="text" class="input-text" id="building" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();" placeholder="请输入楼号">
+						<input type="text" class="input-text" id="parking_num" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();" placeholder="请输入车位编号">
 					</div>
 				</div>
 				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-5">车牌号：</label>
 					<div class="formControls col-xs-4 col-sm-5	">
-						<input type="text" class="input-text" id="unit" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();"  placeholder="请输入门号">
+						<input type="text" class="input-text" id="license_plate_number"placeholder="请输入车牌号">
 					</div>
 				</div>
 				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-5">车位位置描述：</label>
 					<div class="formControls col-xs-4 col-sm-5	">
-						<input type="text" class="input-text" id="floor" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();"  placeholder="请输入层号">
+						<input type="text" class="input-text" id="location_description"  placeholder="请输入车位位置描述">
 					</div>
 				</div>
 				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-5">车位单价：</label>
 					<div class="formControls col-xs-4 col-sm-5	">
-						<input type="text" class="input-text " id="room_num" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();" placeholder="请输入房号">
+						<input type="text" class="input-text " id="previous_parking_unit_price" placeholder="请输入车位单价">
 					</div>
 				</div>
 
 				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-5">车主门牌号：</label>
 					<div class="formControls col-xs-4 col-sm-5	">
-						<select id="houseType" class="input-text " id="house_type_id"></select>
+						<input  class="input-text" id="house_num" placeholder="请输入车主门牌号"></input>
+						<input type="hidden" id="house_id">
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-5">车主姓名：</label>
+					<div class="formControls col-xs-4 col-sm-5	">
+						<input type="text" class="input-text "  id="car_owner_name" placeholder="请输入车主姓名">
+
 					</div>
 				</div>
 				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-5">称谓：</label>
 					<div class="formControls col-xs-4 col-sm-5	">
-						<input type="text" class="input-text "  id="area" onkeyup="(this.v=function(){this.val(/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/);}).call(this)" onblur="this.v();" placeholder="请输入面积">
+						<select  class="input-text " id="gender" placeholder="请输入称谓">
+							<option value="1">先生</option>
+							<option value="0">女士</option>
+						</select>
 					</div>
 				</div>
 				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-5">车主电话：</label>
 					<div class="formControls col-xs-4 col-sm-5	">
-						<input type="text" class="input-text " name="now_estate_unit_price" id="prize" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();" placeholder="请输入物业单价">
+						<input type="text" class="input-text " id="car_owner_tel" placeholder="请输入车主电话">
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-5">车主备用电话：</label>
+					<div class="formControls col-xs-4 col-sm-5	">
+						<input type="text" class="input-text " id="car_owner_standby_tel"  placeholder="请输入车主备用电话">
 					</div>
 				</div>
 			</form>
@@ -142,114 +159,96 @@
 		</div>
 	</div>
 </div>
-<%--
+
 <div id="modal-edit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content radius" style=" overflow:scroll;height:600px;width: 500px">
-			<form action="house/subEditHouseInfo" method="post" class="form form-horizontal"   id="editForm">
+			<form action="house/subHouseInfo" method="post" class="form form-horizontal">
 				<div class="modal-header">
-					<h4	 style="text-align: center">新增小区配置</h4>
+					<h4	 style="text-align: center">修改车位配置</h4>
 					<a class="close" data-dismiss="modal" aria-hidden="true" >×</a>
 				</div>
 				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-5">物业：</label>
 					<div class="formControls col-xs-4 col-sm-5	">
-						<input type="text"class="input-text add" id="editCompany"readonly >
+						<input type="text"class="input-text " id="writeCompanyEdit"readonly >
 					</div>
 				</div>
 				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-5">小区：</label>
 					<div class="formControls col-xs-4 col-sm-5	">
+						<select class="input-text" size="1"id="writeCommunityEdit" ></select>
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-5">车位编号：</label>
+					<div class="formControls col-xs-4 col-sm-5	">
+						<input type="hidden" id="chooseid">
+						<input type="text" class="input-text" id="parking_num_edit" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();" placeholder="请输入车位编号">
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-5">车牌号：</label>
+					<div class="formControls col-xs-4 col-sm-5	">
+						<input type="text" class="input-text" id="license_plate_number_edit"placeholder="请输入车牌号">
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-5">车位位置描述：</label>
+					<div class="formControls col-xs-4 col-sm-5	">
+						<input type="text" class="input-text" id="location_description_edit"  placeholder="请输入车位位置描述">
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-5">车位单价：</label>
+					<div class="formControls col-xs-4 col-sm-5	">
+						<input type="text" class="input-text " id="previous_parking_unit_price_edit" placeholder="请输入车位单价">
+					</div>
+				</div>
 
-						<select class="input-text add" size="1" name="community_id" id="editCommunity" >
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-5">车主门牌号：</label>
+					<div class="formControls col-xs-4 col-sm-5	">
+						<input  class="input-text" id="house_num_edit" placeholder="请输入车主门牌号"></input>
+						<input type="hidden" id="house_id_edit">
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-5">车主姓名：</label>
+					<div class="formControls col-xs-4 col-sm-5	">
+						<input type="text" class="input-text "  id="car_owner_name_edit" placeholder="请输入车主姓名">
 
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-5">称谓：</label>
+					<div class="formControls col-xs-4 col-sm-5	">
+						<select  class="input-text " id="gender_edit" placeholder="请输入称谓">
+							<option value="1">先生</option>
+							<option value="0">女士</option>
 						</select>
-
 					</div>
 				</div>
 				<div class="row cl">
-					<label class="form-label col-xs-4 col-sm-5">楼号：</label>
+					<label class="form-label col-xs-4 col-sm-5">车主电话：</label>
 					<div class="formControls col-xs-4 col-sm-5	">
-						<input type="text" class="input-text add" name="building" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();" placeholder="请输入楼号">
+						<input type="text" class="input-text " id="car_owner_tel_edit" placeholder="请输入车主电话">
 					</div>
 				</div>
 				<div class="row cl">
-					<label class="form-label col-xs-4 col-sm-5">门号：</label>
+					<label class="form-label col-xs-4 col-sm-5">车主备用电话：</label>
 					<div class="formControls col-xs-4 col-sm-5	">
-						<input type="text" class="input-text add" name="unit" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();"  placeholder="请输入门号">
-					</div>
-				</div>
-				<div class="row cl">
-					<label class="form-label col-xs-4 col-sm-5">层号：</label>
-					<div class="formControls col-xs-4 col-sm-5	">
-						<input type="text" class="input-text add" name="floor" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();"  placeholder="请输入层号">
-					</div>
-				</div>
-				<div class="row cl">
-					<label class="form-label col-xs-4 col-sm-5">房号：</label>
-					<div class="formControls col-xs-4 col-sm-5	">
-						<input type="text" class="input-text add" name="room_num" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();" placeholder="请输入房号">
-					</div>
-				</div>
-
-				<div class="row cl">
-					<label class="form-label col-xs-4 col-sm-5">户型：</label>
-					<div class="formControls col-xs-4 col-sm-5	">
-						<select id="editHouseType" class="input-text add" name="house_type_id"></select>
-					</div>
-				</div>
-				<div class="row cl">
-					<label class="form-label col-xs-4 col-sm-5">面积：</label>
-					<div class="formControls col-xs-4 col-sm-5	">
-						<input type="text" class="input-text " name="area" id="areaEdit" onkeyup="(this.v=function(){this.val(/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/);}).call(this)" onblur="this.v();" placeholder="请输入面积">
-					</div>
-				</div>
-				<div class="row cl">
-					<label class="form-label col-xs-4 col-sm-5">物业单价：</label>
-					<div class="formControls col-xs-4 col-sm-5	">
-						<input type="text" class="input-text " name="now_estate_unit_price" id="prizeEdit" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();" placeholder="请输入物业单价">
-					</div>
-				</div>
-				<div class="row cl">
-					<label class="form-label col-xs-4 col-sm-5">户主姓名：</label>
-					<div class="formControls col-xs-4 col-sm-5	">
-						<input type="text" class="input-text " name="owner_name"  placeholder="请输入户主姓名">
-					</div>
-				</div>
-				<div class="row cl">
-					<label class="form-label col-xs-4 col-sm-5">联系电话：</label>
-					<div class="formControls col-xs-4 col-sm-5	">
-						<input type="text" class="input-text "name="owner_tel" autocomplete="off" placeholder="请输入联系电话">
-					</div>
-				</div>
-				<div class="row cl">
-					<label class="form-label col-xs-4 col-sm-5">备用联系电话：</label>
-					<div class="formControls col-xs-4 col-sm-5	">
-						<input type="text" class="input-text "name="owner_standby_tel" autocomplete="off" placeholder="请输入备用联系电话">
-					</div>
-				</div>
-
-				<div class="row cl">
-					<label class="form-label col-xs-4 col-sm-5">家庭成员数量：</label>
-					<div class="formControls col-xs-4 col-sm-5	">
-						<input type="text" class="input-text "name="family_size" autocomplete="off" placeholder="请输入家庭成员数量">
-					</div>
-				</div>
-				<div class="row cl">
-					<label class="form-label col-xs-4 col-sm-5">物业费合计：</label>
-					<div class="formControls col-xs-4 col-sm-5	">
-						<input type="text" class="input-text "name="now_estate_fee" id="sumEdit" autocomplete="off" readonly>
+						<input type="text" class="input-text " id="car_owner_standby_tel_edit"  placeholder="请输入车主备用电话">
 					</div>
 				</div>
 			</form>
 			<div class="modal-footer" style="text-align: center">
-				<button class="btn btn-primary"onclick="$('#form1').submit()">确定</button>
+				<button class="btn btn-primary"onclick="EDIT()">确定</button>
 				<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
 			</div>
 		</div>
 	</div>
 </div>
---%>
 
 
 
@@ -291,14 +290,14 @@
                 if (data.type==0){
                     $("#company").append("<option value="+data.corpId+">"+data.corpName+"</option>")
 					chooseCommunity();
-                    getHouseList();
+                    getParkingList();
 				}else{
 					$('.abtn').hide()
                     $("#company").append("<option value=\"0\">全部</option>")
-                    getHouseList();
+                    getParkingList();
                     $.post("house/getLeaderCompany",null,function (data) {
                         for(var i  in data){
-                            $("#company").append("<option value="+data[i].id+">"+data[i].corpName+"</option>")
+                            $("#company").append("<option value="+data[i].corpId+">"+data[i].corpName+"</option>")
                         }
                     },"json")
                     $("#company").change(function(){
@@ -315,27 +314,29 @@
            $.post("house/getChildCommunity",{id:id},function (data) {
 
                for(var i  in data){
-                   $("#community").append("<option value="+data[i].id+">"+data[i].communityName+"</option>")
+                   $("#community").append("<option value="+data[i].communityId+">"+data[i].communityName+"</option>")
                }
            },"json")
-           getHouseList();
+        getParkingList();
 
         }
     function chooseCommunity() {
         $.post("house/getCommunity",null,function (data) {
             for(var i  in data){
-                    $("#community").append("<option value="+data[i].id+">"+data[i].communityName+"</option>")
+                    $("#community").append("<option value="+data[i].communityId+">"+data[i].communityName+"</option>")
 			}
         },"json")
 
     }
     $("#community").change(function(){
-        getHouseList()
+        getParkingList()
     });
-    function getHouseList() {
+    function getParkingList() {
         var community_id=$('#community').val();
+
         var corp_id=$('#company').val();
-        $.post("house/getHouseList",{corp_id:corp_id,community_id:community_id},function (data) {
+
+        $.post("parkingConfig/getParkingList",{corp_id:corp_id,community_id:community_id},function (data) {
             $('.table-sort').dataTable({
                 dom: 'fBrtip',
                 buttons: [ {
@@ -355,27 +356,20 @@
                 "columns": [
                     {
                         "sClass": "text-center",
-                        "data": "id",
+                        "data": "parkingSpaceId",
                         "render": function (data, type, row, meta) {
                             return '<input type="checkbox"  class="checkchild"  value="' + data + '"  onclick="get(this)"/>';
                         },
                         "bSortable": false
                     },
-                    {"data": "building"},
-                    {"data": "unit"},
-                    {"data": "floor"},
-                    {"data": "roomNum"},
+                    {"data": "parkingNum"},
+                    {"data": "licensePlateNumber"},
+                    {"data": "locationDescription"},
+                    {"data": "previousParkingUnitPrice"},
+                    {"data": "carOwnerName"},
                     {"data": "houseNum"},
-                    {"data": "houseTypeName"},
-                    {"data": "area"},
-                    {"sClass": "text-r",
-                        "data": "nowEstateUnitPrice"
-                    },
-                    {"data": "ownerName"},
-                    {"data": "ownerTel"},
-                    {"data": "ownerStandbyTel"},
-                    {"data": "familySize"},
-                    {"data": "nowEstateFee"}
+                    {"data": "carOwnerTel"},
+                    {"data": "carOwnerStandbyTel"}
                 ],
                 "oLanguage": { //国际化配置
                     "sProcessing" : "正在获取数据，请稍后...",
@@ -406,6 +400,7 @@
     }
 	function get(obj) {
             select_row_id=$(obj).val()
+
         }
     function add(){
         $.post("house/getCompany",null,function (data) {
@@ -415,16 +410,26 @@
         $("#modal-add").modal("show")
             $.post("house/getCommunity",null,function (data) {
                 for(var i  in data){
-                    $("#writeCommunity").append("<option value="+data[i].id+">"+data[i].communityName+"</option>")
+                    $("#writeCommunity").append("<option value="+data[i].communityId+">"+data[i].communityName+"</option>")
                 }
             },"json")
-        $("#houseType").empty()
-        $.post("house/getRoomType",null,function (data) {
-            for(var i in data){
-                $("#houseType").append("<option value="+data[i].id+">"+data[i].houseTypeName+"</option>")
+        $('#house_num').bind('input propertychange', function() {
+          	var house_num=$('#house_num').val();
+          	var community_id=$('#writeCommunity').val();
+          	if(house_num!=null && house_num!=''){
+          	    $.post("parkingConfig/getHouseNum",{house_num:house_num,community_id:community_id},function (result) {
+					if(result!=null){
+                        $('#car_owner_name').val(result.ownerName);
+                        $('#car_owner_tel').val(result.ownerTel);
+                        $('#car_owner_standby_tel').val(result.ownerStandbyTel);
+						$('#house_id').val(result.houseId);
+					}
+                },"json")
+			}
+        });
 
-            }
-        },"json")
+
+
         $("#modal-add").on("hide.bs.modal", function() {
             location.reload()
         })
@@ -432,54 +437,99 @@
     function ADD() {
 		var json={}
 		json.community_id=$('#writeCommunity').val();
-		json.building=$('#building').val();
-		json.unit=$('#unit').val();
-		json.floor=$('#floor').val();
-		json.room_num=$('#room_num').val();
-		json.house_type_id=$('#house_type_id').val();
-        json.area=$('#area').val();
-        json.now_estate_unit_price=$('#prize').val();
-        json.owner_name=$('#owner_name').val();
-        json.owner_tel=$('#owner_tel').val();
-        json.family_size=$('#family_size').val();
-        json.now_estate_fee=$('#sum').val();
-        console.log(json)
-        $.post("house/subHouseInfo",{json:json},function (data) {
-				alert("添加成功")
-        })
+		json.parking_num=$('#parking_num').val();
+		json.license_plate_number=$('#license_plate_number').val();
+		json.location_description=$('#location_description').val();
+		json.previous_parking_unit_price=$('#previous_parking_unit_price').val();
+		json.house_id=$('#house_id').val();
+        json.car_owner_name=$('#car_owner_name').val();
+        json.gender=$('#gender').val();
+        json.car_owner_tel=$('#car_owner_tel').val();
+        json.car_owner_standby_tel=$('#car_owner_standby_tel').val();
+        $.post("parkingConfig/subAddParking",json,function (data) {
+            location.reload()
+        },"json")
 
     }
 
 
     function edit(){
+        if(select_row_id==null){
+            alert("请选择要编辑的数据行");
+            return false;
+        }
+        $.post("parkingConfig/getParkingById",{row_id:select_row_id},function (data) {
 
-        $.post("house/editHouseInfo",{id:select_row_id},function (data) {
-            $('#writeCompany').val(data.corpName)
+            $('#writeCommunityEdit').val(data.communityId);
+            $('#parking_num_edit').val(data.parkingNum);
+            $('#license_plate_number_edit').val(data.licensePlateNumber);
+            $('#location_description_edit').val(data.locationDescription);
+            $('#previous_parking_unit_price_edit').val(data.previousParkingUnitPrice);
+            $('#house_num_edit').val(data.houseNum);
+            $('#car_owner_name_edit').val(data.carOwnerName);
+            $('#gender_edit').val(data.gender);
+            $('#car_owner_tel_edit').val(data.carOwnerTel);
+            $('#car_owner_standby_tel_edit').val(data.carOwnerStandbyTel);
+            $('#chooseid').val(data.parkingSpaceId);
+            $('#house_id_edit').val(data.houseId);
         })
         $.post("house/getCompany",null,function (data) {
-            $('#writeCompany').val(data.corpName)
+            $('#writeCompanyEdit').val(data.corpName)
         })
         $("#modal-edit").modal("show")
         $.post("house/getCommunity",null,function (data) {
             for(var i  in data){
-                $("#writeCommunity").append("<option value="+data[i].id+">"+data[i].communityName+"</option>")
+                $("#writeCommunityEdit").append("<option value="+data[i].communityId+">"+data[i].communityName+"</option>")
             }
         },"json")
 
-        $.post("house/getRoomType",null,function (data) {
-            for(var i in data){
-                $("#houseType").append("<option value="+data[i].id+">"+data[i].houseTypeName+"</option>")
 
+
+        $('#house_num_edit').bind('input propertychange', function() {
+            var house_num=$('#house_num_edit').val();
+            var community_id=$('#writeCommunityEdit').val();
+            if(house_num!=null && house_num!=''){
+                $.post("parkingConfig/getHouseNum",{house_num:house_num,community_id:community_id},function (result) {
+                    if(result!=null){
+                        $('#car_owner_name_edit').val(result.ownerName);
+                        $('#car_owner_tel_edit').val(result.ownerTel);
+                        $('#car_owner_standby_tel_edit').val(result.ownerStandbyTel);
+                        $('#house_id_edit').val(result.houseId);
+                    }
+                },"json")
             }
-        },"json")
+        });
+
         $("#modal-edit").on("hide.bs.modal", function() {
             $("#writeCommunity").empty();
-            $("#houseType").empty()
             location.reload()
         })
     }
-	function deleteMessage(){
 
+    function EDIT() {
+        var data={}
+        data.community_id=$('#writeCommunityEdit').val();
+        data.parking_num=$('#parking_num_edit').val();
+        data.license_plate_number=$('#license_plate_number_edit').val();
+        data.location_description=$('#location_description_edit').val();
+        data.previous_parking_unit_price=$('#previous_parking_unit_price_edit').val();
+        data.house_id=$('#house_id_edit').val();
+        data.car_owner_name=$('#car_owner_name_edit').val();
+        data.gender=$('#gender_edit').val();
+        data.car_owner_tel=$('#car_owner_tel_edit').val();
+        data.car_owner_standby_tel=$('#car_owner_standby_tel_edit').val();
+        data.row_id=$('#chooseid').val();
+        console.log(data);
+        $.post("parkingConfig/subEditParking",data,function (data) {
+            location.reload();
+        },"json")
+
+    }
+	function deleteMessage(){
+        if(select_row_id==null){
+            alert("请选择要编辑的数据行");
+            return false;
+        };
             $("#deleteMessage").modal("show");
 			$('#rowid').val(select_row_id);
             $("#deleteMessage").on("hide.bs.modal", function() {
@@ -487,18 +537,10 @@
             })
         }
 	function Delete(){
-        $.post("house/subDelHouseInfo",{id:$('#rowid').val()},function (data) {
-
-        })
+        $.post("parkingConfig/subDeleteParking",{row_id:$('#rowid').val()},function (data) {
+            location.reload()
+        },"json")
 	}
-    $('#area').bind('input propertychange', function() {
-       area=$(this).val()
-		$('#sum').val(prize*area)
-    });
-    $('#prize').bind('input propertychange', function() {
-        prize=$(this).val()
-        $('#sum').val(prize*area)
-    });
 </script>
 </body>
 </html>

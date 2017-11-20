@@ -102,11 +102,12 @@
     <div class="modal-dialog">
         <div class="modal-content radius">
             <div class="modal-header">
-                <h3 class="modal-title">修改作废状态</h3>
+                <h3 class="modal-title">作废单据</h3>
                 <a class="close" data-dismiss="modal" aria-hidden="true" href="javascript:void()">×</a>
             </div>
             <div class="modal-body">
-                <span style="text-align: center;">是否修改作废状态？</span>
+                <span style="text-align: center;">是否作废此单据？</span>
+                <span style="text-align: center; color: red;">(执行后无法撤回！)</span>
                 <input style="display: none;" value="" id="asd">
             </div>
             <div class="modal-footer">
@@ -222,10 +223,10 @@
 <!--startprint1--><!--endprint1-->
 <!--新增模态框  end -->
 <%@ include file="../common/footer.jsp" %>
-<script type="text/javascript" src="hui/lib/bootstrap-modal/2.2.4/bootstrap-modal.js"></script>
-<script type="text/javascript" src="hui/lib/bootstrap-modal/2.2.4/bootstrap-modalmanager.js"></script>
-<script type="text/javascript" src="hui/lib/bootstrap-Switch/bootstrapSwitch.js"></script>
-<script type="text/javascript" src="hui/lib/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="../hui/lib/bootstrap-modal/2.2.4/bootstrap-modal.js"></script>
+<script type="text/javascript" src="../hui/lib/bootstrap-modal/2.2.4/bootstrap-modalmanager.js"></script>
+<script type="text/javascript" src="../hui/lib/bootstrap-Switch/bootstrapSwitch.js"></script>
+<script type="text/javascript" src="../hui/lib/My97DatePicker/WdatePicker.js"></script>
 <%-- 自定义js --%>
 <script type="text/javascript">
     $(function(){
@@ -316,7 +317,7 @@
                               $("#corp").append("<option value="+ 0 +">" + '全部物业公司' + "</option>")
                               $("#comm").append("<option value="+ 0 +">" + '全部小区' + "</option>")
                               for(var i in data){
-                              $("#corp").append("<option value="+ data[i].id +">" + data[i].corpName + "</option>")
+                              $("#corp").append("<option value="+ data[i].corpId +">" + data[i].corpName + "</option>")
                               }
                               $('#corp ').change(function(){
                                   corpVal(); //通过物业改变  查物业下小区
@@ -383,7 +384,7 @@
                               jQuery('#comm').empty();
                                   $("#comm").append("<option value=" + 0 + ">" + '全部小区' + "</option>")
                               for (var i in data) {
-                                  var a = data[i].id;
+                                  var a = data[i].communityId;
                                   $("#comm").append("<option value=" + a + ">" + data[i].communityName + "</option>")
                               }
                           }
@@ -729,21 +730,22 @@
         $('#corp_id').val(corpId);
         $('#modal-demo-add').modal("show") //显示模态框
         // 遍历小区 start
-        var corp_id={};
-        corp_id.corp_id=corpId;
+        var ppp = {};
+        ppp.rid = id;
         $.ajax({
-            type:"POST",
-            url:"PropertyFeePayment/findVillage",
-            data:corp_id,
-            dataType:"json",
-            success:function(asdf){
-                jQuery("#community_id").empty();
-                for(var i in asdf){
-                    var a = asdf[i].communityId;
-                    $("#community_id").append("<option value="+a+">"+asdf[i].communityName+"</option>")
+            type:'post',
+            url:'PropertyFeePayment/findRidComm',
+            data: ppp,
+            dataType:'json',
+            success:function(data){
+                jQuery('#community_id').empty();
+
+                for (var i in data) {
+                    var a = data[i].communityId;
+                    $("#community_id").append("<option value=" + a + ">" + data[i].communityName + "</option>")
                 }
             }
-        });
+        })
         // 遍历小区 end
         //缴费日期 start
         var aa = new Date();
@@ -985,8 +987,10 @@
     //修改作废状态
     $('#Okey').on('click',function(){
         var d = $('#asd').val();
+        var dN = $('#Rname').val();
         var id = {};
         id.id=d;
+        id.Rname = dN;
        $.ajax({
            url:'PropertyFeePayment/updateOver',
            data:id,

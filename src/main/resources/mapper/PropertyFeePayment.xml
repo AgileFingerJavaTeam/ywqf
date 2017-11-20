@@ -27,7 +27,7 @@
                 AND b.corp_id = #{estateSearchId}
              </if>
              <if test="comm!=0">
-                  AND c.community_id = #{comm}
+                AND c.community_id = #{comm}
               </if>
             <if test="at_pay_start !=null and at_pay_start !=''">
              	AND pay_date BETWEEN #{at_pay_start} AND #{at_pay_end}
@@ -42,8 +42,8 @@
         limit #{offset},#{rows}
    </select>
     <!-- 查询数据总数 -->
-   <select id="findPropertyFeePaymentListCount" resultType="int">
-        SELECT COUNT(*) 
+   <!--<select id="findPropertyFeePaymentListCount" resultType="int">
+        SELECT COUNT(*)
 		FROM estate_pay  a
 		LEFT JOIN USER b
 		ON a.charge_worker_id = b.user_id
@@ -64,7 +64,7 @@
                   AND service_start_date >= #{at_service_start}
             </if>
         </where>
-   </select>
+   </select>-->
     <!-- 查询作废状态 -->
     <select id="findOver" resultType="PropertyFeePayment">
      	SELECT * 
@@ -74,7 +74,8 @@
     <!-- 修改作废状态 -->
     <update id="updateOver">
         UPDATE estate_pay
-        SET status = '0'
+        SET status = '0',
+        operator = #{Rname}
         WHERE estate_pay_id = #{id}
     </update>
     <!-- 查询小区 -->
@@ -160,16 +161,11 @@
     </select>
 
     <select id="findRidComm" resultType="PropertyFeePayment">
-        SELECT DISTINCT community_name,community.community_id FROM community
-        LEFT JOIN community_dept
-        ON community.community_id = community_dept.community_id
-        LEFT JOIN community_dept_role
-        ON community_dept.dept_id=community_dept_role.dept_id
-        LEFT JOIN community_dept_role_user
-        ON community_dept_role.role_id=community_dept_role_user.role_id
-        LEFT JOIN user
-        ON community_dept_role_user.user_id=user.user_id
-        WHERE 1=1
-        AND user.user_id= #{rid}
+         SELECT community.community_id,community.community_name
+         FROM community
+         LEFT JOIN community_dept_role_user
+         ON community.community_id=community_dept_role_user.community_id
+         WHERE 1=1
+         AND community_dept_role_user.user_id=#{rid}
     </select>
 </mapper>

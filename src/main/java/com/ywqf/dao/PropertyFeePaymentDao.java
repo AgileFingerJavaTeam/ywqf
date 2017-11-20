@@ -2,10 +2,9 @@ package com.ywqf.dao;
 
 import java.util.List;
 
+import com.ywqf.entity.PropertyFeePayment;
 import com.ywqf.entity.payMonthType;
 import org.apache.ibatis.annotations.Param;
-
-import com.ywqf.entity.PropertyFeePayment;
 
 public interface PropertyFeePaymentDao {
  
@@ -16,7 +15,7 @@ public interface PropertyFeePaymentDao {
 	//������״̬  where id
 	public PropertyFeePayment findOver(@Param("id") int id);
 	//�޸�����״̬
-	public int updateOver(@Param("id") int id);
+	public int updateOver(@Param("id") int id,@Param("Rname")String Rname);
 	//查询门牌号是否为空
 	public int findHouseNumIsNull(@Param("house_num") String house_num, @Param("community_id") int community_id);
 	//����С��      where  ��ҵID

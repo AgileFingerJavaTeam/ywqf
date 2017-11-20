@@ -18,7 +18,7 @@ public interface PayYearNumService {
 	 * @param id
 	 * @return
 	 */
-	public CorpExcution CorpList(int id, int type);
+	public CorpExcution CorpList(int id,int type);
 	/**
 	 * 根据物业id查询小区
 	 * @param id

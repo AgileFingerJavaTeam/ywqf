@@ -1,15 +1,24 @@
 package com.ywqf.entity;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
+
 public class FreeProperty {
-	private int houseNum;
+	private int houseId;
+	private String houseNum;
 	private String houseTypeName;
 	private double area;
 	private double previousEstateUnitPrice;
 	private double previousEstateFee;
-	public int getHouseNum() {
+	public int getHouseId() {
+		return houseId;
+	}
+	public void setHouseId(int houseId) {
+		this.houseId = houseId;
+	}
+	public String getHouseNum() {
 		return houseNum;
 	}
-	public void setHouseNum(int houseNum) {
+	public void setHouseNum(String houseNum) {
 		this.houseNum = houseNum;
 	}
 	public String getHouseTypeName() {
@@ -38,8 +47,8 @@ public class FreeProperty {
 	}
 	@Override
 	public String toString() {
-		return "FreeProperty [houseNum=" + houseNum + ", houseTypeName=" + houseTypeName + ", area=" + area
-				+ ", previousEstateUnitPrice=" + previousEstateUnitPrice + ", previousEstateFee=" + previousEstateFee
-				+ "]";
+		return "FreeProperty [houseId=" + houseId + ", houseNum=" + houseNum + ", houseTypeName=" + houseTypeName
+				+ ", area=" + area + ", previousEstateUnitPrice=" + previousEstateUnitPrice + ", previousEstateFee="
+				+ previousEstateFee + "]";
 	}
 }

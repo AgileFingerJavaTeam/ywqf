@@ -90,6 +90,10 @@ public class Heating {
 	public void setIsStatus(int isStatus) {
 		this.isStatus = isStatus;
 	}
+<<<<<<< HEAD
+=======
+	
+>>>>>>> 9c99b64c33e4de793abd5f59e1d05f6f926718dd
 	public String getOwnerTel() {
 		return ownerTel;
 	}
@@ -102,17 +106,59 @@ public class Heating {
 	public void setOwnerStandbyTel(String ownerStandbyTel) {
 		this.ownerStandbyTel = ownerStandbyTel;
 	}
+<<<<<<< HEAD
 
+=======
+	
+	
+>>>>>>> 9c99b64c33e4de793abd5f59e1d05f6f926718dd
 	public int getYear() {
 		return year;
 	}
 	public void setYear(int year) {
 		this.year = year;
 	}
+<<<<<<< HEAD
 
 
 
 
 
+=======
+	public String getPaymentAmount() {
+		return paymentAmount;
+	}
+	public void setPaymentAmount(String paymentAmount) {
+		this.paymentAmount = paymentAmount;
+	}
+	public String getHeatingPrice() {
+		return heatingPrice;
+	}
+	public void setHeatingPrice(String heatingPrice) {
+		this.heatingPrice = heatingPrice;
+	}
+	public String getHeatingArea() {
+		return heatingArea;
+	}
+	public void setHeatingArea(String heatingArea) {
+		this.heatingArea = heatingArea;
+	}
+	@Override
+	public String toString() {
+		return "Heating [houseNum=" + houseNum + ", ownerName=" + ownerName
+				+ ", isStatus=" + isStatus + ", paymentAmount=" + paymentAmount
+				+ ", ownerTel=" + ownerTel + ", ownerStandbyTel="
+				+ ownerStandbyTel + ", heatingPrice=" + heatingPrice
+				+ ", heatingArea=" + heatingArea + ", year=" + year
+				+ ", corpName=" + corpName + ", type=" + type
+				+ ", communityName=" + communityName + ", corpId=" + corpId
+				+ ", communityId=" + communityId + "]";
+	}
+	
+	
+	
+	
+	
+>>>>>>> 9c99b64c33e4de793abd5f59e1d05f6f926718dd
 
 }
