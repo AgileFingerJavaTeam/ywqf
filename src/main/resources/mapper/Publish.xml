@@ -8,6 +8,10 @@
         SET status = -1
         WHERE announcement_id = #{announcementId}
     </update>
+    <insert id="addNews" >
+        INSERT INTO announcement(title,content,release_time,release_user_id,operate_time)
+        VALUES(#{title},#{content},now(),#{publishWorkerId},now())
+    </insert>
     <!--查询发布员工-->
     <select id="findPublishWorker" resultType="PublishWorker">
         SELECT name,user_id

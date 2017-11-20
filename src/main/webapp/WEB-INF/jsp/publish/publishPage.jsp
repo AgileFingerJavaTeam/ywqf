@@ -230,22 +230,30 @@
             afterBlur:function () {
                 this.sync();
             },
+            afterCreate:function () {
+                this.sync();
+            },
             resizeType:0
         });
     }
+    //-------点击发布按钮事件
     $("#publish").click(function () {
-        publish()
-    });
-    function publish() {
-       var title = $("#add_title").val();
-       var content = $("#editor_add").val();
-       var publishWorker = $("#publishWorker").val();
+        var title = $("#add_title").val();
+        var content = $("#editor_add").val();
+        var publishWorker = $("#publishWorker").val();
         searchInfo.title = title;
         searchInfo.content = content;
         searchInfo.publishWorker = publishWorker;
-        console.log(searchInfo)
-
-    }
+        $.ajax({
+            url:"publish/addNews",
+            type: "post",
+            dataType:"JSON",
+            data:searchInfo,
+            success:function(data) {
+                showDataTable(data)
+            }
+        })
+    });
     //--------关闭Dialog前移除编辑器
 
     $('#addNewsModal').on('hidden.bs.modal', function () {

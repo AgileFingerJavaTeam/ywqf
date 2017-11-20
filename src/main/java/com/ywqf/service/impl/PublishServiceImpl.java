@@ -22,8 +22,11 @@ public class PublishServiceImpl implements PublishService{
 
     @Override
     public PublishExcution addNews(PublishDto publishDto) {
+        String title = publishDto.getTitle();
+        String content = publishDto.getContent();
+        int publishWorkerId = publishDto.getPublishWorkerId();
         try {
-            int isAdd = publishDao.isAdd();
+            int isAdd = publishDao.addNews(title,content,publishWorkerId);
             return new PublishExcution(PublishEnum.FIND_SUCCESS,isAdd);
         }catch (Exception e){
             logger.error(e.getMessage(),e);
