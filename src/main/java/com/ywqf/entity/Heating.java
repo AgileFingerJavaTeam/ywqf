@@ -4,30 +4,54 @@ public class Heating {
 	private String houseNum;
 	private String ownerName;
 	private int isStatus;
-	private Double paymentAmount;
+	private String paymentAmount;
 	private String ownerTel;
 	private String ownerStandbyTel;
-	private Double heatingPrice;
-	private Double heatingArea;
+	private String heatingPrice;
+	private String heatingArea;
 	private int year;
 	private String corpName;
 	private int type;
 	private String communityName;
-	private int corpsID;
+	private int corpId;
 	private int communityId;
-	
-	
+
+	public void setPaymentAmount(String paymentAmount) {
+		this.paymentAmount = paymentAmount;
+	}
+
+	public void setHeatingPrice(String heatingPrice) {
+		this.heatingPrice = heatingPrice;
+	}
+
+	public void setHeatingArea(String heatingArea) {
+		this.heatingArea = heatingArea;
+	}
+
+	public String getPaymentAmount() {
+		return paymentAmount;
+	}
+
+	public String getHeatingPrice() {
+		return heatingPrice;
+	}
+
+	public String getHeatingArea() {
+		return heatingArea;
+	}
+
 	public int getCommunityId() {
 		return communityId;
 	}
 	public void setCommunityId(int communityId) {
 		this.communityId = communityId;
 	}
-	public int getCorpsID() {
-		return corpsID;
+	
+	public int getCorpId() {
+		return corpId;
 	}
-	public void setCorpsID(int corpsID) {
-		this.corpsID = corpsID;
+	public void setCorpId(int corpId) {
+		this.corpId = corpId;
 	}
 	public String getCommunityName() {
 		return communityName;
@@ -66,12 +90,6 @@ public class Heating {
 	public void setIsStatus(int isStatus) {
 		this.isStatus = isStatus;
 	}
-	public Double getPaymentAmount() {
-		return paymentAmount;
-	}
-	public void setPaymentAmount(Double paymentAmount) {
-		this.paymentAmount = paymentAmount;
-	}
 	public String getOwnerTel() {
 		return ownerTel;
 	}
@@ -84,39 +102,17 @@ public class Heating {
 	public void setOwnerStandbyTel(String ownerStandbyTel) {
 		this.ownerStandbyTel = ownerStandbyTel;
 	}
-	public Double getHeatingPrice() {
-		return heatingPrice;
-	}
-	public void setHeatingPrice(Double heatingPrice) {
-		this.heatingPrice = heatingPrice;
-	}
-	public Double getHeatingArea() {
-		return heatingArea;
-	}
-	public void setHeatingArea(Double heatingArea) {
-		this.heatingArea = heatingArea;
-	}
-	
+
 	public int getYear() {
 		return year;
 	}
 	public void setYear(int year) {
 		this.year = year;
 	}
-	@Override
-	public String toString() {
-		return "Heating [houseNum=" + houseNum + ", ownerName=" + ownerName
-				+ ", isStatus=" + isStatus + ", paymentAmount=" + paymentAmount
-				+ ", ownerTel=" + ownerTel + ", ownerStandbyTel="
-				+ ownerStandbyTel + ", heatingPrice=" + heatingPrice
-				+ ", heatingArea=" + heatingArea + ", year=" + year
-				+ ", corpName=" + corpName + ", type=" + type
-				+ ", communityName=" + communityName + ", corpsID=" + corpsID
-				+ ", communityId=" + communityId + "]";
-	}
-	
-	
-	
-	
+
+
+
+
+
 
 }

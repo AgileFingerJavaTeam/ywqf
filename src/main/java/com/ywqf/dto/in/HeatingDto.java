@@ -6,7 +6,25 @@ public class HeatingDto {
 	private int timeYear;
 	private int selectCompanyID;
 	private int selectcommunityID;
+	private String search;
+	private int isSelect;
 	
+	public int getIsSelect() {
+		return isSelect;
+	}
+
+	public void setIsSelect(int isSelect) {
+		this.isSelect = isSelect;
+	}
+
+	public String getSearch() {
+		return search;
+	}
+
+	public void setSearch(String search) {
+		this.search = search;
+	}
+
 	public int getSelectcommunityID() {
 		return selectcommunityID;
 	}

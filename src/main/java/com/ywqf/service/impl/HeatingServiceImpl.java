@@ -28,21 +28,32 @@ public class HeatingServiceImpl implements HeatingService {
 	public HeatingExcution getHeatingList(HeatingDto heatingDto) {
 		int checked = heatingDto.getChecked();
 		int timeYear = heatingDto.getTimeYear();
-		int corpsID = heatingDto.getSelectCompanyID();//物业公司ID
-		int selectcommunityID = heatingDto.getSelectcommunityID();
-		int userID = 12423543;//登录人ID
+		String search = heatingDto.getSearch();
+		int corpsId = heatingDto.getSelectCompanyID();//物业公司ID
+		int communityId = heatingDto.getSelectcommunityID();
+		int isSelect = heatingDto.getIsSelect();
+		int userId = 333;//登录人ID
 		int type = 1;//登录人是总公司还是物业公司
 		try{
-			List<Heating> heatingList = heatingDao.getHeatingList(checked,timeYear);
-			
-//			List<Heating> heatingCommunityList = heatingDao.getHeatingCommunity(userID);
-//			List<Heating> heatingCommunityList = heatingDao.getAllCommunity(corpsID);
-			
-			int total = heatingDao.findHeatingCount(checked,timeYear);
+			List<Heating> heatingCommunityList = heatingDao.getHeatingCommunity(userId,type,corpsId);
+			if (isSelect==1) {
+				communityId=heatingCommunityList.get(0).getCommunityId();
+			}		
+			List<Heating> heatingList = heatingDao.getHeatingList(checked,timeYear,corpsId,communityId,userId,type,search);
+			int total = heatingDao.findHeatingCount(checked,timeYear,corpsId,communityId,userId,type,search);
+
+			int all = heatingDao.getAll(communityId);
+			int pay = heatingDao.getPay(timeYear, userId, type, corpsId, communityId);
+			int noPay = all-pay;
+			int percentage = (int) ((pay/Double.parseDouble(String.valueOf(all)))*100 );
 			HashMap<String, Object> map=new HashMap<String, Object>();
             map.put("rows",heatingList);
             map.put("total",total);
-//            map.put("community",heatingCommunityList);
+            map.put("all",all);
+            map.put("pay",pay);
+            map.put("noPay",noPay);
+            map.put("percentage",percentage);
+            map.put("community",heatingCommunityList);
             return  new HeatingExcution(HeatingEnum.SUCCESS,map);
 		}catch (Exception  e){
             logger.error(e.getMessage(),e);
@@ -50,30 +61,6 @@ public class HeatingServiceImpl implements HeatingService {
         }
 	}
 
-	@Override
-	public HeatingExcution getHeatingCoursAndCommunity() {
-		int userID = 12423543;
-		int corpsType = 1;
-		int corpsID=8001;//物业公司ID
-		try {
-			List<Heating> heatingCorpsList = heatingDao.getHeatingCorps(userID,corpsType);
-			List<Heating> heatingCommunityList = null;
-			if (corpsType==1) {
-				heatingCommunityList = heatingDao.getAllCommunity(corpsID);
-			}else {
-				heatingCommunityList = heatingDao.getHeatingCommunity(userID);
-			}
-			
-//			List<Heating> heatingCommunityList = heatingDao.getHeatingCommunity(userID);
-			HashMap<String, Object> map=new HashMap<String, Object>();
-            map.put("rows",heatingCorpsList);
-            map.put("total",heatingCommunityList);
-            map.put("type", corpsType);
-            return  new HeatingExcution(HeatingEnum.SUCCESS,map);
-		} catch (Exception e) {
-			logger.error(e.getMessage(),e);
-            throw new BaseException(e.getMessage());
-		}
-	}
+
 
 }
