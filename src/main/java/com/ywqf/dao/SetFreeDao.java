@@ -2,15 +2,19 @@ package com.ywqf.dao;
 
 import java.util.List;
 
-import com.ywqf.dto.in.CheckCondition;
+import com.ywqf.dto.in.FreePropertyDto;
 import com.ywqf.entity.FreeProperty;
 
 public interface SetFreeDao {
-	
 	/**
-	 * 根据查询条件查询符合的物业列表
-	 * @param checkConditon
+	 * 按照搜索条件查询包含条件的楼房物业列表
+	 * @param freePropertyDto
 	 * @return
 	 */
-	public List<FreeProperty> ListFreeProperty(CheckCondition checkConditon);
+	public List<FreeProperty> listFreeProperty(FreePropertyDto freePropertyDto);
+	/*
+	 * SQL修改
+	 */
+	public int updataFreeProperty(FreePropertyDto freePropertyDto);
+
 }

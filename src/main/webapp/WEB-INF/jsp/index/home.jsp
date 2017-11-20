@@ -105,6 +105,7 @@
                     <li><a _href="estatePay/showEstatePayCheckBillPage" data-title="缴费情况当日对账" href="javascript:void(0)">缴费情况当日对账</a></li>
                     <li><a _href="payCost/showPayCost" data-title="业主缴费查询" href="javascript:void(0)">业主缴费查询</a></li>
                     <li><a _href="estatePay/getEstatePayQueryList" data-title="月度缴费/欠费查询" href="javascript:void(0)">月度缴费/欠费查询</a></li>
+                    <li><a _href="setfree/property" data-title="收费标准" href="javascript:void(0)">收费标准</a></li>
                     <li><a _href="payYearNum/list" data-title="年度汇总" href="javascript:void(0)">年度汇总</a></li>
                 </ul>
             </dd>

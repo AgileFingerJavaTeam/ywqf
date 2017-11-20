@@ -29,12 +29,8 @@
     <link rel="stylesheet" type="text/css" href="css/main.css" >
     <script type="text/javascript"  src="scripts/custom/main.js"></script> 
     <script type="text/javascript"  src="scripts/custom/utils.js"></script>
-    <!-- kindeditor -->
-    <link rel="stylesheet" type="text/css" href="scripts/kindeditor/themes/default/default.css" >
-    <script type="text/javascript"  src="scripts/kindeditor/kindeditor-all.js"></script>
-	<script  type="text/javascript" src="scripts/kindeditor/lang/zh_CN.js"></script>
-	
 
+	<script  type="text/javascript" src="hui/lib/layer/2.1/layer.js"></script>
 	
 	<style>
 		body {
@@ -53,8 +49,7 @@
 	<div class="easyui-panel" title="修改绑定手机" style="width:100%;max-width:400px;padding:30px 60px;" text-align="center" margin="0 auto">
 		<form action="myAccount/changePhone" id="ff" method="post">
 			<div style="margin-bottom:20px">
-			<input type="hidden" name="id" value="1001" />
-				<input class="easyui-textbox" type="text" name="oldTelephone" style="width:100%" data-options="label:'原手机号:',required:true">
+				<input id="oldPhone" class="easyui-textbox" type="text" name="oldTelephone" style="width:100%" data-options="label:'原手机号:'" readonly="readonly">
 			</div>
 			<div style="margin-bottom:20px">
 				<input class="easyui-textbox" type="text" name="newTelephone" style="width:100%" data-options="label:'新手机号:',required:true">
@@ -67,17 +62,34 @@
 	</div>
 	
 	<script>
+		$(function(){
+			$.ajax({
+				url:"myAccount/searchOldPhone",
+				type:"POST",
+// 				data:at_marchant_search,
+				dataType:"json",
+				success:function (data){
+					
+					var phone =data.phone;
+					var q = phone[0].telephone;
+					console.log(q);
+					$('#oldPhone').textbox('setValue',q);
+				}
+			});
+		})
+	
 		function submitForm(){
 			$('#ff').form('submit',{
 				success: function(data){  
 					var data = eval('(' + data + ')');
 					if(data.code==1){
-						alert("成功")
-// 						layer.alert('成功', {icon: 6});
+						layer.alert('手机号修改失败,请重新操作');
 					}
 					if(data.code==0){
-						alert("失败")
-// 						layer.alert('失败', {icon: 6});
+						layer.alert('旧手机号与新手机号相同');
+					}
+					if(data.code==2){
+						layer.alert('修改成功');
 					}
 			    }    
 			});
@@ -87,7 +99,7 @@
 // 			$('#ff').form('submit');
 // 		}
 		function clearForm(){
-			window.location.href = "${pageScope.basePath }index/index";
+			window.location.href = "${pageScope.basePath }index/main";
 		}
 	</script>
 </body>
