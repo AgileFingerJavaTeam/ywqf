@@ -8,12 +8,25 @@ import com.ywqf.entity.Parking;
 
 public interface ParkingDao {
 	
-	public List<Parking> getParkingList(@Param("offset") int offset, @Param("rows") int rows, @Param("likePark") String likePark, @Param("checked") int checked);
+	public List<Parking> getFirParkingList(@Param("checked")int checked,@Param("year")int year,@Param("month")int month,@Param("corpsId")int corpsId,@Param("communityId")int communityId,@Param("userId")int userId,@Param("type")int type,@Param("search")String search);
 	
-	public int findParkingCount(@Param("likePark") String likePark, @Param("checked") int checked);
+	public int findFirParkingCount(@Param("checked")int checked,@Param("year")int year,@Param("month")int month,@Param("corpsId")int corpsId,@Param("communityId")int communityId,@Param("userId")int userId,@Param("type")int type,@Param("search")String search);
 	
-	public List<Parking> getFirParkingList(@Param("checked") int checked, @Param("year") int year, @Param("month") int month);
-	
-	public int findFirParkingCount(@Param("checked") int checked, @Param("year") int year, @Param("month") int month);
+	public List<Parking> getParkingCommunity(@Param("userId")int userId,@Param("type")int type,@Param("corpsId")int corpsId);
 
+	/**
+	 * 缴费数
+	 * @param corpsId
+	 * @param communityId
+	 * @return
+	 */
+	public int getPay(@Param("year")int year,@Param("month")int month,@Param("userId")int userId,@Param("type")int type,@Param("corpsId")int corpsId,@Param("communityId")int communityId);
+	
+	/**
+	 * 总数
+	 * @param corpsId
+	 * @param communityId
+	 * @return
+	 */
+	public int getAll(@Param("communityId")int communityId);
 }

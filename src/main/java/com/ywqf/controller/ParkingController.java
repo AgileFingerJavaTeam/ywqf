@@ -39,13 +39,14 @@ public class ParkingController extends BaseController{
 	public String getParkingDate(ParkingDto parkingDto){
 		try {
             ParkingExcution parkingExcution = parkingService.getFirstParkList(parkingDto);
-            return BaseUIResult.returnJsonEasyUI(parkingExcution);
+            return BaseUIResult.returnJson(parkingExcution);
         }catch (Exception e){
             logger.error(e.getMessage(), e);
             ParkingExcution parkingExcution =new ParkingExcution(ParkingEnum.FAIL,e.getMessage());
 
-            return  BaseUIResult.returnJsonEasyUI(parkingExcution);
+            return  BaseUIResult.returnJson(parkingExcution);
         }
 	}
+	
 
 }

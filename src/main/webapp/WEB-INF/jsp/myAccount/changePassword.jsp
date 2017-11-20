@@ -30,9 +30,9 @@
     <script type="text/javascript"  src="scripts/custom/main.js"></script> 
     <script type="text/javascript"  src="scripts/custom/utils.js"></script>
     <!-- kindeditor -->
-    <link rel="stylesheet" type="text/css" href="scripts/kindeditor/themes/default/default.css" >
-    <script type="text/javascript"  src="scripts/kindeditor/kindeditor-all.js"></script>
-	<script  type="text/javascript" src="scripts/kindeditor/lang/zh_CN.js"></script>
+
+	
+	<script  type="text/javascript" src="hui\lib\layer\2.1\layer.js"></script>
 	<style>
 		body {
 		    margin-top: 60px;
@@ -49,14 +49,13 @@
 	<div class="easyui-panel" title="密码修改" style="width:100%;max-width:400px;padding:30px 60px;">
 		<form action="myAccount/changeAcount" id="ff" method="post">
 			<div style="margin-bottom:20px">
-			<input type="hidden" name="id" value="1001" />
-				<input class="easyui-textbox" prompt="Password" name="password" iconWidth="28" style="width:100%;height:34px;padding:10px" data-options="label:'旧密码:',required:true">
+				<input class="easyui-passwordbox" prompt="旧密码" name="password" iconWidth="28" style="width:100%;height:34px;padding:10px" data-options="label:'旧密码:',required:true">
 			</div>
 			<div style="margin-bottom:20px">
-				<input class="easyui-textbox" prompt="Password" name="newPassword" iconWidth="28" style="width:100%;height:34px;padding:10px" data-options="label:'新密码:',required:true">
+				<input class="easyui-passwordbox" prompt="新密码" name="newPassword" iconWidth="28" style="width:100%;height:34px;padding:10px" data-options="label:'新密码:',required:true">
 			</div>
 			<div style="margin-bottom:20px">
-				<input class="easyui-textbox" prompt="Password" name="subPassword" iconWidth="28" style="width:100%;height:34px;padding:10px" data-options="label:'确认新密码:',required:true">
+				<input class="easyui-passwordbox" prompt="确认新密码" name="subPassword" iconWidth="28" style="width:100%;height:34px;padding:10px" data-options="label:'确认新密码:',required:true">
 			</div>
 		</form>
 		<div style="text-align:center;padding:5px 0">
@@ -70,16 +69,25 @@
 				success: function(data){  
 					var data = eval('(' + data + ')');
 					if(data.code==1){
-						alert("成功")
+						layer.alert('旧密码不存在');
+					}
+					if(data.code==2){
+						layer.alert('旧密码输入错误');
 					}
 					if(data.code==0){
-						alert("失败")
+						layer.alert('新密码与确认密码不相同');
+					}
+					if(data.code==3){
+						layer.alert('密码修改没成功,请重新操作');
+					}
+					if(data.code==4){
+						layer.alert('密码修改成功');
 					}
 			    }    
 			});
 		}
 		function clearForm(){
-			window.location.href = "${pageScope.basePath }index/index";
+			window.location.href = "${pageScope.basePath }index/main";
 		}
 	</script>
 </body>

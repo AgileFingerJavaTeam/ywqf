@@ -80,7 +80,8 @@ public class ParkingFeePaymentServiceImpl implements ParkingFeePaymentService{
 	public ParkingFeePaymentExcution updateOver(ParkingFeePaymentDto parkingFeePaymentDto) {
 		try {
             int id = parkingFeePaymentDto.getId();
-            int over = parkingFeePaymentDao.updateOver(id);
+            String Rname = parkingFeePaymentDto.getRname();
+            int over = parkingFeePaymentDao.updateOver(id,Rname);
           if(over > 0){
         	  return new ParkingFeePaymentExcution(ParkingFeePaymentEnum.SUCCESS, null);
           }

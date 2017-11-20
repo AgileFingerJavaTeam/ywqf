@@ -8,5 +8,6 @@ public interface ParkingService {
 	
 	
 	public ParkingExcution getFirstParkList(ParkingDto parkingDto);
+	
 
 }
