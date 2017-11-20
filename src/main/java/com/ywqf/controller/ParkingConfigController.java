@@ -41,9 +41,9 @@ public class ParkingConfigController extends BaseController {
 
 
     /*查询信息列表*/
-   @RequestMapping(value = "/getParkingList",
-           method = RequestMethod.POST,
-           produces = {"text/json;charset=UTF-8"})
+    @RequestMapping(value = "/getParkingList",
+            method = RequestMethod.POST,
+            produces = {"text/json;charset=UTF-8"})
     @ResponseBody
     public String getParkingList(ParkingConfigDto parkingConfigDto){
         try {
@@ -54,7 +54,7 @@ public class ParkingConfigController extends BaseController {
             ParkingConfigExcution parkingConfigExcution =new ParkingConfigExcution(ParkingConfigEnum.FIND_FAIL,e.getMessage());
             return  BaseUIResult.returnJsonEasyUI(parkingConfigExcution);
         }
-   }
+    }
 
     /**
      * 户型联想
@@ -93,6 +93,61 @@ public class ParkingConfigController extends BaseController {
            return BaseUIResult.returnJsonMSG(0,houseExcution,"失败");
        }
    }
-   
+
+
+    /*查询信息通过id*/
+    @RequestMapping(value = "/getParkingById",
+            method = RequestMethod.POST,
+            produces = {"text/json;charset=UTF-8"})
+    @ResponseBody
+    public String getParkingById(ParkingConfigDto parkingConfigDto){
+        try {
+            ParkingConfigExcution parkingConfigExcution = parkingConfigService.findParkingById(parkingConfigDto);
+            return BaseUIResult.returnJson(parkingConfigExcution);
+        }catch (Exception e){
+            logger.error(e.getMessage(), e);
+            ParkingConfigExcution parkingConfigExcution =new ParkingConfigExcution(ParkingConfigEnum.FIND_FAIL,e.getMessage());
+            return  BaseUIResult.returnJson(parkingConfigExcution);
+        }
+    }
+
+
+    /*保存信息*/
+    @RequestMapping(value = "/subEditParking",method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+    @ResponseBody
+    public String subEditParking(ParkingConfigDto parkingConfigDto) {
+        try {
+            System.out.println("12312");
+            ParkingConfigExcution parkingConfigExcution = parkingConfigService.subEditParking(parkingConfigDto);
+            return BaseUIResult.returnJsonMSG(1, parkingConfigExcution, "新增成功");
+        } catch (InsertInnerErrorException e) {
+            logger.error(e.getMessage(), e);
+            HouseExcution houseExcution = new HouseExcution(HouseEnum.ADD_FAIL, e.getMessage());
+            return BaseUIResult.returnJsonMSG(0,houseExcution,"新增失败");
+        }catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            HouseExcution houseExcution = new HouseExcution(HouseEnum.ADD_FAIL, e.getMessage());
+            return BaseUIResult.returnJsonMSG(0,houseExcution,"失败");
+        }
+    }
+
+
+    /*删除信息*/
+    @RequestMapping(value = "/subDeleteParking",method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+    @ResponseBody
+    public String subDeleteParking(ParkingConfigDto parkingConfigDto) {
+        try {
+            ParkingConfigExcution parkingConfigExcution = parkingConfigService.deleteParking(parkingConfigDto);
+            return BaseUIResult.returnJsonMSG(1, parkingConfigExcution, "修改成功");
+        } catch (InsertInnerErrorException e) {
+            logger.error(e.getMessage(), e);
+            HouseExcution houseExcution = new HouseExcution(HouseEnum.ADD_FAIL, e.getMessage());
+            return BaseUIResult.returnJsonMSG(0,houseExcution,"修改失败");
+        }catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            HouseExcution houseExcution = new HouseExcution(HouseEnum.ADD_FAIL, e.getMessage());
+            return BaseUIResult.returnJsonMSG(0,houseExcution,"失败");
+        }
+    }
 
 }
