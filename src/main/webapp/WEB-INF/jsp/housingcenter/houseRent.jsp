@@ -57,7 +57,7 @@
 
 	</div>
 	<div class="mt-20">
-		<table class="table table-border table-bordered table-bg table-hover table-sort" id="datable"style="width: 100%">
+		<table class="table table-border table-bordered table-bg table-hover table-sort" id="datable">
 			<thead>
 			<tr class="text-c">
 				<th ><input type="checkbox" ></th>
@@ -91,7 +91,7 @@
 					<a class="close" data-dismiss="modal" aria-hidden="true" >×</a>
 				</div>
 
-				<input type="hidden" id="building_id" >
+				<%--<input type="hidden" id="building_id" >--%>
 				<input type="hidden" id="community_id" >
 				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-5">单据编号：</label>
@@ -112,7 +112,8 @@
 				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-5">门牌号：</label>
 					<div class="formControls col-xs-4 col-sm-5	">
-						<input type="text" class="input-text" id="house_num"  placeholder="请输入门牌号">
+						<input type="text" class="input-text" id="house_num_add"  placeholder="请输入门牌号">
+						<input type="hidden" id="house_id_add">
 					</div>
 				</div>
 				<div class="row cl">
@@ -290,8 +291,6 @@
 <script type="text/javascript" src="../hui/lib/bootstrap-Switch/bootstrapSwitch.js"></script>
 <script type="text/javascript">
     var select_row_id;
-    var area=0;
-    var prize=0;
     $(function(){
         $.post("house/getCompany",null,function (data) {
             if (data.type==0){
@@ -327,7 +326,7 @@
 
     }
 
-    function changChild(id){
+  /*  function changChild(id){
         $("#building").empty();
         $("#building").append("<option value=\"0\">全部</option>")
         $.post("HouseCenter/getBuilding",{building_id:id},function (data) {
@@ -335,24 +334,22 @@
                 $("#building").append("<option value="+data[i].building+">"+data[i].building+"</option>")
             }
         },"json")
-       /* getHouseList();*/
+       /!* getHouseList();*!/
 
-    }
-    $(function () {
+    }*/
+    /*$(function () {
         $("#month").append("<option value=\"0\" selected>全部</option>")
 		for(var i=1;i<=12;i++){
             $("#month").append("<option value="+i+">"+i+'月份'+"</option>")
 		}
     })
-
+*/
 
    /* $("#building").change(function(){
         getHouseList()
     });*/
     $(function getHouseList() {
         var community_id=$('#community').val();
-        var building_id=$('#building').val();
-        var month=$('#month').val();
         var type;
         var a = $('#rentHouse').bootstrapSwitch('status');
         var b = $('#saleHouse').bootstrapSwitch('status');
@@ -365,7 +362,7 @@
         }else {
             type=0
         }
-        $.post("HouseCenter/getRentSaleList",{community_id:community_id,building_id:building_id,month:month,type:type},function (data) {
+        $.post("HouseCenter/getRentSaleList",{community_id:community_id,type:type},function (data) {
             $('.table-sort').dataTable({
                 dom: 'fBrtip',
                 buttons: [ {
@@ -437,25 +434,20 @@
         select_row_id=$(obj).val()
     }
     function add(){
-        building_id=$('#building').val();
-        community_id=$('#community').val();
+      var community=$('#community').val();
         $("#modal-add").modal("show");
-        $('#community_id').val(community_id);
-        $('#building_id').val(building_id);
-        checkData();
-
-
-        $('#house_num').bind('input propertychange', function() {
-            $.post("HouseCenter/getHouseNum",{house_num:$('#house_num').val()},function (data) {
-                for (var i in data){
-                    console.log(data[i].houseNum);
-                   /* source[i]=data[i].houseNum;*/
-				}
-                $('#house_num').autocomplete({
-                    source:availableTags,
-                });
-
-            },"json")
+        $('#community_id').val(community);
+        $('#house_num_add').bind('input propertychange', function() {
+            var house_num=$('#house_num_add').val();
+            var community_id=$('#community_id').val();
+            if(house_num!=null && house_num!=''){
+                $.post("HouseCenter/getHouseNum",{house_num:house_num,community_id:community_id},function (result) {
+                    if(result!=null){
+                        $('#area').val(result.area);
+                        $('#house_id_add').val(result.houseId);
+                    }
+                },"json")
+            }
         });
 
 

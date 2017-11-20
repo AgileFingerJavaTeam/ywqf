@@ -36,20 +36,20 @@
 	</div>
 	<div class="cl pd-5   mt-20">
 		物业公司：
-		<span class="select-box" style="width: 10%;display: inline-block">
+		<span class="select-box" style="width: 20%;display: inline-block">
 		  <select class="select" size="1" name="demo1" id="company">
 
 		  </select>
 		</span>
 		小区：
-		<span class="select-box" style="width: 10%;display: inline-block">
+		<span class="select-box" style="width: 20%;display: inline-block">
 		  <select class="select" size="1" name="demo1" id="community" >
 		  	<option value="0"selected>全部</option>
 		  </select>
 		</span>
 	</div>
 	<div class="mt-20">
-		<table class="table table-border table-bordered table-bg table-hover table-sort" id="datable" style="width: 100%">
+		<table class="table table-border table-bordered table-bg table-hover table-sort" id="datable">
 			<thead>
 			<tr class="text-c">
 				<th width="25"><input type="checkbox" ></th>
@@ -307,6 +307,7 @@
 <%@ include file="../common/footer.jsp" %>
 
 <script type="text/javascript" src="//code.jquery.com/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="hui/static/h-ui/js/H-ui.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
@@ -314,7 +315,7 @@
 <script type="text/javascript" src="hui/lib/bootstrap-modal/2.2.4/bootstrap-modal.js"></script>
 <script type="text/javascript" src="hui/lib/bootstrap-modal/2.2.4/bootstrap-modalmanager.js"></script>
 <script type="text/javascript">
-	var select_row_id;
+	var select_row_id=null;
 	var area=0;
 	var prize=0;
 	$(function(){
@@ -481,6 +482,10 @@
 
     }
     function edit(){
+        if(select_row_id==null){
+			alert("请选择要编辑的数据行");
+            return false;
+		}
         $("#modal-edit").modal("show");
         $('#chooseid').val(select_row_id);
         $.post("house/editHouseInfo",{id:select_row_id},function (data) {
@@ -541,7 +546,10 @@
     }
 
 	function deleteMessage(){
-
+        if(select_row_id==null){
+            alert("请选择要删除的数据行");
+            return false;
+        }
             $("#deleteMessage").modal("show");
 			$('#rowid').val(select_row_id);
             $("#deleteMessage").on("hide.bs.modal", function() {

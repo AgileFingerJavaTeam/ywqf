@@ -8,19 +8,60 @@ public class Parking {
 	private int gender;
 	private String carOwnerTel;
 	private String carOwnerStandbyTel;
-	private Double previousParkingUnitPrice;
+	private String previousParkingUnitPrice;
 	private int paymentStatus;
 	
+	private String corpName;
+	private int type;
+	private String communityName;
+	private int corpId;
+	private int communityId;
+	
+	
+	
+	
+	
+	public String getCorpName() {
+		return corpName;
+	}
+	public void setCorpName(String corpName) {
+		this.corpName = corpName;
+	}
+	public int getType() {
+		return type;
+	}
+	public void setType(int type) {
+		this.type = type;
+	}
+	public String getCommunityName() {
+		return communityName;
+	}
+	public void setCommunityName(String communityName) {
+		this.communityName = communityName;
+	}
+	public int getCorpId() {
+		return corpId;
+	}
+	public void setCorpId(int corpId) {
+		this.corpId = corpId;
+	}
+	public int getCommunityId() {
+		return communityId;
+	}
+	public void setCommunityId(int communityId) {
+		this.communityId = communityId;
+	}
 	public String getCarOwnerName() {
 		return carOwnerName;
 	}
 	public void setCarOwnerName(String carOwnerName) {
 		this.carOwnerName = carOwnerName;
 	}
-	public Double getPreviousParkingUnitPrice() {
+	
+	public String getPreviousParkingUnitPrice() {
 		return previousParkingUnitPrice;
 	}
-	public void setPreviousParkingUnitPrice(Double previousParkingUnitPrice) {
+	public void setPreviousParkingUnitPrice(String previousParkingUnitPrice) {
 		this.previousParkingUnitPrice = previousParkingUnitPrice;
 	}
 	public int getParkingNum() {
@@ -75,8 +116,11 @@ public class Parking {
 				+ ", carOwnerTel=" + carOwnerTel + ", carOwnerStandbyTel="
 				+ carOwnerStandbyTel + ", previousParkingUnitPrice="
 				+ previousParkingUnitPrice + ", paymentStatus=" + paymentStatus
-				+ "]";
+				+ ", corpName=" + corpName + ", type=" + type
+				+ ", communityName=" + communityName + ", corpId=" + corpId
+				+ ", communityId=" + communityId + "]";
 	}
+	
 	
 	
 	

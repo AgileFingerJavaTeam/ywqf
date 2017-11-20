@@ -154,17 +154,17 @@ EstatePayService estatePayService;
      * @return
      */
     @RequestMapping(value="/getEstatePayQueryList")
-    public ModelAndView getEstatePayQueryList(){
-        Logger logger = LoggerFactory.getLogger(this.getClass());
-        ModelAndView mv = new ModelAndView();
-        try {
-            mv.setViewName("estatePay/estatePayQueryList");
-        } catch (Exception e) {
-            logger.error(e.getMessage(),e);
-        }
-        return mv;
-    }
-
+	public ModelAndView getEstatePayQueryList(){
+		Logger logger = LoggerFactory.getLogger(this.getClass());
+		ModelAndView mv = new ModelAndView();
+		try {
+			mv.setViewName("estatePay/estatePayQueryList");
+		} catch (Exception e) {
+			logger.error(e.getMessage(),e);
+		}
+		return mv;
+	}
+    
     /**
      *物业缴费欠费数据查询
      * @return
@@ -174,13 +174,14 @@ EstatePayService estatePayService;
             produces = {"text/json;charset=UTF-8"})
     @ResponseBody
     public String EstatePayQuery(EstatePayDto estatePayDto){
-        try {
-            EstatePayExcution estatePayExcution = estatePayService.queryEstatePay(estatePayDto);
+    	try {
+    		EstatePayExcution estatePayExcution = estatePayService.queryEstatePay(estatePayDto);
             return BaseUIResult.returnJson(estatePayExcution);
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            EstatePayExcution estatePayExcution =new EstatePayExcution(EstatePayEnum.QUERY_FILED,e.getMessage());
-            return  BaseUIResult.returnJsonEasyUI(estatePayExcution);
-        }
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			EstatePayExcution estatePayExcution =new EstatePayExcution(EstatePayEnum.QUERY_FILED,e.getMessage());
+	         return  BaseUIResult.returnJson(estatePayExcution);
+		}
+    	
     }
 }

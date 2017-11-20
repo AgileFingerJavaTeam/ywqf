@@ -8,10 +8,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ywqf.base.BaseController;
+import com.ywqf.base.BaseUIResult;
+import com.ywqf.dto.excution.UserExcution;
 import com.ywqf.dto.in.UserDto;
 import com.ywqf.service.UserService;
 @Controller
@@ -54,8 +57,15 @@ public class myAccountController extends BaseController{
 		}
 		if (num == 0) {
 			mav.put("code", 0);
-		}else {
+		}else if(num == 1){
 			mav.put("code", 1);
+		}
+		else if(num == 2){
+			mav.put("code", 2);
+		}else if(num == 3){
+			mav.put("code", 3);
+		}else {
+			mav.put("code", 4);
 		}
 		return mav;
 	}
@@ -91,15 +101,30 @@ public class myAccountController extends BaseController{
 		try {
 			num = userService.changePhoneNo(userDto);
 		} catch (Exception e) {
-			// TODO: handle exception
 			logger.error(e.getMessage(), e);
 		}
 		if (num == 0) {
 			mav.put("code", 0);
-		}else {
+		}else if(num == 1){
 			mav.put("code", 1);
+		}else{
+			mav.put("code", 2);
 		}
 		return mav;
 	}
+	
+	
+	/**
+	 * 查询手机号
+	 * @param userDto
+	 * @return
+	 */
+	@RequestMapping(value="/searchOldPhone",method=RequestMethod.POST,produces={"text/json;charset=UTF-8"})
+	@ResponseBody
+	public String searchOldPhone(){
+		UserExcution userExcution = userService.getOldPhone();
+        return BaseUIResult.returnJson(userExcution);
+	}
+	
 	
 }

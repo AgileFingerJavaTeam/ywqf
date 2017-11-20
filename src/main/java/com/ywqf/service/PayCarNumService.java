@@ -1,10 +1,7 @@
 package com.ywqf.service;
 
 import com.ywqf.dto.excution.CarExcution;
-import com.ywqf.dto.excution.CommunityExcution;
-import com.ywqf.dto.excution.CorpExcution;
 import com.ywqf.dto.excution.PayCarResultExcution;
-import com.ywqf.dto.excution.PayYearResultExcution;
 import com.ywqf.dto.in.CommunityDto;
 import com.ywqf.dto.in.PayCarNumDto;
 
@@ -14,7 +11,7 @@ public interface PayCarNumService {
 	 * @param id
 	 * @return
 	 */
-	public CarExcution CorpList(int id, int type);
+	public CarExcution CorpList(int id,int type);
 	/**
 	 * 根据物业id查询小区
 	 * @param id

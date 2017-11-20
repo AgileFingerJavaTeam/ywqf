@@ -74,14 +74,31 @@ public interface EstatePayDao {
 
     /**
      * 查询登录员工类型
-     * @param userId
+     * @param corpId
      * @return
      */
-    public String findUserType(@Param("userId")int userId);
+    public String findUserType(@Param("corpId")int corpId);
     //---石匡代码
-    public List<EstatePay> queryEstatePayList(@Param("year")int year,@Param("month")int month,@Param("check")int check);
+    public List<EstatePay> queryEstatePayList(@Param("year")int year,@Param("month")int month,@Param("check")int check,@Param("corpsId")int corpsId,@Param("communityId")int communityId,@Param("type")int type,@Param("userId")int userId,@Param("search")String search);
+    
+    public int queryEstatePayCount(@Param("year")int year,@Param("month")int month,@Param("check")int check,@Param("corpsId")int corpsId,@Param("communityId")int communityId,@Param("type")int type,@Param("userId")int userId,@Param("search")String search);
+    
+    public List<EstatePay> getEstatePayCommunity(@Param("userId")int userId,@Param("type")int type,@Param("corpsId")int corpsId);
 
-    public int queryEstatePayCount(@Param("year")int year,@Param("month")int month,@Param("check")int check);
-
+    /**
+	 * 缴费数
+	 * @param corpsId
+	 * @param communityId
+	 * @return
+	 */
+	public int getPay(@Param("year")int year,@Param("month")int month,@Param("userId")int userId,@Param("type")int type,@Param("corpsId")int corpsId,@Param("communityId")int communityId);
+	
+	/**
+	 * 总数
+	 * @param corpsId
+	 * @param communityId
+	 * @return
+	 */
+	public int getAll(@Param("communityId")int communityId);
 
 }

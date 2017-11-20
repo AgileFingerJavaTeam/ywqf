@@ -7,6 +7,24 @@
     .table>tbody>tr>td {
         text-align: center;
     }
+    .bg{
+        background-color:gainsboro; height:2.8em;
+    }
+    .bga{
+        background-color:dimgrey; height:2.8em;
+    }
+    .sc{
+        color:white;
+    }
+    .statis{
+        background-color:#1D69A9;
+        width:100%;
+        height:2.8em;
+        margin:0 auto;
+        overflow:hidden;
+        position: fixed;
+        bottom:0;
+    }
 </style>
 
 <meta charset="UTF-8">
@@ -14,13 +32,18 @@
 
 </head>
 <body>
+<div class="container-fluid statis">
+    <div class="row">
+        <div class="col-md-9 bg">对账日期:<strong id="checkDate"></strong></div>
+        <div class="col-md-3 bga"><font class="sc">账单统计：</font><strong id="TotalDues" class="sc"></strong><font class="sc">元</font></div>
+    </div>
+</div>
 <div class="page-container">
     <div class="text">
         <input type="text" placeholder="请输入关键字" name="searchInfo" id="search" style="width:250px" class="input-text"><a class="btn btn-primary"  onclick="clickSearch() " style="margin-right:30px;">搜索</a>
         物业:
         <span class="select-box inline" style="margin-right:30px;">
 		<select name="corps" class="select" id="corps">
-            <%--<option value="0" >全部物业</option>--%>
         </select>
 		</span>
         小区:
@@ -34,9 +57,6 @@
         <input type="text" onclick="WdatePicker({onpicked:function(){clickDate()},lang:'zh-cn',maxDate:new Date()})" class="input-text Wdate" id="ss"  style="width:120px;">
         </span>
         <a class="btn btn-primary radius aaa" id="bb">导出</a>
-    </div>
-    <div class="cl pd-5 bg-1 bk-gray mt-20">
-        <span class="r">账单统计：<strong><input id="TotalDues"  style="width:100px; border: hidden;font-size: large;background-color:#F5FAFE" readonly></strong>元</span>
     </div>
     <div class="mt-20">
         <table class="table table-border table-bordered table-bg table-hover table-sort " id="checkBillTable">
@@ -82,8 +102,13 @@
     }
     //------显示dataTable
     function showDataTable (data) {
+        var date = $("#ss").val();
+        $("#checkDate").text(date)
         var count = data.amount;
-        $("#TotalDues").val(count)//给缴费总额赋值
+        if(count == null){
+            var count = 0
+            $("#TotalDues").text(count)//给缴费总额赋值
+        }else{ $("#TotalDues").text(count)}//给缴费总额赋值
         $('.table-sort').dataTable({
             "data":data.data,
 //            "bPaginate" : true,//分页工具条显示

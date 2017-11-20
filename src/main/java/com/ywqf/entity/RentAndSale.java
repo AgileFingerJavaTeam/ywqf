@@ -9,6 +9,7 @@ public class RentAndSale {
 	private String houseTypeName;
 	private String houseDirectionTypeName;
 	private double area;
+	private int houseId;
 	private String houseFitmentTypeName;
 	private double salePrice;
 	private double rentPrice;
@@ -145,6 +146,13 @@ public class RentAndSale {
 		this.remark = remark;
 	}
 
+	public int getHouseId() {
+		return houseId;
+	}
+
+	public void setHouseId(int houseId) {
+		this.houseId = houseId;
+	}
 
 	@Override
 	public String toString() {
@@ -157,6 +165,7 @@ public class RentAndSale {
 				", houseTypeName='" + houseTypeName + '\'' +
 				", houseDirectionTypeName='" + houseDirectionTypeName + '\'' +
 				", area=" + area +
+				", houseId=" + houseId +
 				", houseFitmentTypeName='" + houseFitmentTypeName + '\'' +
 				", salePrice=" + salePrice +
 				", rentPrice=" + rentPrice +

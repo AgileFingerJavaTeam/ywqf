@@ -29,16 +29,38 @@ public class ParkingServiceImpl implements ParkingService {
 	@Override
 	public ParkingExcution getFirstParkList(ParkingDto parkingDto) {
 		int checked = parkingDto.getChecked();
+		String search = parkingDto.getSearch();
 		String TimeYearMonth = parkingDto.getTimeYearMonth();
 		String[] string = TimeYearMonth.split("-");
 		int year = Integer.parseInt(string[0]);
 		int month = Integer.parseInt(string[1]);
+		int corpsId = parkingDto.getSelectCompanyID();//物业公司ID
+		int communityId = parkingDto.getSelectcommunityID();
+		int isSelect = parkingDto.getIsSelect();
+		int userId = 333;//登录人ID
+		int type = 1;//登录人是总公司还是物业公司
 		try{
-			List<Parking> parkinglist= parkingDao.getFirParkingList(checked,year,month);
-			int total=parkingDao.findFirParkingCount(checked,year,month);
+			List<Parking> parkingCommunityList = parkingDao.getParkingCommunity(userId,type,corpsId);
+			if (isSelect==1) {
+				communityId=parkingCommunityList.get(0).getCommunityId();
+			}
+			List<Parking> parkinglist= parkingDao.getFirParkingList(checked,year,month,corpsId,communityId,userId,type,search);
+			
+			int total=parkingDao.findFirParkingCount(checked,year,month,corpsId,communityId,userId,type,search);
+			
+			int all = parkingDao.getAll(communityId);
+			int pay = parkingDao.getPay(year, month, userId, type, corpsId, communityId);
+			int noPay = all-pay;
+			int percentage = (int) ((pay/Double.parseDouble(String.valueOf(all)))*100 );
+			
 			HashMap<String, Object> map=new HashMap<String, Object>();
             map.put("rows",parkinglist);
             map.put("total",total);
+            map.put("all",all);
+            map.put("pay",pay);
+            map.put("noPay",noPay);
+            map.put("percentage",percentage);
+            map.put("community",parkingCommunityList);
             return  new ParkingExcution(ParkingEnum.SUCCESS,map);
 		}catch (Exception  e){
             logger.error(e.getMessage(),e);
@@ -46,6 +68,9 @@ public class ParkingServiceImpl implements ParkingService {
         }
 	}
 
+
+
+	
 	
 
 	

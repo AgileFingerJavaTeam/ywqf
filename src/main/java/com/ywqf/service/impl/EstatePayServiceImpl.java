@@ -144,9 +144,9 @@ public class EstatePayServiceImpl implements EstatePayService {
     @Override
     public EstatePayExcution findUserType(EstatePayDto estatePayDto) {
 //        int userId = estatePayDto.getUserId();
-        int userId = 1000;
+        int corpId = 1000;
         try {
-            String userType = estatePayDao.findUserType(userId);
+            String userType = estatePayDao.findUserType(corpId);
             return new EstatePayExcution(EstatePayEnum.FIND_SUCCESS,userType);
         }catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -156,22 +156,44 @@ public class EstatePayServiceImpl implements EstatePayService {
 
     //----石匡代码
     @Override
-    public EstatePayExcution queryEstatePay(EstatePayDto estatePayDto) {
-        int check = estatePayDto.getChecked();
-        String timeYearMonth = estatePayDto.getTimeYearMonth();
-        String[] string = timeYearMonth.split("-");
-        int year = Integer.parseInt(string[0]);
-        int month = Integer.parseInt(string[1]);
-        try {
-            List<EstatePay> estatePayList = estatePayDao.queryEstatePayList(year, month, check);
-            int total=estatePayDao.queryEstatePayCount(year, month, check);
-            HashMap<String, Object> map=new HashMap<String, Object>();
+	public EstatePayExcution queryEstatePay(EstatePayDto estatePayDto) {
+		int check = estatePayDto.getChecked();
+		String timeYearMonth = estatePayDto.getTimeYearMonth();
+		String[] string = timeYearMonth.split("-");
+		int year = Integer.parseInt(string[0]);
+		int month = Integer.parseInt(string[1]);
+		String search = estatePayDto.getSearch();
+		int corpsId = estatePayDto.getSelectCompanyID();//物业公司ID
+		int communityId = estatePayDto.getSelectcommunityID();
+		int isSelect = estatePayDto.getIsSelect();
+		int userId = 333;//登录人ID
+		int type = 1;//登录人是总公司还是物业公司
+		try {
+			List<EstatePay> estatePayCommunityList = estatePayDao.getEstatePayCommunity(userId,type,corpsId);
+			if (isSelect==1) {
+				communityId=estatePayCommunityList.get(0).getCommunityId();
+			}
+			List<EstatePay> estatePayList = estatePayDao.queryEstatePayList(year,month,check,corpsId,communityId,type,userId,search);
+			
+			int total=estatePayDao.queryEstatePayCount(year,month,check,corpsId,communityId,type,userId,search);
+			
+			int all = estatePayDao.getAll(communityId);
+			int pay = estatePayDao.getPay(year, month, userId, type, corpsId, communityId);
+			int noPay = all-pay;
+			int percentage = (int) ((pay/Double.parseDouble(String.valueOf(all)))*100 );
+			
+			HashMap<String, Object> map=new HashMap<String, Object>();
             map.put("rows",estatePayList);
             map.put("total",total);
+            map.put("all",all);
+            map.put("pay",pay);
+            map.put("noPay",noPay);
+            map.put("percentage",percentage);
+            map.put("community",estatePayCommunityList);
             return  new EstatePayExcution(EstatePayEnum.QUERY_SUCCESS,map);
-        } catch (Exception e) {
-            logger.error(e.getMessage(),e);
+		} catch (Exception e) {
+			logger.error(e.getMessage(),e);
             throw new BaseException(e.getMessage());
-        }
-    }
+		}
+	}
 }
