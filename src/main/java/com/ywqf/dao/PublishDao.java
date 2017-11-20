@@ -17,7 +17,7 @@ public interface PublishDao {
      * 新增信息
      * @return
      */
-    public int isAdd();
+    public int addNews(@Param("title")String title,@Param("content")String content,@Param("publishWorkerId")int publishWorker);
 
     /**
      * 查询发布员工列表

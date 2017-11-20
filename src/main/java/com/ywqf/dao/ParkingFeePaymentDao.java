@@ -15,7 +15,7 @@ public interface ParkingFeePaymentDao {
 	//������
     public ParkingFeePayment findOver(@Param("id") int id);
     //�޸�����״̬
-    public int updateOver(@Param("id") int id);
+    public int updateOver(@Param("id") int id,@Param("Rname")String Rname);
     //查询遍历 小区         where 物业公司
     public List<ParkingFeePayment> findVillage(@Param("corp_id") int corp_id);
     //查码表缴纳月数

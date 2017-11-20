@@ -20,7 +20,7 @@
 		LEFT JOIN community_dept_role_user ON community.community_id=community_dept_role_user.community_id
 		WHERE 1=1
 	    <if test="type==0">
-			AND community_dept_role_user.user_id=1
+			AND community_dept_role_user.user_id=#{userid}
         </if>
         <if test="corpid!=null and corpid!=''">
 		    AND corp_id=#{corpid}
@@ -45,7 +45,7 @@
         <if test="year!=null and year!=''">
                AND year = #{year}
         </if>
-         <if test="year==null or year==''">
+        <if test="year==null or year==''">
                AND year = year(curdate()) 
         </if>
         <if test="timeStart!=null and timeStart!='' and timeEnd!=null and timeEnd!=''">
@@ -57,15 +57,11 @@
 				FROM community
 				LEFT JOIN community_dept_role_user ON community.community_id=community_dept_role_user.community_id
 				WHERE 1=1
-			    <if test="type==0">
-					AND community_dept_role_user.user_id=1
-		        </if>
-		        <if test="corpid!=null and corpid!=''">
-				    AND corp_id=#{corpid}
-				</if>
+					AND community_dept_role_user.user_id=#{userid}
+				    AND corp_id=#{corps}
                )
-        </if>
-        GROUP BY ps.community_id 
+      </if>
+      GROUP BY ps.community_id 
 	</select>
 
 </mapper>

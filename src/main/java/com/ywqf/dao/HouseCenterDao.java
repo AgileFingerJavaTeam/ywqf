@@ -46,5 +46,5 @@ public interface HouseCenterDao {
     /*查询租售列表*/
     public List<RentAndSale> findRentSale();
     /*房号联想*/
-    public List<RentAndSale> findHouseNum(String house_num);
+    public List<RentAndSale> findHouseNum(@Param("house_num")String house_num,@Param("community_id")int community_id);
 }

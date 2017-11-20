@@ -299,7 +299,7 @@ public class HouseCenterController extends BaseController {
         }
         return mv;
     }
-    /*查询楼号*/
+   /* *//*查询楼号*//*
     @RequestMapping(value = "/getBuilding",
             method = RequestMethod.POST,
             produces = {"text/json;charset=UTF-8"})
@@ -314,7 +314,7 @@ public class HouseCenterController extends BaseController {
 
             return  BaseUIResult.returnJsonEasyUI(houseExcution);
         }
-    }
+    }*/
 
     /*查询出租出售列表*/
     @RequestMapping(value = "/getRentSaleList",

@@ -121,10 +121,8 @@
     <!--查询登录员工类型-->
     <select id="findUserType" resultType="String">
         SELECT type
-        FROM `user`
-        LEFT JOIN corps
-        ON `user`.corp_id = corps.corp_id
-        WHERE `user`.user_id = #{userId}
+        FROM corps
+        WHERE corp_id = #{corpId}
     </select>
 
 

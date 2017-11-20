@@ -5,6 +5,7 @@
 <mapper namespace="com.ywqf.dao.ParkingConfigDao">
     <!--目的:为dao接口方法提供sql语句配置
     即针对dao接口中的方法编写我们的sql语句-->
+	<!--查询车位信息列表-->
 	<select id="findParkingList" resultType="ParkingConfig">
 		SELECT parking_space_id,parking_num,license_plate_number,location_description,
 		previous_parking_unit_price,car_owner_name,house_num,car_owner_tel,
@@ -26,15 +27,37 @@
 			</if>
 		</where>
 	</select>
-
+	<!--门牌号联想-->
 	<select id="findHouseNum" resultType="ParkingConfig">
 		SELECT house_num,house_id,owner_name,owner_tel,owner_standby_tel FROM house
-		WHERE house_num=#{house_id}
+		WHERE house_num=#{house_num}
 		AND community_id=#{community_id}
 	</select>
-
+	<!--添加信息-->
 	<insert id="addParkingConfig">
 		INSERT INTO parking_space (community_id,parking_num,license_plate_number,location_description,previous_parking_unit_price,house_id,car_owner_name,car_owner_tel,car_owner_standby_tel,gender)
 		VALUES(#{community_id},#{parking_num},#{license_plate_number},#{location_description},#{previous_parking_unit_price},#{house_id},#{car_owner_name},#{car_owner_tel},#{car_owner_standby_tel},#{gender})
 	</insert>
+
+	<!--根据id查询详细信息-->
+	<select id="findParkingById" resultType="ParkingConfig">
+		SELECT parking_space.community_id,parking_space_id,parking_num,parking_space.house_id,license_plate_number,location_description,
+		previous_parking_unit_price,car_owner_name,house_num,car_owner_tel,
+		car_owner_standby_tel,gender
+		FROM parking_space
+		LEFT JOIN house
+		ON parking_space.house_id=house.house_id
+		WHERE parking_space_id=#{row_id}
+	</select>
+	<!--修改信息-->
+	<update id="editParkingConfig">
+		UPDATE parking_space
+		SET community_id=#{community_id},parking_num=#{parking_num},license_plate_number=#{license_plate_number},location_description=#{location_description},previous_parking_unit_price=#{previous_parking_unit_price},
+		house_id=#{house_id},car_owner_name=#{car_owner_name},gender=#{gender},car_owner_tel=#{car_owner_tel},car_owner_standby_tel=#{car_owner_standby_tel}
+		WHERE parking_space_id=#{row_id}
+	</update>
+	<!--删除信息-->
+	<delete id="deleteParkingConfig">
+		DELETE FROM parking_space WHERE parking_space_id=#{row_id}
+	</delete>
 </mapper>

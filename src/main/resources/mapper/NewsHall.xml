@@ -15,4 +15,17 @@
             </if>
         </where>
     </select>
+    <!--查询消息条数-->
+    <select id="findNewsInfoRows" resultType="int">
+        SELECT COUNT(*)
+        FROM announcement a
+        LEFT JOIN `user` u
+        ON a.release_user_id = u.user_id
+        <where>
+            a.status = 1
+            <if test="searchNewsInfo != null || searchNewsInfo != ''">
+                AND CONCAT_WS(',',a.release_time,u.name,a.title) LIKE '%${searchNewsInfo}%'
+            </if>
+        </where>
+    </select>
 </mapper>

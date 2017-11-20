@@ -74,7 +74,7 @@
     <!-- 修改作废状态 -->
     <update id="updateOver">
         UPDATE estate_pay
-        SET status = '0'
+        SET status = '0',
         operator = #{Rname}
         WHERE estate_pay_id = #{id}
     </update>

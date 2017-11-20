@@ -183,9 +183,6 @@
 			<!--<if test="community_id!=0">
 				AND  need.community_id=#{community_id}
 			</if>
-			<if test="building_id!=0">
-				AND  need.community_id=#{community_id}
-			</if>
 			<if test="type!=3">
 				AND  need.type=#{type}
 			</if>-->
@@ -193,8 +190,12 @@
 	</select>
 	<!--房号联想-->
 	<select id="findHouseNum" resultType="RentAndSale">
-		SELECT house_num FROM house WHERE house_num LIKE concat(#{house_num},"%")
+		SELECT house_id,area
+		FROM house
+		WHERE house_num=#{house_num}
+		AND community_id=#{community_id}
 	</select>
+
 
 
 

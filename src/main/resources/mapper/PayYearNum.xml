@@ -20,7 +20,7 @@
 		LEFT JOIN community_dept_role_user ON community.community_id=community_dept_role_user.community_id
 		WHERE 1=1
 	    <if test="type==0">
-			AND community_dept_role_user.user_id=1
+			AND community_dept_role_user.user_id=#{userid}
         </if>
         <if test="corpid!=null and corpid!=''">
 		    AND corp_id=#{corpid}
@@ -53,18 +53,13 @@
                AND month BETWEEN #{timeStart} AND #{timeEnd}
         </if>
        <if test="type==0">
-               AND eps.community_id in (
-               	SELECT DISTINCT community.community_id
-				FROM community
-				LEFT JOIN community_dept_role_user ON community.community_id=community_dept_role_user.community_id
-				WHERE 1=1
-			    <if test="type==0">
-					AND community_dept_role_user.user_id=1
-		       </if>
-		       <if test="corpid!=null and corpid!=''">
-			    	AND corp_id=#{corpid}
-				</if>
-               )
+       AND h.community_id in (
+								SELECT DISTINCT community.community_id
+								FROM community
+								LEFT JOIN community_dept_role_user ON community.community_id=community_dept_role_user.community_id
+							    WHERE community_dept_role_user.user_id=#{userid}
+								AND corp_id=#{corps}
+								)
         </if>
         GROUP BY c.community_id 
 	</select>
