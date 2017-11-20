@@ -81,7 +81,8 @@ public class PropertyFeePaymentServiceImpl implements PropertyFeePaymentService{
 	public PropertyFeePaymentExcution updateOver(PropertyFeePaymentDto propertyFeePaymentDto) {
 		try {
             int id = propertyFeePaymentDto.getId();
-            int over = propertyFeePaymentDao.updateOver(id);
+            String Rname = propertyFeePaymentDto.getRname();
+            int over = propertyFeePaymentDao.updateOver(id,Rname);
           if(over > 0){
         	  return new PropertyFeePaymentExcution(PropertyFeePaymentEnum.SUCCESS, null);
           }

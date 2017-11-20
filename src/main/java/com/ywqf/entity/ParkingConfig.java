@@ -14,7 +14,8 @@ public class ParkingConfig {
 	private String ownerTel;
 	private int houseId;
 	private String ownerStandbyTel;
-
+	private int gender;
+	private int communityId;
 	public int getParkingSpaceId() {
 		return parkingSpaceId;
 	}
@@ -119,6 +120,22 @@ public class ParkingConfig {
 		this.ownerStandbyTel = ownerStandbyTel;
 	}
 
+	public int getGender() {
+		return gender;
+	}
+
+	public void setGender(int gender) {
+		this.gender = gender;
+	}
+
+	public int getCommunityId() {
+		return communityId;
+	}
+
+	public void setCommunityId(int communityId) {
+		this.communityId = communityId;
+	}
+
 	@Override
 	public String toString() {
 		return "ParkingConfig{" +
@@ -135,6 +152,8 @@ public class ParkingConfig {
 				", ownerTel='" + ownerTel + '\'' +
 				", houseId=" + houseId +
 				", ownerStandbyTel='" + ownerStandbyTel + '\'' +
+				", gender=" + gender +
+				", communityId=" + communityId +
 				'}';
 	}
 }

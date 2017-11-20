@@ -2,7 +2,7 @@ package com.ywqf.dto.in;
 
 public class ParkingFeePaymentDto {
     private int id;
-    
+    private String Rname;
 	private String at_search;
 	private int page;
 	private int rows;
@@ -31,6 +31,14 @@ public class ParkingFeePaymentDto {
 
 	private String status;
 	private String okey;
+
+	public String getRname() {
+		return Rname;
+	}
+
+	public void setRname(String rname) {
+		Rname = rname;
+	}
 
 	public int getComm() {
 		return comm;

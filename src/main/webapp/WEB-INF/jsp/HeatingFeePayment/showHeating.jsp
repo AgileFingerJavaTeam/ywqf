@@ -102,11 +102,12 @@
 	<div class="modal-dialog">
 		<div class="modal-content radius">
 			<div class="modal-header">
-				<h3 class="modal-title">修改作废状态</h3>
+				<h3 class="modal-title">作废单据</h3>
 				<a class="close" data-dismiss="modal" aria-hidden="true" href="javascript:void()">×</a>
 			</div>
 			<div class="modal-body">
-				<span style="text-align: center;">是否修改作废状态？</span>
+				<span style="text-align: center;">是否作废此单据？</span>
+				<span style="text-align: center; color: red;">(执行后无法撤回！)</span>
 				<input style="display: none;" value="" id="asd">
 			</div>
 			<div class="modal-footer">
@@ -139,7 +140,7 @@
 						</select>
 					</div>
 				</div>
-				<div class="row cl">
+				<div class="row cl" style="display: none;">
 					<label class="form-label col-xs-4 col-sm-5">房间ID</label>
 					<div class="formControls col-xs-4 col-sm-5	">
 						<input type="text" class="input-text" id="house_id"  name="house_id" >
@@ -721,21 +722,22 @@
         $('#corp_id').val(corpId);
         $('#modal-demo-add').modal("show") //显示模态框
         // 遍历小区 start
-        var corp_id={};
-        corp_id.corp_id=corpId;
+        var ppp = {};
+        ppp.rid = id;
         $.ajax({
-            type:"POST",
-            url:"ParkingFeePayment/findVillage",
-            data:corp_id,
-            dataType:"json",
-            success:function(asdf){
-                jQuery("#community_id").empty();
-                for(var i in asdf){
-                    var a = asdf[i].communityId;
-                    $("#community_id").append("<option value="+a+">"+asdf[i].communityName+"</option>")
+            type:'post',
+            url:'ParkingFeePayment/findRidComm',
+            data: ppp,
+            dataType:'json',
+            success:function(data){
+                jQuery('#community_id').empty();
+
+                for (var i in data) {
+                    var a = data[i].communityId;
+                    $("#community_id").append("<option value=" + a + ">" + data[i].communityName + "</option>")
                 }
             }
-        });
+        })
         // 遍历小区 end
         //缴费日期 start
         var aa = new Date();

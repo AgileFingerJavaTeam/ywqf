@@ -111,7 +111,7 @@
 		room_num=#{room_num},house_type_id=#{house_type_id},area=#{area},
 		previous_estate_unit_price=#{previous_estate_unit_price},previous_estate_fee=#{previous_estate_fee},
 		owner_name=#{owner_name},owner_tel=#{owner_tel},owner_standby_tel=#{owner_standby_tel},
-		family_size=#{family_size}
+		family_size=#{family_size},house_num=#{house_num}
 		WHERE 1=1
 		AND house.house_id=#{id}
 	</update>

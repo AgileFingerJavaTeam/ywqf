@@ -70,7 +70,7 @@
 <div id="modal-add" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content radius" style=" overflow:scroll;height:600px;width: 500px">
-			<form action="house/subHouseInfo" method="post" class="form form-horizontal"   id="addForm">
+			<form action="house/subHouseInfo" method="post" class="form form-horizontal" >
 				<div class="modal-header">
 					<h4	 style="text-align: center">新增车位配置</h4>
 					<a class="close" data-dismiss="modal" aria-hidden="true" >×</a>
@@ -160,6 +160,95 @@
 	</div>
 </div>
 
+<div id="modal-edit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content radius" style=" overflow:scroll;height:600px;width: 500px">
+			<form action="house/subHouseInfo" method="post" class="form form-horizontal">
+				<div class="modal-header">
+					<h4	 style="text-align: center">修改车位配置</h4>
+					<a class="close" data-dismiss="modal" aria-hidden="true" >×</a>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-5">物业：</label>
+					<div class="formControls col-xs-4 col-sm-5	">
+						<input type="text"class="input-text " id="writeCompanyEdit"readonly >
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-5">小区：</label>
+					<div class="formControls col-xs-4 col-sm-5	">
+						<select class="input-text" size="1"id="writeCommunityEdit" ></select>
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-5">车位编号：</label>
+					<div class="formControls col-xs-4 col-sm-5	">
+						<input type="hidden" id="chooseid">
+						<input type="text" class="input-text" id="parking_num_edit" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();" placeholder="请输入车位编号">
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-5">车牌号：</label>
+					<div class="formControls col-xs-4 col-sm-5	">
+						<input type="text" class="input-text" id="license_plate_number_edit"placeholder="请输入车牌号">
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-5">车位位置描述：</label>
+					<div class="formControls col-xs-4 col-sm-5	">
+						<input type="text" class="input-text" id="location_description_edit"  placeholder="请输入车位位置描述">
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-5">车位单价：</label>
+					<div class="formControls col-xs-4 col-sm-5	">
+						<input type="text" class="input-text " id="previous_parking_unit_price_edit" placeholder="请输入车位单价">
+					</div>
+				</div>
+
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-5">车主门牌号：</label>
+					<div class="formControls col-xs-4 col-sm-5	">
+						<input  class="input-text" id="house_num_edit" placeholder="请输入车主门牌号"></input>
+						<input type="hidden" id="house_id_edit">
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-5">车主姓名：</label>
+					<div class="formControls col-xs-4 col-sm-5	">
+						<input type="text" class="input-text "  id="car_owner_name_edit" placeholder="请输入车主姓名">
+
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-5">称谓：</label>
+					<div class="formControls col-xs-4 col-sm-5	">
+						<select  class="input-text " id="gender_edit" placeholder="请输入称谓">
+							<option value="1">先生</option>
+							<option value="0">女士</option>
+						</select>
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-5">车主电话：</label>
+					<div class="formControls col-xs-4 col-sm-5	">
+						<input type="text" class="input-text " id="car_owner_tel_edit" placeholder="请输入车主电话">
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-5">车主备用电话：</label>
+					<div class="formControls col-xs-4 col-sm-5	">
+						<input type="text" class="input-text " id="car_owner_standby_tel_edit"  placeholder="请输入车主备用电话">
+					</div>
+				</div>
+			</form>
+			<div class="modal-footer" style="text-align: center">
+				<button class="btn btn-primary"onclick="EDIT()">确定</button>
+				<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 
 
@@ -311,6 +400,7 @@
     }
 	function get(obj) {
             select_row_id=$(obj).val()
+
         }
     function add(){
         $.post("house/getCompany",null,function (data) {
@@ -358,37 +448,74 @@
         json.car_owner_standby_tel=$('#car_owner_standby_tel').val();
         $.post("parkingConfig/subAddParking",json,function (data) {
             location.reload()
-        })
+        },"json")
 
     }
 
 
     function edit(){
 
-        $.post("house/editHouseInfo",{id:select_row_id},function (data) {
-            $('#writeCompany').val(data.corpName)
+        $.post("parkingConfig/getParkingById",{row_id:select_row_id},function (data) {
+            console.log(data.communityId);
+            $('#writeCommunityEdit').val(data.communityId);
+            $('#parking_num_edit').val(data.parkingNum);
+            $('#license_plate_number_edit').val(data.licensePlateNumber);
+            $('#location_description_edit').val(data.locationDescription);
+            $('#previous_parking_unit_price_edit').val(data.previousParkingUnitPrice);
+            $('#house_num_edit').val(data.houseNum);
+            $('#car_owner_name_edit').val(data.carOwnerName);
+            $('#gender_edit').val(data.gender);
+            $('#car_owner_tel_edit').val(data.carOwnerTel);
+            $('#car_owner_standby_tel_edit').val(data.carOwnerStandbyTel);
+            $('#chooseid').val(data.parkingSpaceId);
         })
         $.post("house/getCompany",null,function (data) {
-            $('#writeCompany').val(data.corpName)
+            $('#writeCompanyEdit').val(data.corpName)
         })
         $("#modal-edit").modal("show")
         $.post("house/getCommunity",null,function (data) {
             for(var i  in data){
-                $("#writeCommunity").append("<option value="+data[i].id+">"+data[i].communityName+"</option>")
+                $("#writeCommunityEdit").append("<option value="+data[i].communityId+">"+data[i].communityName+"</option>")
             }
         },"json")
-
-        $.post("house/getRoomType",null,function (data) {
-            for(var i in data){
-                $("#houseType").append("<option value="+data[i].id+">"+data[i].houseTypeName+"</option>")
-
+        $('#house_num_edit').bind('input propertychange', function() {
+            var house_num=$('#house_num_edit').val();
+            var community_id=$('#writeCommunityEdit').val();
+            if(house_num!=null && house_num!=''){
+                $.post("parkingConfig/getHouseNum",{house_num:house_num,community_id:community_id},function (result) {
+                    if(result!=null){
+                        $('#car_owner_name_edit').val(result.ownerName);
+                        $('#car_owner_tel_edit').val(result.ownerTel);
+                        $('#car_owner_standby_tel_edit').val(result.ownerStandbyTel);
+                        $('#house_id_edit').val(result.houseId);
+                    }
+                },"json")
             }
-        },"json")
+        });
+
         $("#modal-edit").on("hide.bs.modal", function() {
             $("#writeCommunity").empty();
-            $("#houseType").empty()
             location.reload()
         })
+    }
+
+    function EDIT() {
+        var json={}
+        json.community_id=$('#writeCommunity').val();
+        json.parking_num=$('#parking_num').val();
+        json.license_plate_number=$('#license_plate_number').val();
+        json.location_description=$('#location_description').val();
+        json.previous_parking_unit_price=$('#previous_parking_unit_price').val();
+        json.house_id=$('#house_id').val();
+        json.car_owner_name=$('#car_owner_name').val();
+        json.gender=$('#gender').val();
+        json.car_owner_tel=$('#car_owner_tel').val();
+        json.car_owner_standby_tel=$('#car_owner_standby_tel').val();
+        $.post("parkingConfig/subAddParking",json,function (data) {
+            location.reload()
+        },"json")
+
+
     }
 	function deleteMessage(){
 
@@ -399,9 +526,9 @@
             })
         }
 	function Delete(){
-        $.post("house/subDelHouseInfo",{id:$('#rowid').val()},function (data) {
-
-        })
+        $.post("parkingConfig/subDeleteParking",{row_id:$('#rowid').val()},function (data) {
+            location.reload()
+        },"json")
 	}
 </script>
 </body>

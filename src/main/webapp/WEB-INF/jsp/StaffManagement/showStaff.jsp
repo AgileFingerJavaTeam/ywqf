@@ -8,7 +8,9 @@
     .table>tbody>tr>td{
         text-align:center;
     }
-
+   .bgRed {
+       background-color: #FF0000;
+   }
 </style>
 <link rel="stylesheet" href="hui/lib/jquery/jquery-ui.css">
 <link rel="stylesheet" href="Fontawesome/css/font-awesome.min.css">
@@ -72,13 +74,13 @@
         <table class="table table-border table-bordered table-hover table-bg table-sort">
             <thead>
             <tr class="text-c">
-                <th style="display: none;">id</th>
-                <th width="50" class="text-center">工号</th>
-                <th width="70">姓名</th>
-                <th width="80">头像</th>
-                <th width="80">绑定手机</th>
-                <th width="80">角色</th>
-                <th width="70">状态</th>
+                <th width="20">id</th>
+                <th width="25" class="text-center">工号</th>
+                <th width="35">姓名</th>
+                <th width="55">头像</th>
+                <th width="40">绑定手机</th>
+                <th width="55">角色</th>
+                <th width="30">状态</th>
             </tr>
             </thead>
         </table>
@@ -89,11 +91,12 @@
     <div class="modal-dialog">
         <div class="modal-content radius">
             <div class="modal-header">
-                <h3 class="modal-title">修改作废状态</h3>
+                <h3 class="modal-title">作废单据</h3>
                 <a class="close" data-dismiss="modal" aria-hidden="true" href="javascript:void()">×</a>
             </div>
             <div class="modal-body">
-                <span style="text-align: center;">是否修改作废状态？</span>
+                <span style="text-align: center;">是否作废此单据？</span>
+                <span style="text-align: center; color: red;">(执行后无法撤回！)</span>
                 <input style="display: none;" value="" id="asd">
             </div>
             <div class="modal-footer">
@@ -108,7 +111,7 @@
 <div id="modal-demo-add" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content radius" style="overflow:scroll;  height:400px;width: 500px">
-            <form action="StaffManagement/insertStaff" method="post" class="form form-horizontal" id="demoform-1"  method="post" enctype="multipart/form-data">
+            <form action="StaffManagement/insertStaff" method="post" class="form form-horizontal" id="InsertForm"  method="post" enctype="multipart/form-data">
                 <div class="modal-header">
                     <h4	 style="text-align: center">新增员工</h4>
                     <a class="close" data-dismiss="modal" aria-hidden="true" href="javascript:void();">×</a>
@@ -202,6 +205,11 @@
             "data": data.rows,
             destroy:true,
             "columns": [
+                {'data': function(value){
+                var Uid = value.userId;
+                var html="<input type='checkbox' value="+ Uid +">"
+                    return html;
+                }},
                 {'data': 'userId',},
                 {'data': 'name',},
                 {'data': function(value){
@@ -249,25 +257,6 @@
 
 
 
-
-    //打印
-    function put(oper)
-    {
-        if (oper < 10)
-        {
-            bdhtml=window.document.body.innerHTML;//获取当前页的html代码
-            sprnstr="<!--startprint"+oper+"-->";//设置打印开始区域
-            eprnstr="<!--endprint"+oper+"-->";//设置打印结束区域
-            prnhtml=bdhtml.substring(bdhtml.indexOf(sprnstr)+18); //从开始代码向后取html
-
-            prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));//从结束代码向前取html
-            window.document.body.innerHTML=prnhtml;
-            window.print();
-            window.document.body.innerHTML=bdhtml;
-        } else {
-            window.print();
-        }
-    }
     //正常switch
     $('#mySwitch').on('switch-change', function (e, data) {
         var a = $('#mySwitchs').bootstrapSwitch('status');
@@ -428,30 +417,32 @@
     }
     //添加缴费单
     $('#insert').on('click',function(){
-        document.getElementById("demoform-1").submit();
+        document.getElementById("InsertForm").submit();
     })
-    //作废模态框
-    function modaldemo(id){
-        $('#asd').val(id);
-        $('#modal-demo').modal("show")
-    }
-    //修改作废状态
-    $('#Okey').on('click',function(){
-        var d = $('#asd').val();
-        var dN = $('#Rname').val();
-        var id = {};
-        id.id=d;
-        id.Rname = dN;
-        $.ajax({
-            url:'HeatingFeePayment/updateOver',
-            data:id,
-            dataType:'json',
-            method:'post',
-            success:function(data){
-                location.reload()
+
+   /* $('#table-sort  tr').live('click', function() {
+        alert('123')
+        //为点击的这一行切换样式bgRed里的代码：background-color:#FF0000;
+        $(this).children().toggleClass("bgRed");
+
+    })*/
+
+
+    $(document).ready(function() {
+        var table = $('.table-sort').DataTable();
+
+        $('.table-sort').on( 'click', 'tr', function () {
+
+            if ( $(this).hasClass('bgRed') ) {
+                $( $(this).children().first().children().attr("checked", true))
             }
-        })
-    })
+            else {
+                table.$('tr.selected').removeClass('bgRed');
+                $(this).addClass('bgRed');
+            }
+        } );
+    } );
+
 </script>
 </body>
 </html>

@@ -14,6 +14,7 @@ public class ParkingConfigDto {
         private String car_owner_standby_tel;
         private int gender;
         private int house_id;
+        private  int row_id;
     public int getCorp_id() {
         return corp_id;
     }
@@ -116,5 +117,13 @@ public class ParkingConfigDto {
 
     public void setHouse_id(int house_id) {
         this.house_id = house_id;
+    }
+
+    public int getRow_id() {
+        return row_id;
+    }
+
+    public void setRow_id(int row_id) {
+        this.row_id = row_id;
     }
 }
