@@ -12,6 +12,5 @@ public interface HeatingService {
 	public HeatingExcution getHeatingList(HeatingDto heatingDto);
 	
 	
-	public HeatingExcution getHeatingCoursAndCommunity();
 	
 }

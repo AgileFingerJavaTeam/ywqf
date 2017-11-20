@@ -45,7 +45,7 @@ public class PayCarNumController extends BaseController{
     	HttpSession authSession = this.getRequest().getSession();
 		//type 为物业类型  1为总部  0为物业公司
 		int userid =1000;
-		int type = 1;
+		int type = 0;
 		ModelAndView mv =new ModelAndView();
 		mv.addObject("userid", userid);
 		mv.addObject("type", type);
@@ -60,13 +60,13 @@ public class PayCarNumController extends BaseController{
 	@RequestMapping(value ="/corpsList",method = RequestMethod.POST,produces = "text/json;charset=UTF-8")
 	public Object corpsList(){
 		int userid=1000;
-		int type=1;
+		int type=0;
 		CarExcution carExcution =payCarNumService.CorpList(userid,type);
 		return BaseUIResult.returnJson(carExcution);
 	}
 	/**
 	 * 根据物业id查询小区
-	 * @param
+	 * @param id
 	 * @return
 	 */
 	

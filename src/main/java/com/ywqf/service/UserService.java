@@ -1,5 +1,7 @@
 package com.ywqf.service;
 
+
+import com.ywqf.dto.excution.UserExcution;
 import com.ywqf.dto.in.UserDto;
 
 public interface UserService {
@@ -16,4 +18,10 @@ public interface UserService {
 	 * @return
 	 */
 	public int changePhoneNo(UserDto userDto);
+	
+	/**
+	 * 获取旧手机号
+	 * @return
+	 */
+	public UserExcution getOldPhone();
 }

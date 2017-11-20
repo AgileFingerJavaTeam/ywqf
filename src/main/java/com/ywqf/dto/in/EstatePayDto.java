@@ -12,7 +12,37 @@ public class EstatePayDto {
     private String estatePaySearch_content;
     private int checked;
     private String timeYearMonth;
+	
+	//新加的
+    private int selectCompanyID;
+	private int selectcommunityID;
+	private int isSelect;
+	//新加的
 
+	public int getSelectCompanyID() {
+		return selectCompanyID;
+	}
+
+	public int getIsSelect() {
+		return isSelect;
+	}
+
+	public void setIsSelect(int isSelect) {
+		this.isSelect = isSelect;
+	}
+
+	public void setSelectCompanyID(int selectCompanyID) {
+		this.selectCompanyID = selectCompanyID;
+	}
+
+	public int getSelectcommunityID() {
+		return selectcommunityID;
+	}
+
+	public void setSelectcommunityID(int selectcommunityID) {
+		this.selectcommunityID = selectcommunityID;
+	}
+	
     public int getChecked() {
         return checked;
     }

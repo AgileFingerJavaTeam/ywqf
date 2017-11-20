@@ -3,6 +3,7 @@ package com.ywqf.service.impl;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import com.ywqf.exception.db.InsertInnerErrorException;
 import com.ywqf.exception.db.QueryInnerErrorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,11 +35,15 @@ public class HeatingFeePaymentServiceImpl implements HeatingFeePaymentService{
 	@Override
 	public HeatingFeePaymentExcution findHeatingList(HeatingFeePaymentDto heatingFeePaymentDto) {
 		try {
+            int comm = heatingFeePaymentDto.getComm();
+            int estateSearchId = heatingFeePaymentDto.getEstateSearchId();
             String at_search = heatingFeePaymentDto.getAt_search();
+            String status = heatingFeePaymentDto.getStatus();
+            String okey = heatingFeePaymentDto.getOkey();
             int page = (heatingFeePaymentDto.getPage() != 0) ? heatingFeePaymentDto.getPage() :1;
             int rows = (heatingFeePaymentDto.getRows() !=0) ? heatingFeePaymentDto.getRows() :20;
             int offset = (page - 1) * rows;
-            List<HeatingFeePayment> info = heatingFeePaymentDao.findHeatingList(rows,offset,at_search);
+            List<HeatingFeePayment> info = heatingFeePaymentDao.findHeatingList(rows,offset,at_search,comm,estateSearchId,status,okey);
 /*
             int total = heatingFeePaymentDao.findHeatingListCount(at_search);
 */
@@ -54,7 +59,7 @@ public class HeatingFeePaymentServiceImpl implements HeatingFeePaymentService{
 	@Override
 	public HeatingFeePaymentExcution findOver(HeatingFeePaymentDto heatingFeePaymentDto) {
 		 try {
-	            int id = heatingFeePaymentDto.getId();
+	            int id = heatingFeePaymentDto.getHeating_pay_id();
 	            HeatingFeePayment info = heatingFeePaymentDao.findOver(id);
 	            return new HeatingFeePaymentExcution(HeatingFeePaymentEnum.SUCCESS, info);
 	        } catch (Exception e) {
@@ -66,7 +71,7 @@ public class HeatingFeePaymentServiceImpl implements HeatingFeePaymentService{
 	@Override
 	public HeatingFeePaymentExcution updateOver(HeatingFeePaymentDto heatingFeePaymentDto) {
 		try {
-            int id = heatingFeePaymentDto.getId();
+            int id = heatingFeePaymentDto.getHeating_pay_id();
             String Rname = heatingFeePaymentDto.getRname();
             int over = heatingFeePaymentDao.updateOver(id,Rname);
           if(over > 0){
@@ -119,6 +124,63 @@ public class HeatingFeePaymentServiceImpl implements HeatingFeePaymentService{
         }
     }
 
+    @Override
+    public HeatingFeePaymentExcution findHeatingDiscount(HeatingFeePaymentDto heatingFeePaymentDto) {
+              int community_id = heatingFeePaymentDto.getCommunity_id();
+              String payment_date = heatingFeePaymentDto.getPayment_date();
+        try {
+            List<HeatingFeePayment> findHeatingDiscount = heatingFeePaymentDao.findHeatingDiscount(community_id);
+            if(findHeatingDiscount.size() == 0){
+                int Rate = 1;
+                return new HeatingFeePaymentExcution(HeatingFeePaymentEnum.SUCCESS,Rate);
+            }else{
+                SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");//小写的mm表示的是分钟
+                Date date=sdf.parse(payment_date);
 
+                for (int i = 0; i < findHeatingDiscount.size(); i++){
+                    HeatingFeePayment aaa=findHeatingDiscount.get(i);  //循环遍历
+                    Date dataStart=sdf.parse(aaa.getDiscountStartDate());
+                    Date dataEnd=sdf.parse(aaa.getDiscountEndDate());
+                    if(date.getTime() >= dataStart.getTime() && date.getTime() <= dataEnd.getTime()){
+                         return new HeatingFeePaymentExcution(HeatingFeePaymentEnum.SUCCESS,aaa.getRate());
+                    }
+              }
+                int Rate = 1;
+                return new HeatingFeePaymentExcution(HeatingFeePaymentEnum.SUCCESS,Rate);
+            }
+        }catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            throw new BaseException(e.getMessage());
+        }
+    }
 
+    @Override
+    public HeatingFeePaymentExcution insertHeating(HeatingFeePaymentDto heatingFeePaymentDto) {
+             int heating_pay_num = heatingFeePaymentDto.getHeating_pay_num();
+             int house_id = heatingFeePaymentDto.getHouse_id();
+             String owner_name = heatingFeePaymentDto.getOwner_name();
+             double heating_unit_price = heatingFeePaymentDto.getHeating_unit_price();
+             double discount_heating_unit_price = heatingFeePaymentDto.getDiscount_heating_unit_price();
+             double heating_area = heatingFeePaymentDto.getHeating_area();
+             double payment_amount = heatingFeePaymentDto.getPayment_amount();
+             int year = heatingFeePaymentDto.getYear();
+             double heating_discount = heatingFeePaymentDto.getHeating_discount();
+             String payment_date = heatingFeePaymentDto.getPayment_date();
+             int charge_worker_id = heatingFeePaymentDto.getCharge_worker_id();
+             String operator = heatingFeePaymentDto.getOperator();
+        try {
+             int result = heatingFeePaymentDao.insertHeating(heating_pay_num,house_id,owner_name,discount_heating_unit_price,heating_area,payment_amount,year,heating_discount,payment_date,charge_worker_id,operator);
+                 if(result > 0 ){
+                     return new HeatingFeePaymentExcution(HeatingFeePaymentEnum.SUCCESS,null);
+                 }else{
+                     throw new InsertInnerErrorException("添加失败");
+                 }
+        }catch (InsertInnerErrorException e1) {
+            throw e1;
+        }
+        catch (Exception e) {
+        logger.error(e.getMessage(), e);
+        throw new BaseException(e.getMessage());
+    }
+    }
 }

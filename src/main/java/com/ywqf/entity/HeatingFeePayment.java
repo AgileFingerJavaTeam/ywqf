@@ -1,6 +1,8 @@
 package com.ywqf.entity;
 
 public class HeatingFeePayment {
+        private int heatingPayId; //采暖缴费ID
+        private String name; //收费员工名称
         private int id;
         private int heatingPayNum;//缴费单号
         private int corpId; //物业ID
@@ -29,6 +31,22 @@ public class HeatingFeePayment {
         private String discountStartDate; //优惠起始日
         private String discountEndDate;//优惠结束日
         private double rate; //优惠比例
+
+    public int getHeatingPayId() {
+        return heatingPayId;
+    }
+
+    public void setHeatingPayId(int heatingPayId) {
+        this.heatingPayId = heatingPayId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getDiscountStartDate() {
         return discountStartDate;

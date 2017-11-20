@@ -36,20 +36,20 @@
 	</div>
 	<div class="cl pd-5   mt-20">
 		物业公司：
-		<span class="select-box" style="width: 20%;display: inline-block">
+		<span class="select-box" style="width: 10%;display: inline-block">
 		  <select class="select" size="1" name="demo1" id="company">
 
 		  </select>
 		</span>
 		小区：
-		<span class="select-box" style="width: 20%;display: inline-block">
+		<span class="select-box" style="width: 10%;display: inline-block">
 		  <select class="select" size="1" name="demo1" id="community" >
 		  	<option value="0"selected>全部</option>
 		  </select>
 		</span>
 	</div>
 	<div class="mt-20">
-		<table class="table table-border table-bordered table-bg table-hover table-sort" id="datable">
+		<table class="table table-border table-bordered table-bg table-hover table-sort" id="datable" style="width: 100%">
 			<thead>
 			<tr class="text-c">
 				<th ><input type="checkbox" ></th>

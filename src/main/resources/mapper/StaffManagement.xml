@@ -6,11 +6,18 @@
 
     <select id="findParkingList" resultType="StaffManagement">
         SELECT *
-        FROM USER a
-        LEFT JOIN community_dept_role_user b
-        ON a.user_id = b.user_id
-        LEFT JOIN role c
-        ON b.role_id = c.role_id
+        FROM USER
     </select>
 
+    <select id="findRoleList" resultType="StaffManagement">
+        SELECT *
+        FROM role
+    </select>
+
+    <insert id="insertStaff">
+        INSERT INTO user
+        (corp_id,name,telephone,password,avater,status,operator,operate_time,type)
+        VALUES
+        (#{corp_id},#{name},#{telephone},#{telephone},#{path},#{status},#{operator},now(),#{role_name})
+    </insert>
 </mapper>
