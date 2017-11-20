@@ -13,7 +13,7 @@ public interface PayCostDao {
 	 * @return
 	 */
 	public PropertyCompany findPropertyCompany(@Param("corp_id") int corp_id);
-	
+
 	/**
 	 * 查询所属小区
 	 * @return
@@ -25,7 +25,7 @@ public interface PayCostDao {
 	 * @param house_num
 	 * @return
 	 */
-	public String findHouseNum(@Param("house_num") String house_num, @Param("community_id") int community_id);
+	public String findHouseNum(@Param("house_num") String house_num,@Param("community_id") int community_id);
 
 	/**
 	 * 查询业主信息
@@ -44,8 +44,8 @@ public interface PayCostDao {
 	 * @return
 	 */
 	public List<PaymentInfor> findListPaymentInfor(@Param("corp_id") int corp_id,
-                                                   @Param("community_id") int community_id,
-                                                   @Param("house_num") String house_num,
-                                                   @Param("year") int year);
-	
+												   @Param("community_id") int community_id,
+												   @Param("house_num") String house_num,
+												   @Param("year") int year);
+
 }

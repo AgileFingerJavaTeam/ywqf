@@ -83,10 +83,10 @@ public interface ParkingPayDao {
 
     /**
      * 查询车位编号是否存在
-     * @param parking_num
+     * @param license_plate_number
      * @return
      */
-    public String findParkingNum(@Param("parking_num") int parking_num);
+    public String findParkingNum(@Param("license_plate_number") int license_plate_number);
 
     /**
      * 查询车位业主信息
@@ -105,5 +105,4 @@ public interface ParkingPayDao {
     public List<ParkingStatus> findParkingStatus(@Param("parking_num") int parking_num,
                                                  @Param("community_id") int community_id,
                                                  @Param("year") int year);
-
 }

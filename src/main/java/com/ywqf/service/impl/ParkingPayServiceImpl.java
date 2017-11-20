@@ -84,7 +84,7 @@ public class ParkingPayServiceImpl implements ParkingPayService {
     public ParkingPayExcution findPayCost() {
         /*HttpSession session = this.getRequest().getSession();
 		int corp_id = (int) session.getAttribute("corp_id");*/
-        int corp_id = 1000 ;
+        int corp_id = 1 ;
         try{
             PropertyCompany findPropertyCompany = parkingPayDao.findPropertyCompany(corp_id);//查询所属物业公司
             if (findPropertyCompany == null){
@@ -105,7 +105,7 @@ public class ParkingPayServiceImpl implements ParkingPayService {
     public ParkingPayExcution findListCommunity() {
         /*HttpSession session = this.getRequest().getSession();
 		int corp_id = (int) session.getAttribute("corp_id");*/
-        int corp_id = 1000;
+        int corp_id = 1;
         try{
             List<Community> findListCommunity = parkingPayDao.findListCommunity(corp_id);//查询所属物业公司
             if (findListCommunity == null){

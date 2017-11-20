@@ -7,7 +7,7 @@ import com.ywqf.entity.CompanyInfor;
 public interface CompanyInforDao {
 	/**
 	 * 查询公司信息
-	 * @param id
+	 * @param corp_id
 	 * @return
 	 */
 	public CompanyInfor findCompanyInfor(@Param("corp_id") int corp_id);

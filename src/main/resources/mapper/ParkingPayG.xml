@@ -29,10 +29,12 @@
 
     <!--查询车主车位缴费信息-->
     <select id="findParkingStatus" resultType="ParkingStatus">
-        SELECT * FROM parking_space ps
-        LEFT JOIN parking_pay_statistics pps
-        ON ps.parking_space_id = pps.parking_space_id
-        WHERE ps.parking_num = #{parking_num} AND ps.community_id = #{community_id} AND pps.year = #{year}
+        SELECT * FROM parking_pay_statistics pps
+        LEFT JOIN parking_pay pp
+        ON pps.parking_pay_id = pp.parking_pay_id
+        LEFT JOIN parking_space ps
+        ON pp.parking_space_id = ps.parking_space_id
+        WHERE ps.parking_num = #{parking_num} AND ps.community_id = #{community_id} AND pps.year = #{year} AND pp.status = '1'
     </select>
 
     <!--查询车位编号是否存在-->
