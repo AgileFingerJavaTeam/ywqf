@@ -117,6 +117,7 @@ public class ParkingConfigServiceImpl implements ParkingConfigService {
 		int gender=parkingConfigDto.getGender();
 		int row_id=parkingConfigDto.getRow_id();
 		try{
+
 			int editParkingConfig=parkingConfigDao.editParkingConfig(community_id,parking_num,license_plate_number,location_description,previous_parking_unit_price,house_id,car_owner_name,car_owner_tel,car_owner_standby_tel,gender,row_id);
 			if(editParkingConfig>0){
 				return new ParkingConfigExcution(ParkingConfigEnum.UPDATE_SUCCESS);

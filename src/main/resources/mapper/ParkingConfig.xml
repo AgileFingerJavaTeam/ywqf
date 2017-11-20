@@ -30,7 +30,7 @@
 	<!--门牌号联想-->
 	<select id="findHouseNum" resultType="ParkingConfig">
 		SELECT house_num,house_id,owner_name,owner_tel,owner_standby_tel FROM house
-		WHERE house_num=#{house_id}
+		WHERE house_num=#{house_num}
 		AND community_id=#{community_id}
 	</select>
 	<!--添加信息-->
@@ -41,7 +41,7 @@
 
 	<!--根据id查询详细信息-->
 	<select id="findParkingById" resultType="ParkingConfig">
-		SELECT parking_space.community_id,parking_space_id,parking_num,license_plate_number,location_description,
+		SELECT parking_space.community_id,parking_space_id,parking_num,parking_space.house_id,license_plate_number,location_description,
 		previous_parking_unit_price,car_owner_name,house_num,car_owner_tel,
 		car_owner_standby_tel,gender
 		FROM parking_space

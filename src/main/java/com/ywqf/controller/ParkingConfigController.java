@@ -117,7 +117,7 @@ public class ParkingConfigController extends BaseController {
     @ResponseBody
     public String subEditParking(ParkingConfigDto parkingConfigDto) {
         try {
-            System.out.println("12312");
+
             ParkingConfigExcution parkingConfigExcution = parkingConfigService.subEditParking(parkingConfigDto);
             return BaseUIResult.returnJsonMSG(1, parkingConfigExcution, "新增成功");
         } catch (InsertInnerErrorException e) {

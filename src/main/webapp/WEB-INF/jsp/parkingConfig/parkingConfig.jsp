@@ -454,9 +454,12 @@
 
 
     function edit(){
-
+        if(select_row_id==null){
+            alert("请选择要编辑的数据行");
+            return false;
+        }
         $.post("parkingConfig/getParkingById",{row_id:select_row_id},function (data) {
-            console.log(data.communityId);
+
             $('#writeCommunityEdit').val(data.communityId);
             $('#parking_num_edit').val(data.parkingNum);
             $('#license_plate_number_edit').val(data.licensePlateNumber);
@@ -468,6 +471,7 @@
             $('#car_owner_tel_edit').val(data.carOwnerTel);
             $('#car_owner_standby_tel_edit').val(data.carOwnerStandbyTel);
             $('#chooseid').val(data.parkingSpaceId);
+            $('#house_id_edit').val(data.houseId);
         })
         $.post("house/getCompany",null,function (data) {
             $('#writeCompanyEdit').val(data.corpName)
@@ -478,6 +482,9 @@
                 $("#writeCommunityEdit").append("<option value="+data[i].communityId+">"+data[i].communityName+"</option>")
             }
         },"json")
+
+
+
         $('#house_num_edit').bind('input propertychange', function() {
             var house_num=$('#house_num_edit').val();
             var community_id=$('#writeCommunityEdit').val();
@@ -500,25 +507,29 @@
     }
 
     function EDIT() {
-        var json={}
-        json.community_id=$('#writeCommunity').val();
-        json.parking_num=$('#parking_num').val();
-        json.license_plate_number=$('#license_plate_number').val();
-        json.location_description=$('#location_description').val();
-        json.previous_parking_unit_price=$('#previous_parking_unit_price').val();
-        json.house_id=$('#house_id').val();
-        json.car_owner_name=$('#car_owner_name').val();
-        json.gender=$('#gender').val();
-        json.car_owner_tel=$('#car_owner_tel').val();
-        json.car_owner_standby_tel=$('#car_owner_standby_tel').val();
-        $.post("parkingConfig/subAddParking",json,function (data) {
-            location.reload()
+        var data={}
+        data.community_id=$('#writeCommunityEdit').val();
+        data.parking_num=$('#parking_num_edit').val();
+        data.license_plate_number=$('#license_plate_number_edit').val();
+        data.location_description=$('#location_description_edit').val();
+        data.previous_parking_unit_price=$('#previous_parking_unit_price_edit').val();
+        data.house_id=$('#house_id_edit').val();
+        data.car_owner_name=$('#car_owner_name_edit').val();
+        data.gender=$('#gender_edit').val();
+        data.car_owner_tel=$('#car_owner_tel_edit').val();
+        data.car_owner_standby_tel=$('#car_owner_standby_tel_edit').val();
+        data.row_id=$('#chooseid').val();
+        console.log(data);
+        $.post("parkingConfig/subEditParking",data,function (data) {
+            location.reload();
         },"json")
-
 
     }
 	function deleteMessage(){
-
+        if(select_row_id==null){
+            alert("请选择要编辑的数据行");
+            return false;
+        };
             $("#deleteMessage").modal("show");
 			$('#rowid').val(select_row_id);
             $("#deleteMessage").on("hide.bs.modal", function() {

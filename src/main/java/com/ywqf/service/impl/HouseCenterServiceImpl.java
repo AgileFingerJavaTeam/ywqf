@@ -257,9 +257,10 @@ public class HouseCenterServiceImpl implements HouseCenterService {
 
 	@Override
 	public HouseCenterExcution findHouseNum(HouseCenterDto houseCenterDto) {
+		int community_id=Integer.parseInt(houseCenterDto.getCommunity_id());
 		String house_num=houseCenterDto.getHouse_num();
 		try{
-			List<RentAndSale> findHouseNum=houseCenterDao.findHouseNum(house_num);
+			List<RentAndSale> findHouseNum=houseCenterDao.findHouseNum(house_num,community_id);
 			return new HouseCenterExcution(HouseCenterEnum.FIND_SUCCESS,findHouseNum);
 		}catch (Exception  e){
 			logger.error(e.getMessage(),e);

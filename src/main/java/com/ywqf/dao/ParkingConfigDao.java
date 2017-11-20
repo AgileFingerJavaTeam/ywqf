@@ -14,7 +14,7 @@ public interface ParkingConfigDao {
     public  int addParkingConfig(@Param("community_id")int community_id,@Param("parking_num")int parking_num,@Param("license_plate_number")String license_plate_number,@Param("location_description")String location_description,@Param("previous_parking_unit_price")double previous_parking_unit_price,@Param("house_id")int house_id,@Param("car_owner_name")String car_owner_name,@Param("car_owner_tel")String car_owner_tel,@Param("car_owner_standby_tel")String car_owner_standby_tel,@Param("gender")int gender);
 
     /*门牌号联想*/
-    public  ParkingConfig findHouseNum(@Param("community_id")int community_id,@Param("house_id")String house_id);
+    public  ParkingConfig findHouseNum(@Param("community_id")int community_id,@Param("house_num")String house_num);
 
     /*根据id查询详细信息*/
     public  ParkingConfig findParkingById(@Param("row_id")int row_id);
