@@ -29,15 +29,15 @@ public class PayCostServiceImpl implements PayCostService{
 
     @Autowired
     public PayCostDao payCostDao;
-    
-    /**
-     * 查询物业公司
-     */
+
+	/**
+	 * 查询物业公司
+	 */
 	@Override
 	public PayCostExcution findPayCost() {
 		/*HttpSession session = this.getRequest().getSession();
 		int corp_id = (int) session.getAttribute("corp_id");*/
-		int corp_id = 1000 ;
+		int corp_id = 1 ;
 		try{
 			PropertyCompany findPropertyCompany = payCostDao.findPropertyCompany(corp_id);//查询所属物业公司
 			if (findPropertyCompany == null){
@@ -45,9 +45,9 @@ public class PayCostServiceImpl implements PayCostService{
 			}
 			return new PayCostExcution(CompanyInforEnum.FIND_SUCCESS, findPropertyCompany);
 		}catch (Exception  e){
-            logger.error(e.getMessage(),e);
-            throw new BaseException(e.getMessage());
-        }
+			logger.error(e.getMessage(),e);
+			throw new BaseException(e.getMessage());
+		}
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class PayCostServiceImpl implements PayCostService{
 	public PayCostExcution findListCommunity() {
 		/*HttpSession session = this.getRequest().getSession();
 		int corp_id = (int) session.getAttribute("corp_id");*/
-		int corp_id = 1000;
+		int corp_id = 1;
 		try{
 			List<Community> findListCommunity = payCostDao.findListCommunity(corp_id);//查询所属物业公司
 			if (findListCommunity == null){
@@ -101,10 +101,10 @@ public class PayCostServiceImpl implements PayCostService{
 			Map map = new HashMap<>();
 			map.put("findOwnerInfor", findOwnerInfor);
 			map.put("findListPaymentInfor", findListPaymentInfor);
-            return new PayCostExcution(CompanyInforEnum.FIND_SUCCESS,map);
+			return new PayCostExcution(CompanyInforEnum.FIND_SUCCESS,map);
 		}catch (Exception  e){
-            logger.error(e.getMessage(),e);
-            throw new BaseException(e.getMessage());
-        }
+			logger.error(e.getMessage(),e);
+			throw new BaseException(e.getMessage());
+		}
 	}
 }

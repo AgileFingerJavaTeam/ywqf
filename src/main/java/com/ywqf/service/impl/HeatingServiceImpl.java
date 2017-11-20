@@ -40,9 +40,14 @@ public class HeatingServiceImpl implements HeatingService {
 				communityId=heatingCommunityList.get(0).getCommunityId();
 			}		
 			List<Heating> heatingList = heatingDao.getHeatingList(checked,timeYear,corpsId,communityId,userId,type,search);
+<<<<<<< HEAD
+			int total = heatingDao.findHeatingCount(checked,timeYear,corpsId,communityId,userId,type,search);
+
+=======
 			
 			int total = heatingDao.findHeatingCount(checked,timeYear,corpsId,communityId,userId,type,search);
 			
+>>>>>>> 9c99b64c33e4de793abd5f59e1d05f6f926718dd
 			int all = heatingDao.getAll(communityId);
 			int pay = heatingDao.getPay(timeYear, userId, type, corpsId, communityId);
 			int noPay = all-pay;

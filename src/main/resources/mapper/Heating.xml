@@ -7,7 +7,17 @@
 	<!--缴费欠费查询 -->
 	<select id="getHeatingList" resultType="Heating">
 		SELECT
-		*
+		house_num,
+		owner_name,
+		owner_tel,
+		owner_standby_tel,
+		FORMAT(heatingPrice, 2) AS heatingPrice,
+		FORMAT(heatingArea, 2) AS heatingArea,
+		corp_id,
+		community_id,
+		user_id,
+		isStatus,
+		FORMAT(a.payment_amount, 2) AS payment_amount
 		FROM
 		(
 		SELECT

@@ -4,19 +4,42 @@ public class Heating {
 	private String houseNum;
 	private String ownerName;
 	private int isStatus;
-	private Double paymentAmount;
+	private String paymentAmount;
 	private String ownerTel;
 	private String ownerStandbyTel;
-	private Double heatingPrice;
-	private Double heatingArea;
+	private String heatingPrice;
+	private String heatingArea;
 	private int year;
 	private String corpName;
 	private int type;
 	private String communityName;
 	private int corpId;
 	private int communityId;
-	
-	
+
+	public void setPaymentAmount(String paymentAmount) {
+		this.paymentAmount = paymentAmount;
+	}
+
+	public void setHeatingPrice(String heatingPrice) {
+		this.heatingPrice = heatingPrice;
+	}
+
+	public void setHeatingArea(String heatingArea) {
+		this.heatingArea = heatingArea;
+	}
+
+	public String getPaymentAmount() {
+		return paymentAmount;
+	}
+
+	public String getHeatingPrice() {
+		return heatingPrice;
+	}
+
+	public String getHeatingArea() {
+		return heatingArea;
+	}
+
 	public int getCommunityId() {
 		return communityId;
 	}
@@ -67,12 +90,10 @@ public class Heating {
 	public void setIsStatus(int isStatus) {
 		this.isStatus = isStatus;
 	}
-	public Double getPaymentAmount() {
-		return paymentAmount;
-	}
-	public void setPaymentAmount(Double paymentAmount) {
-		this.paymentAmount = paymentAmount;
-	}
+<<<<<<< HEAD
+=======
+	
+>>>>>>> 9c99b64c33e4de793abd5f59e1d05f6f926718dd
 	public String getOwnerTel() {
 		return ownerTel;
 	}
@@ -85,29 +106,59 @@ public class Heating {
 	public void setOwnerStandbyTel(String ownerStandbyTel) {
 		this.ownerStandbyTel = ownerStandbyTel;
 	}
-	public Double getHeatingPrice() {
-		return heatingPrice;
-	}
-	public void setHeatingPrice(Double heatingPrice) {
-		this.heatingPrice = heatingPrice;
-	}
-	public Double getHeatingArea() {
-		return heatingArea;
-	}
-	public void setHeatingArea(Double heatingArea) {
-		this.heatingArea = heatingArea;
-	}
+<<<<<<< HEAD
+
+=======
 	
+	
+>>>>>>> 9c99b64c33e4de793abd5f59e1d05f6f926718dd
 	public int getYear() {
 		return year;
 	}
 	public void setYear(int year) {
 		this.year = year;
 	}
+<<<<<<< HEAD
+
+
+
+
+
+=======
+	public String getPaymentAmount() {
+		return paymentAmount;
+	}
+	public void setPaymentAmount(String paymentAmount) {
+		this.paymentAmount = paymentAmount;
+	}
+	public String getHeatingPrice() {
+		return heatingPrice;
+	}
+	public void setHeatingPrice(String heatingPrice) {
+		this.heatingPrice = heatingPrice;
+	}
+	public String getHeatingArea() {
+		return heatingArea;
+	}
+	public void setHeatingArea(String heatingArea) {
+		this.heatingArea = heatingArea;
+	}
+	@Override
+	public String toString() {
+		return "Heating [houseNum=" + houseNum + ", ownerName=" + ownerName
+				+ ", isStatus=" + isStatus + ", paymentAmount=" + paymentAmount
+				+ ", ownerTel=" + ownerTel + ", ownerStandbyTel="
+				+ ownerStandbyTel + ", heatingPrice=" + heatingPrice
+				+ ", heatingArea=" + heatingArea + ", year=" + year
+				+ ", corpName=" + corpName + ", type=" + type
+				+ ", communityName=" + communityName + ", corpId=" + corpId
+				+ ", communityId=" + communityId + "]";
+	}
 	
 	
 	
 	
 	
+>>>>>>> 9c99b64c33e4de793abd5f59e1d05f6f926718dd
 
 }

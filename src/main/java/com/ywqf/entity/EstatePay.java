@@ -13,7 +13,7 @@ public class EstatePay {
     private int houseId;//房间ID
     private String houseNum;//门牌号
     private String ownerName;//业主姓名
-    private BigDecimal area;//面积
+    private String area;//面积
     private String estateUnitPrice;//标准单价
     private int payMonth;//缴纳月数
     private String payDate;//缴费时间
@@ -133,15 +133,27 @@ public class EstatePay {
         this.ownerName = ownerName;
     }
 
-    public BigDecimal getArea() {
+<<<<<<< HEAD
+    public String getArea() {
         return area;
     }
 
-    public void setArea(BigDecimal area) {
+    public void setArea(String area) {
         this.area = area;
     }
+=======
+    
 
-    public String getEstateUnitPrice() {
+    public String getArea() {
+		return area;
+	}
+>>>>>>> 9c99b64c33e4de793abd5f59e1d05f6f926718dd
+
+	public void setArea(String area) {
+		this.area = area;
+	}
+
+	public String getEstateUnitPrice() {
         return estateUnitPrice;
     }
 
@@ -230,21 +242,25 @@ public class EstatePay {
         this.operateIp = operateIp;
     }
 
+<<<<<<< HEAD
     @Override
     public String toString() {
         return "EstatePay{" +
-                "id=" + id +
+                "chargeWorkerName='" + chargeWorkerName + '\'' +
+                ", operateName='" + operateName + '\'' +
+                ", communityName='" + communityName + '\'' +
+                ", id=" + id +
                 ", estatePayNum=" + estatePayNum +
                 ", corpId=" + corpId +
                 ", communityId=" + communityId +
                 ", houseId=" + houseId +
                 ", houseNum='" + houseNum + '\'' +
                 ", ownerName='" + ownerName + '\'' +
-                ", area=" + area +
-                ", estateUnitPrice=" + estateUnitPrice +
-                ", payMonthTypeId=" + payMonth +
+                ", area='" + area + '\'' +
+                ", estateUnitPrice='" + estateUnitPrice + '\'' +
+                ", payMonth=" + payMonth +
                 ", payDate='" + payDate + '\'' +
-                ", paymentAmount=" + paymentAmount +
+                ", paymentAmount='" + paymentAmount + '\'' +
                 ", serviceStartDate='" + serviceStartDate + '\'' +
                 ", serviceEndDate='" + serviceEndDate + '\'' +
                 ", chargeWorkerId=" + chargeWorkerId +
@@ -252,6 +268,31 @@ public class EstatePay {
                 ", operator='" + operator + '\'' +
                 ", operateTime='" + operateTime + '\'' +
                 ", operateIp='" + operateIp + '\'' +
+                ", ownerTel='" + ownerTel + '\'' +
+                ", ownerStandbyTel='" + ownerStandbyTel + '\'' +
+                ", previousEstateFee='" + previousEstateFee + '\'' +
                 '}';
     }
+=======
+	@Override
+	public String toString() {
+		return "EstatePay [chargeWorkerName=" + chargeWorkerName
+				+ ", operateName=" + operateName + ", communityName="
+				+ communityName + ", id=" + id + ", estatePayNum="
+				+ estatePayNum + ", corpId=" + corpId + ", communityId="
+				+ communityId + ", houseId=" + houseId + ", houseNum="
+				+ houseNum + ", ownerName=" + ownerName + ", area=" + area
+				+ ", estateUnitPrice=" + estateUnitPrice + ", payMonth="
+				+ payMonth + ", payDate=" + payDate + ", paymentAmount="
+				+ paymentAmount + ", serviceStartDate=" + serviceStartDate
+				+ ", serviceEndDate=" + serviceEndDate + ", chargeWorkerId="
+				+ chargeWorkerId + ", status=" + status + ", operator="
+				+ operator + ", operateTime=" + operateTime + ", operateIp="
+				+ operateIp + ", ownerTel=" + ownerTel + ", ownerStandbyTel="
+				+ ownerStandbyTel + ", previousEstateFee=" + previousEstateFee
+				+ "]";
+	}
+
+    
+>>>>>>> 9c99b64c33e4de793abd5f59e1d05f6f926718dd
 }

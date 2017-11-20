@@ -8,7 +8,7 @@ public class Parking {
 	private int gender;
 	private String carOwnerTel;
 	private String carOwnerStandbyTel;
-	private Double previousParkingUnitPrice;
+	private String previousParkingUnitPrice;
 	private int paymentStatus;
 	
 	private String corpName;
@@ -16,11 +16,24 @@ public class Parking {
 	private String communityName;
 	private int corpId;
 	private int communityId;
+<<<<<<< HEAD
+
+
+	public String getPreviousParkingUnitPrice() {
+		return previousParkingUnitPrice;
+	}
+
+	public void setPreviousParkingUnitPrice(String previousParkingUnitPrice) {
+		this.previousParkingUnitPrice = previousParkingUnitPrice;
+	}
+
+=======
 	
 	
 	
 	
 	
+>>>>>>> 9c99b64c33e4de793abd5f59e1d05f6f926718dd
 	public String getCorpName() {
 		return corpName;
 	}
@@ -57,12 +70,16 @@ public class Parking {
 	public void setCarOwnerName(String carOwnerName) {
 		this.carOwnerName = carOwnerName;
 	}
-	public Double getPreviousParkingUnitPrice() {
+<<<<<<< HEAD
+=======
+	
+	public String getPreviousParkingUnitPrice() {
 		return previousParkingUnitPrice;
 	}
-	public void setPreviousParkingUnitPrice(Double previousParkingUnitPrice) {
+	public void setPreviousParkingUnitPrice(String previousParkingUnitPrice) {
 		this.previousParkingUnitPrice = previousParkingUnitPrice;
 	}
+>>>>>>> 9c99b64c33e4de793abd5f59e1d05f6f926718dd
 	public int getParkingNum() {
 		return parkingNum;
 	}
@@ -107,19 +124,43 @@ public class Parking {
 	public void setPaymentStatus(int paymentStatus) {
 		this.paymentStatus = paymentStatus;
 	}
+
 	@Override
 	public String toString() {
+<<<<<<< HEAD
+		return "Parking{" +
+				"parkingNum=" + parkingNum +
+				", licensePlateNumber='" + licensePlateNumber + '\'' +
+				", houseNum='" + houseNum + '\'' +
+				", carOwnerName='" + carOwnerName + '\'' +
+				", gender=" + gender +
+				", carOwnerTel='" + carOwnerTel + '\'' +
+				", carOwnerStandbyTel='" + carOwnerStandbyTel + '\'' +
+				", previousParkingUnitPrice='" + previousParkingUnitPrice + '\'' +
+				", paymentStatus=" + paymentStatus +
+				", corpName='" + corpName + '\'' +
+				", type=" + type +
+				", communityName='" + communityName + '\'' +
+				", corpId=" + corpId +
+				", communityId=" + communityId +
+				'}';
+	}
+=======
 		return "Parking [parkingNum=" + parkingNum + ", licensePlateNumber="
 				+ licensePlateNumber + ", houseNum=" + houseNum
 				+ ", carOwnerName=" + carOwnerName + ", gender=" + gender
 				+ ", carOwnerTel=" + carOwnerTel + ", carOwnerStandbyTel="
 				+ carOwnerStandbyTel + ", previousParkingUnitPrice="
 				+ previousParkingUnitPrice + ", paymentStatus=" + paymentStatus
-				+ "]";
+				+ ", corpName=" + corpName + ", type=" + type
+				+ ", communityName=" + communityName + ", corpId=" + corpId
+				+ ", communityId=" + communityId + "]";
 	}
 	
 	
 	
 	
+	
 
+>>>>>>> 9c99b64c33e4de793abd5f59e1d05f6f926718dd
 }

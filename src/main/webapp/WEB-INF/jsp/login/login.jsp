@@ -70,6 +70,16 @@
             margin-top:-150px;
             margin-bottom:100px;
         }
+        #a{
+            width:300px;
+            height: 10px;
+            position: absolute;
+            left:100%;
+            top:150%;
+            margin-left:-240px;
+            margin-top:-270px;
+            margin-bottom:100px;
+        }
     </style>
 </head>
 <body>
@@ -94,7 +104,7 @@
                 <input value="登陆" class="layui-btn layui-btn-primary" type="submit" style="margin-right:20px; margin-top:20px;width: 220px;" id="login">
             </div>
             <hr style="margin-top: 320px;height:1px;">
-            <a>忘记密码？</a>
+            <a id="a">忘记密码？</a>
         </div>
     </div>
 
