@@ -153,8 +153,14 @@
 										{'data': 'ownerName'},
 										{'data': 'ownerTel'},
 										{'data': 'ownerStandbyTel'},
-										{'data': 'area'},
-										{'data': 'previousEstateFee'},
+										{'data': 'area',
+                                            'render':function (data,type,row,meta) {
+                                                return  '<div style="text-align: right;">'+data+'</div>';
+                                            }},
+										{'data': 'previousEstateFee',
+                                            'render':function (data,type,row,meta) {
+                                                return  '<div style="text-align: right;">'+data+'</div>';
+                                            }},
 										{'data': function(value){
 											var a = value.status;
 											if(a == 1){
@@ -262,8 +268,14 @@
 								{'data': 'ownerName'},
 								{'data': 'ownerTel'},
 								{'data': 'ownerStandbyTel'},
-								{'data': 'area'},
-								{'data': 'previousEstateFee'},
+								{'data': 'area',
+                                    'render':function (data,type,row,meta) {
+                                        return  '<div style="text-align: right;">'+data+'</div>';
+                                    }},
+								{'data': 'previousEstateFee',
+                                    'render':function (data,type,row,meta) {
+                                        return  '<div style="text-align: right;">'+data+'</div>';
+                                    }},
 								{'data': function(value){
 									var a = value.status;
 									if(a == 1){
