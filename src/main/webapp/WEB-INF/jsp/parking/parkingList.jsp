@@ -160,7 +160,10 @@
 												}},
 												{'data': 'carOwnerTel'},
 												{'data': 'carOwnerStandbyTel'},
-												{'data': 'previousParkingUnitPrice'},
+												{'data': 'previousParkingUnitPrice',
+												 'render':function (data,type,row,meta) {
+													 return  '<div style="text-align: right;">'+data+'</div>';
+                                                 }},
 												{'data': function(value){
 													var a = value.paymentStatus;
 													if(a == 1){
@@ -279,7 +282,10 @@
     									}},
     									{'data': 'carOwnerTel'},
     									{'data': 'carOwnerStandbyTel'},
-    									{'data': 'previousParkingUnitPrice'},
+    									{'data': 'previousParkingUnitPrice',
+                                            'render':function (data,type,row,meta) {
+                                                return  '<div style="text-align: right;">'+data+'</div>';
+                                            }},
     									{'data': function(value){
     										var a = value.paymentStatus;
     										if(a == 1){
